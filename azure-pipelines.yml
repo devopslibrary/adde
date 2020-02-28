@@ -1,13 +1,8 @@
 stages:
   - stage: Build
     jobs:
-      - job: build-backend
-        pool:
-          vmImage: "ubuntu-latest"
-        workspace:
-          clean: all
-        steps:
-      - job: build-frontend
+      - job: build_backend
+        displayName: Build Backend
         pool:
           vmImage: "ubuntu-latest"
         workspace:

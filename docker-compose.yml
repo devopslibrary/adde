@@ -1,0 +1,30 @@
+version: "3.7"
+
+services:
+  db:
+    image: "postgres:12"
+    container_name: "postgres"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: admin
+      POSTGRES_DB: adde
+    ports:
+      - "5432:5432"
+  # adde.backend:
+  #   container_name: adde-backend
+  #   build:
+  #     context: adde-backend
+  #   ports:
+  #     - 3000:3000
+  #   environment:
+  #     - NODE_ENV
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+  # swagger:
+  #   image: swaggerapi/swagger-ui
+  #   ports:
+  #     - "8080:8080"

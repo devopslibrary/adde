@@ -1,0 +1,45 @@
+trigger:
+  - master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+    displayName: 'Install Node.js'
+  - task: DownloadSecureFile@1
+    name: envFile
+    inputs:
+      secureFile: 'test.env'
+  - script: |
+      mv $(envFile.secureFilePath) test.env
+    displayName: Create test.env
+  - script: |
+      yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master && cd ../../../../
+    displayName: 'Yarn Install'
+  - script: |
+      yarn test
+    displayName: 'Jest Testing'
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: 'SonarCloud DevOpsLibrary'
+      organization: 'devopslibrary'
+      scannerMode: 'CLI'
+      configMode: 'manual'
+      cliProjectKey: 'devopslibrary_adde-backend'
+      cliProjectName: 'adde-backend'
+      cliProjectVersion:
+      cliSources: '.'
+      extraProperties: |
+        sonar.sources=.
+        sonar.tests=.
+        sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
+        sonar.typescript.lcov.reportPaths=coverage/lcov.info
+        sonar.testExecutionReportPaths=test-report.xml
+
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
+  - task: SonarCloudAnalyze@1

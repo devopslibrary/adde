@@ -17,13 +17,13 @@ stages:
             inputs:
               secureFile: "test.env"
           - script: |
-              mv $(envFile.secureFilePath) test.env
+              mv $(envFile.secureFilePath) backend/test.env
             displayName: Create test.env
           - script: |
-              yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master && cd ../../../../
+              cd backend && yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master && cd ../../../../
             displayName: "Yarn Install"
           - script: |
-              yarn test
+              cd backend && yarn test
             displayName: "Jest Testing"
   - stage: SonarCloud
     jobs:

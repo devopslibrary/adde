@@ -40,8 +40,8 @@ stages:
               organization: "devopslibrary"
               scannerMode: "CLI"
               configMode: "manual"
-              cliProjectKey: "devopslibrary_adde-backend"
-              cliProjectName: "adde-backend"
+              cliProjectKey: "devopslibrary_adde"
+              cliProjectName: "adde"
               cliProjectVersion:
               cliSources: "."
               extraProperties: |

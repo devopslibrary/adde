@@ -30,7 +30,7 @@ stages:
           - script: |
               cd backend && yarn test
             displayName: "Jest Testing"
-          - publish: $(System.DefaultWorkingDirectory)/bin/WebApp
+          - publish: $(System.DefaultWorkingDirectory)
             artifact: backend
   - stage: SonarCloud
     jobs:

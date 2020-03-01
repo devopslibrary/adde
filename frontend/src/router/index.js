@@ -23,4 +23,10 @@ const router = new VueRouter({
   routes
 });
 
+router.beforeEach((to, from, next) => {
+  var subdir = window.location.host.split(".")[0];
+
+  console.log(subdir, to, from, next);
+});
+
 export default router;

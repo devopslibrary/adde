@@ -89,7 +89,6 @@
       "json",
       "node"
     ],
-    "rootDir": "src",
     "testResultsProcessor": "jest-sonar-reporter",
     "coveragePathIgnorePatterns": [
       "/node_modules/",

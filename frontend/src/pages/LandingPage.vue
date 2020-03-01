@@ -45,14 +45,11 @@ export default {
     AppHero
   },
   mounted() {
-    console.log("mounted");
-    console.log(this);
     this.$watch(
       () => {
         return this.$auth.isAuthenticated;
       },
       status => {
-        console.log(status);
         if (status) {
           this.$router.push("getting-started");
         }

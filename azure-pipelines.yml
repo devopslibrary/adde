@@ -1,0 +1,56 @@
+stages:
+  - stage: Build
+    jobs:
+      - job: build
+        displayName: Build ADDE
+        pool:
+          vmImage: "ubuntu-latest"
+        workspace:
+          clean: all
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "10.x"
+            displayName: "Install Node.js"
+          - task: DownloadSecureFile@1
+            name: envFile
+            inputs:
+              secureFile: "test.env"
+          - script: |
+              mv $(envFile.secureFilePath) backend/test.env
+            displayName: Create test.env
+          - script: |
+              cd backend && yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master && cd ../../../../
+            displayName: "Yarn Install"
+          - task: Bash@3
+            inputs:
+              targetType: "inline"
+              script: "docker run -p 5432:5432 -e POSTGRES_PASSWORD=password -e POSTGRES_USER=admin -e POSTGRES_DB=adde --name postgres -d postgres:12"
+            displayName: "Start Postgres"
+          - script: |
+              cd backend && yarn test
+            displayName: "Jest Testing"
+          - task: Bash@3
+            inputs:
+              targetType: "inline"
+              script: "npm install typescript"
+          - task: SonarCloudPrepare@1
+            inputs:
+              SonarCloud: "SonarCloud DevOpsLibrary"
+              organization: "devopslibrary"
+              scannerMode: "CLI"
+              configMode: "manual"
+              cliProjectKey: "devopslibrary_adde"
+              cliProjectName: "adde"
+              cliProjectVersion:
+              cliSources: "."
+              extraProperties: |
+                sonar.sources=backend/
+                sonar.tests=/backend/
+                sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
+                sonar.typescript.lcov.reportPaths=backend/coverage/lcov.info
+                sonar.testExecutionReportPaths=backend/test-report.xml
+          - task: SonarCloudPublish@1
+            inputs:
+              pollingTimeoutSec: "300"
+          - task: SonarCloudAnalyze@1

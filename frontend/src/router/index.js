@@ -8,7 +8,12 @@ const routes = [
   {
     path: "/",
     name: "LandingPage",
-    component: LandingPage
+    component: LandingPage,
+    beforeEnter: (to, from, next) => {
+      // If host is made up of 4 parts, redirect from default landing to account specific
+      if (window.location.host.split(".").length == 4) next("/getting-started");
+      else next();
+    }
   },
   {
     path: "/getting-started",
@@ -21,12 +26,6 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
-});
-
-router.beforeEach((to, from, next) => {
-  var subdir = window.location.host.split(".")[0];
-
-  console.log(subdir, to, from, next);
 });
 
 export default router;

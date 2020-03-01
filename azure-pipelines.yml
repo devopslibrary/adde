@@ -53,8 +53,8 @@ stages:
               cliProjectVersion:
               cliSources: "."
               extraProperties: |
-                sonar.sources=.
-                sonar.tests=.
+                sonar.sources=$(Build.SourcesDirectory)/backend/
+                sonar.tests=$(Build.SourcesDirectory)/backend/
                 sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
                 sonar.typescript.lcov.reportPaths=coverage/lcov.info
                 sonar.testExecutionReportPaths=test-report.xml

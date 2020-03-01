@@ -30,12 +30,18 @@ stages:
           - script: |
               cd backend && yarn test
             displayName: "Jest Testing"
+          - publish: $(System.DefaultWorkingDirectory)/bin/WebApp
+            artifact: backend
   - stage: SonarCloud
     jobs:
       - job: sonarcloud
+        variables:
+          NODE_PATH: $(Build.SourcesDirectory)/backend/node_modules/
         pool:
           vmImage: "ubuntu-latest"
         steps:
+          - download: current
+            artifact: backend
           - task: SonarCloudPrepare@1
             inputs:
               SonarCloud: "SonarCloud DevOpsLibrary"

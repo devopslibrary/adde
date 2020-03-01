@@ -24,12 +24,10 @@ export class OrgsService {
       };
     }
     await this.settingRepository.save(_settings);
-    console.log(org);
     return this.orgRepository.save(Object.setPrototypeOf(org, Object)); // Object.setPrototypeOf needed because of this bug https://github.com/typeorm/typeorm/issues/2065
   }
 
   async findAllOrgs(token: string): Promise<Org[]> {
-    console.log(token);
     const _orgs = await this.orgRepository.find();
     let orgArray: Org[] = [];
     for (let org of _orgs) {

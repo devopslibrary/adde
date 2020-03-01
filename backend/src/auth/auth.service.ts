@@ -34,6 +34,5 @@ export class AuthService extends AuthGuard('jwt') {
       })
       .pipe(map(response => response.data.access_token))
       .toPromise();
-    console.log(this._managementToken);
   }
 }

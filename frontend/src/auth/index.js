@@ -10,10 +10,21 @@ let instance;
 /** Returns the current instance of the SDK */
 export const getInstance = () => instance;
 
+/** Generate Callback URL in an ugly way */
+function getCallbackUrl(hostName) {
+  return hostName
+    .substring(hostName.lastIndexOf(".", hostName.lastIndexOf(".") - 1) + 1)
+    .replace("http://", "")
+    .replace("https://", "");
+}
+console.log(window.location.origin);
+const callbackURL =
+  location.protocol + "//" + getCallbackUrl(window.location.origin);
+
 /** Creates an instance of the Auth0 SDK. If one has already been created, it returns that instance */
 export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
-  redirectUri = window.location.origin,
+  redirectUri = callbackURL,
   ...options
 }) => {
   if (instance) return instance;

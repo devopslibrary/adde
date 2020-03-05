@@ -24,12 +24,10 @@
         <iframe
           class="resp-iframe"
           src="http://devopslibrary.sampledata.adde.to/swagger/"
+          title="Swagger"
         ></iframe>
       </div>
       <div class="footer"></div>
-      <!-- <div class="swagger demo">
-        <img src="../assets/graphiql.png" />
-      </div> -->
     </div>
   </LayoutDefault>
 </template>

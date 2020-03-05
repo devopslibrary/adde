@@ -50,15 +50,17 @@ export class RestApiService {
   // Return list of resources in folder as JSON array
   async listResources(reqPath): Promise<JSON> {
     const filesWithExtensions = await fs.readdirSync(reqPath);
-
     let resourceList = [];
     filesWithExtensions.forEach(name => {
       if (name != '.schema.json' && name != '.git') {
-        let nameWithoutExtension = path.parse(name).name;
-        const fileData = JSON.parse(
-          fs.readFileSync(reqPath + '/' + name, 'utf8'),
-        );
-        resourceList.push(fileData);
+        if (this.isDirectory(reqPath + name)) {
+          resourceList.push(name);
+        } else {
+          const fileData = JSON.parse(
+            fs.readFileSync(reqPath + '/' + name, 'utf8'),
+          );
+          resourceList.push(fileData);
+        }
       }
     });
     return JSON.parse(JSON.stringify(resourceList));

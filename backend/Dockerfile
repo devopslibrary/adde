@@ -17,6 +17,7 @@ FROM node:13-alpine as builder
 ENV NODE_ENV build
 
 USER root
+
 WORKDIR /home/node
 
 COPY . /home/node
@@ -27,6 +28,10 @@ RUN yarn install \
 # ---
 
 FROM node:13-alpine
+
+RUN apk --update add git less openssh && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm /var/cache/apk/*
 
 ENV NODE_ENV production
 

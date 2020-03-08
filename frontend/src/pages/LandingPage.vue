@@ -1,33 +1,42 @@
 <template>
   <LayoutDefault>
-    <AppHero />
-    <div class="container" v-highlight>
-      <div class="intro">
-        <div>
-          <h1>
-            And receive a fully managed REST &amp; GraphQL API server
-          </h1>
-        </div>
-        <div class="details">
-          <h2>
-            Adde (Automated Declarative Data Engine) allows you to automate
-            handoffs and reduce miscommunication between your teams by allowing
-            them to create incredibly easy to use APIs without needing
-            development experience. Each team is able to provide and consume
-            data in the way they prefer, with schema validation and API
-            endpoints generated instantly, with all data stored within a git
-            repository.
-          </h2>
+    <div v-if="!$auth.loading">
+      <div v-if="$auth.isAuthenticated">
+        <br />
+        <h1>Which org would you like to install Adde on?</h1>
+      </div>
+      <div v-if="!$auth.isAuthenticated">
+        <AppHero />
+
+        <div class="container" v-highlight>
+          <div class="intro">
+            <div>
+              <h1>
+                And receive a fully managed REST &amp; GraphQL API server
+              </h1>
+            </div>
+            <div class="details">
+              <h2>
+                Adde (Automated Declarative Data Engine) allows you to automate
+                handoffs and reduce miscommunication between your teams by
+                allowing them to create incredibly easy to use APIs without
+                needing development experience. Each team is able to provide and
+                consume data in the way they prefer, with schema validation and
+                API endpoints generated instantly, with all data stored within a
+                git repository.
+              </h2>
+            </div>
+          </div>
+          <div class="swagger ">
+            <iframe
+              class="resp-iframe"
+              src="http://devopslibrary.sampledata.adde.to/swagger/"
+              title="Swagger"
+            ></iframe>
+          </div>
+          <div class="footer"></div>
         </div>
       </div>
-      <div class="swagger ">
-        <iframe
-          class="resp-iframe"
-          src="http://devopslibrary.sampledata.adde.to/swagger/"
-          title="Swagger"
-        ></iframe>
-      </div>
-      <div class="footer"></div>
     </div>
   </LayoutDefault>
 </template>

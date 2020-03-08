@@ -11,7 +11,7 @@
     <div v-if="!$auth.loading" class="loginOrRegister" href="#">
       <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
       <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
-      <button v-if="!$auth.isAuthenticated">Sign Up</button>
+      <button v-if="!$auth.isAuthenticated" @click="signup">Sign Up</button>
     </div>
   </header>
 </template>
@@ -23,6 +23,12 @@ export default {
     // Log the user in
     login() {
       this.$auth.loginWithRedirect();
+    },
+    // Signup
+    signup() {
+      this.$auth.loginWithRedirect({
+        login_hint: ""
+      });
     },
     // Log the user out
     logout() {

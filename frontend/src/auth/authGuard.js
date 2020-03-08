@@ -8,7 +8,6 @@ export const authGuard = (to, from, next) => {
     if (authService.isAuthenticated) {
       return next();
     }
-    console.log(to);
     // Otherwise, log in
     authService.loginWithRedirect({ appState: { targetUrl: to } });
   };

@@ -10,16 +10,17 @@ const routes = [
     path: "/",
     name: "LandingPage",
     component: LandingPage
-    // beforeEnter: (to, from, next) => {
-    //   // If host is made up of 4 parts, redirect from default landing to account specific
-    //   if (window.location.host.split(".").length == 4) next("/overview");
-    //   else next();
+    // beforeEnter: () => {
+    //   if (this.$auth.isAuthenticated) {
+    //     this.$router.push({ path: "/kondo/overview" });
+    //   }
     // }
   },
   {
     path: "/getting-started",
     name: "GettingStarted",
-    component: () => import("../pages/GettingStarted.vue")
+    component: () => import("../pages/GettingStarted.vue"),
+    beforeEnter: authGuard
   },
   {
     path: "/overview",

@@ -1,24 +1,89 @@
 <template>
-  <header>
-    <img class="logo" src="@/assets/logo.svg" alt="logo" />
-    <nav>
-      <ul>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">Pricing</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-    <div v-if="!$auth.loading" class="loginOrRegister" href="#">
-      <button v-if="!$auth.isAuthenticated" @click="login">Log in</button>
-      <button v-if="$auth.isAuthenticated" @click="logout">Log out</button>
-      <button v-if="!$auth.isAuthenticated" @click="signup">Sign Up</button>
+  <v-app-bar app color="primary" dark>
+    <div class="d-flex align-center">
+      <v-img
+        alt="Vuetify Logo"
+        class="shrink mr-2"
+        contain
+        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+        transition="scale-transition"
+        width="40"
+      />
+
+      <v-img
+        alt="Vuetify Name"
+        class="shrink mt-1 hidden-sm-and-down"
+        contain
+        min-width="100"
+        src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+        width="100"
+      />
     </div>
-  </header>
+
+    <v-spacer></v-spacer>
+
+    <v-btn
+      href="https://github.com/vuetifyjs/vuetify/releases/latest"
+      target="_blank"
+      text
+      ><v-toolbar-items>
+        <v-btn
+          class="subtitle-1"
+          large
+          text
+          v-for="item in menuItems"
+          :key="item.title"
+          :to="item.path"
+        >
+          {{ item.title }}
+        </v-btn>
+      </v-toolbar-items>
+
+      <span v-if="!$auth.loading" class="mr-2"
+        ><v-btn
+          color="secondary"
+          class="ml-2 mr-2"
+          v-if="!$auth.isAuthenticated"
+          @click="login"
+        >
+          <v-icon dark>mdi-login</v-icon>
+          Log in
+        </v-btn>
+        <v-btn
+          color="secondary"
+          class="ml-2 mr-2"
+          v-if="$auth.isAuthenticated"
+          @click="logout"
+        >
+          Log out
+        </v-btn>
+        <v-btn
+          color="secondary"
+          class="ml-2 mr-2"
+          v-if="!$auth.isAuthenticated"
+          @click="signup"
+        >
+          Sign Up
+        </v-btn></span
+      >
+    </v-btn>
+  </v-app-bar>
 </template>
 
 <script>
 export default {
   name: "AppHeader",
+  data() {
+    return {
+      appTitle: "Awesome App",
+      sidebar: false,
+      menuItems: [
+        { title: "FAQ", path: "/faq" },
+        { title: "Pricing", path: "/pricing" },
+        { title: "Contact", path: "/contact" }
+      ]
+    };
+  },
   methods: {
     // Log the user in
     login() {
@@ -39,40 +104,8 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-.logo {
-  cursor: pointer;
-  margin-right: auto;
-}
-header {
-  display: flex;
-  align-items: center;
-  padding: 30px 10%;
-  height: 65px;
-  background-color: $primary;
-}
-nav {
-  li {
-    list-style: none;
-    display: inline-block;
-    padding: 0 20px;
-    a {
-      color: #fff;
-      transition: all 0.3s ease 0s;
-    }
-  }
-}
-nav li a:hover {
-  color: $secondary;
-}
-button {
-  padding: 9px 25px;
-  margin-left: 5px;
-  background-color: $secondary;
-  color: #fff;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s ease 0s;
+<style scoped>
+.v-btn {
+  text-transform: none !important;
 }
 </style>

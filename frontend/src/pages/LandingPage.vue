@@ -118,7 +118,7 @@ export default {
 }
 .container {
   width: 100%;
-  background-color: $primary;
+  // background-color: $primary;
   display: grid;
   grid-template-columns: 25% auto auto 25%;
   grid-template-rows: 100px 100% 100% 100%;

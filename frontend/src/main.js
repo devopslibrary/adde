@@ -6,7 +6,8 @@ import VueRouter from "vue-router";
 // Auth0 Integration
 import { domain, clientId } from "../auth_config.json";
 import { Auth0Plugin } from "./auth";
-import router from './router'
+import router from "./router";
+import vuetify from "./plugins/vuetify";
 Vue.use(Auth0Plugin, {
   domain,
   clientId,
@@ -25,5 +26,6 @@ Vue.use(VueCodeHighlight); //registers the v-highlight directive
 new Vue({
   VueRouter,
   router,
+  vuetify,
   render: h => h(App)
 }).$mount("#app");

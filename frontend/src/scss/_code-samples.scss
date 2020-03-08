@@ -75,7 +75,7 @@ pre[class*="language-"] {
 
 .token.property,
 .token.function {
-  color: $tertiary;
+  // color: $tertiary;
 }
 
 .token.tag-id,
@@ -86,7 +86,7 @@ pre[class*="language-"] {
 
 code.language-javascript,
 .token.attr-name {
-  color: $secondary;
+  // color: $secondary;
 }
 
 code.language-css,
@@ -106,7 +106,7 @@ code.language-scss,
 .token.statement,
 .token.regex,
 .token.atrule {
-  color: $primary;
+  // color: $primary;
 }
 
 .token.placeholder,

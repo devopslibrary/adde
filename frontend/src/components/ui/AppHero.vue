@@ -2,7 +2,7 @@
   <div id="wrapper" v-highlight>
     <div id="examples">
       <div class="example">
-        <h2>Add Data via <span class="blue">REST</span></h2>
+        <h2>Add Data via <span class="blue--text">REST</span></h2>
         <!-- prettier-ignore -->
         <pre>
     <code-highlight>
@@ -22,11 +22,11 @@ EOF
     </code-highlight>
     </pre>
       </div>
-      <div class="example">
+      <div id="black" class="example">
         <h2>Or PowerShell</h2>
         <!-- prettier-ignore -->
         <pre>
-    <code-highlight>
+          <code-highlight>
 $dns = @{primary='10.0.0.50'
          secondary='10.0.0.51'}
 $sfo01 = @{}
@@ -37,8 +37,8 @@ Configure-AddeServer -Org OrgName `
 Update-AddeObject -Name sfo01 `
                   -Type datacenter `
                   -Values $sfo01
-    </code-highlight>
-    </pre>
+          </code-highlight>
+        </pre>
       </div>
       <div class="example">
         <h2>Or Git</h2>
@@ -70,7 +70,12 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
+.v-application code {
+  background-color: black !important;
+  color: #62b562 !important;
+  font-size: 100% !important;
+}
 #examples {
   padding-top: 130px;
   display: flex;
@@ -107,9 +112,6 @@ export default {
   background-color: black;
 }
 
-.blue {
-  color: $primary;
-}
 .example {
   text-align: center;
   color: #fff;

@@ -2,7 +2,9 @@
   <div id="wrapper" v-highlight>
     <div id="examples">
       <div class="example">
-        <h2>Add Data via <span class="blue--text">REST</span></h2>
+        <span class="headline">
+          Add Data via <span class="blue--text">REST</span>
+        </span>
         <!-- prettier-ignore -->
         <pre>
     <code-highlight>
@@ -23,7 +25,7 @@ EOF
     </pre>
       </div>
       <div id="black" class="example">
-        <h2>Or PowerShell</h2>
+        <span class="headline">Or PowerShell</span>
         <!-- prettier-ignore -->
         <pre>
           <code-highlight>
@@ -41,7 +43,7 @@ Update-AddeObject -Name sfo01 `
         </pre>
       </div>
       <div class="example">
-        <h2>Or Git</h2>
+        <span class="headline">Or Git</span>
         <!-- prettier-ignore -->
         <pre>
     <code-highlight>

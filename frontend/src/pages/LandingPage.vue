@@ -1,6 +1,6 @@
 <template>
   <LayoutDefault>
-    <div v-if="!$auth.loading">
+    <div v-if="!$auth.loading" class="primary">
       <div v-if="$auth.isAuthenticated">
         <br />
         <h1>Which org would you like to install Adde on?</h1>
@@ -8,7 +8,7 @@
       <div v-if="!$auth.isAuthenticated">
         <AppHero />
 
-        <div class="container" v-highlight>
+        <div class="container">
           <div class="intro">
             <div>
               <h1>
@@ -16,7 +16,7 @@
               </h1>
             </div>
             <div class="details">
-              <h2>
+              <p>
                 Adde (Automated Declarative Data Engine) allows you to automate
                 handoffs and reduce miscommunication between your teams by
                 allowing them to create incredibly easy to use APIs without
@@ -24,7 +24,7 @@
                 consume data in the way they prefer, with schema validation and
                 API endpoints generated instantly, with all data stored within a
                 git repository.
-              </h2>
+              </p>
             </div>
           </div>
           <div class="swagger ">
@@ -51,33 +51,10 @@ export default {
     LayoutDefault,
     AppHero
   }
-
-  // mounted() {
-  //   console.log("mounted");
-  //   console.log(this);
-  //   this.$watch(
-  //     () => {
-  //       return this.$auth.isAuthenticated;
-  //     },
-  //     status => {
-  //       console.log(status);
-  //       if (status) {
-  //         this.$router.push("getting-started");
-  //       }
-  //     },
-  //     {
-  //       deep: true
-  //     }
-  //   );
-  // }
 };
 </script>
 
 <style scoped lang="scss">
-.details {
-  padding-top: 20px;
-}
-
 .intro {
   grid-area: intro;
   color: white;
@@ -117,11 +94,9 @@ export default {
   }
 }
 .container {
-  width: 100%;
-  // background-color: $primary;
   display: grid;
-  grid-template-columns: 25% auto auto 25%;
-  grid-template-rows: 100px 100% 100% 100%;
+  grid-template-columns: 10% auto auto 10%;
+  grid-template-rows: 50px 100% 100% 100%;
 
   grid-template-areas:
     ". . . ."

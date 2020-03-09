@@ -1,72 +1,52 @@
 <template>
   <v-app-bar app color="primary" dark>
     <div class="d-flex align-center">
-      <v-img
-        alt="Vuetify Logo"
-        class="shrink mr-2"
-        contain
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-        transition="scale-transition"
-        width="40"
-      />
-
-      <v-img
-        alt="Vuetify Name"
-        class="shrink mt-1 hidden-sm-and-down"
-        contain
-        min-width="100"
-        src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-        width="100"
-      />
+      <img class="logo" src="@/assets/logo.svg" alt="logo" />
     </div>
 
     <v-spacer></v-spacer>
 
     <v-btn
-      href="https://github.com/vuetifyjs/vuetify/releases/latest"
-      target="_blank"
+      class="subtitle-1"
+      large
       text
-      ><v-toolbar-items>
-        <v-btn
-          class="subtitle-1"
-          large
-          text
-          v-for="item in menuItems"
-          :key="item.title"
-          :to="item.path"
-        >
-          {{ item.title }}
-        </v-btn>
-      </v-toolbar-items>
-
-      <span v-if="!$auth.loading" class="mr-2"
-        ><v-btn
-          color="secondary"
-          class="ml-2 mr-2"
-          v-if="!$auth.isAuthenticated"
-          @click="login"
-        >
-          <v-icon dark>mdi-login</v-icon>
-          Log in
-        </v-btn>
-        <v-btn
-          color="secondary"
-          class="ml-2 mr-2"
-          v-if="$auth.isAuthenticated"
-          @click="logout"
-        >
-          Log out
-        </v-btn>
-        <v-btn
-          color="secondary"
-          class="ml-2 mr-2"
-          v-if="!$auth.isAuthenticated"
-          @click="signup"
-        >
-          Sign Up
-        </v-btn></span
-      >
+      v-for="item in menuItems"
+      :key="item.title"
+      :to="item.path"
+    >
+      {{ item.title }}
     </v-btn>
+
+    <span v-if="!$auth.loading" class="mr-2"
+      ><v-btn
+        large
+        color="secondary"
+        class="ml-2 mr-2"
+        v-if="!$auth.isAuthenticated"
+        @click="login"
+      >
+        <v-icon dark>mdi-login</v-icon>
+        Log in
+      </v-btn>
+      <v-btn
+        large
+        color="secondary"
+        class="ml-2 mr-2"
+        v-if="$auth.isAuthenticated"
+        @click="logout"
+      >
+        Log out
+      </v-btn>
+      <v-btn
+        large
+        color="secondary"
+        class="ml-2 mr-2"
+        v-if="!$auth.isAuthenticated"
+        @click="signup"
+      >
+        Sign Up
+      </v-btn>
+    </span>
   </v-app-bar>
 </template>
 
@@ -107,5 +87,9 @@ export default {
 <style scoped>
 .v-btn {
   text-transform: none !important;
+}
+.v-toolbar {
+  padding-left: 10%;
+  padding-right: 10%;
 }
 </style>

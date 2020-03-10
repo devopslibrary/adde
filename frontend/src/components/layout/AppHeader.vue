@@ -44,7 +44,7 @@
         v-if="!$auth.isAuthenticated"
         @click="signup"
       >
-        Sign Up
+        Try Free
       </v-btn>
     </span>
   </v-app-bar>

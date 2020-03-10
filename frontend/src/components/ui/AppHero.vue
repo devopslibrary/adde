@@ -8,7 +8,7 @@
         <!-- prettier-ignore -->
         <pre>
     <code-highlight>
-curl repo.org.adde.to/rest \
+curl rest.adde.to/org/repo \
 -H 'Content-Type: text/json' \
 -d @- &lt;&lt; EOF
 {

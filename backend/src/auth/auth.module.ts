@@ -1,12 +1,6 @@
-import {
-  Module,
-  Injectable,
-  ExecutionContext,
-  HttpModule,
-} from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
-import { AuthService } from './auth.service';
 
 @Module({
   imports: [
@@ -14,6 +8,6 @@ import { AuthService } from './auth.service';
     HttpModule,
     PassportModule,
   ],
-  providers: [JwtStrategy, AuthService],
+  providers: [JwtStrategy],
 })
 export class AuthModule {}

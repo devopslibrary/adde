@@ -1,5 +1,5 @@
 import { passportJwtSecret } from 'jwks-rsa';
-import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '../config/config.service';
 import { Injectable, UnauthorizedException, HttpService } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
@@ -8,10 +8,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private config: ConfigService,
-    private readonly _httpService: HttpService,
-  ) {
+  constructor(private config: ConfigService) {
     super({
       secretOrKeyProvider: passportJwtSecret({
         cache: true,
@@ -26,37 +23,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  // Management Token is used to retrieve Github User from Auth0
-  async onModuleInit() {}
-
-  async validate(payload: JwtPayload, done: VerifiedCallback) {
-    console.log(this.config.get('AUTH0_CLIENT_SECRET'));
-    if (!this._managementToken) {
-      this._managementToken = await this._httpService
-        .post('https://devopslibrary.auth0.com/oauth/token', {
-          client_id: 'sPpXsMqoocpJ543Ycm0gScJOOXSCh1Uy',
-          client_secret:
-            'rwGk0Sn7MOOb-oisRERqoYl1W_I5FQrcwE0aVqvHtQTEinNrYAB52UHrWNo9O2B8',
-          grant_type: 'client_credentials',
-          audience: `https://devopslibrary.auth0.com/api/v2/`,
-        })
-        .pipe(map(response => response.data.access_token))
-        .toPromise();
-    }
-    console.log(this._managementToken);
-    // await this._httpService.get('');
-    const auth0User = payload.sub;
-    // console.log(auth0User);
-    const githubUser = await this._httpService
-      .get('https://devopslibrary.auth0.com/api/v2/users/' + auth0User, {
-        headers: { Authorization: `Bearer ${this._managementToken}` },
-      })
-      .toPromise();
-    // console.log(githubUser);
+  async validate(payload: JwtPayload) {
     if (!payload) {
-      done(new UnauthorizedException(), false); // 2
+      throw new UnauthorizedException(); // 2
     }
-    return done(null, payload);
+    return payload;
   }
 }
 
@@ -83,3 +54,31 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 //     parsedJson.identities[0].access_token,
 //   );
 // }
+
+// console.log(this.config.get('AUTH0_CLIENT_ID'));
+// if (!this._managementToken) {
+//   this._managementToken = await this._httpService
+//     .post('https://devopslibrary.auth0.com/oauth/token', {
+//       client_id: this.config.get('AUTH0_CLIENT_ID'),
+//       client_secret: this.config.get('AUTH0_CLIENT_SECRET'),
+//       grant_type: 'client_credentials',
+//       audience: 'https://' + this.config.get('AUTH0_DOMAIN') + '/api/v2/',
+//     })
+//     .pipe(map(response => response.data.access_token))
+//     .toPromise();
+// }
+// console.log(this._managementToken);
+// const auth0User = payload.sub;
+// console.log(auth0User);
+// const githubUser = await this._httpService
+//   .get(
+//     'https://' +
+//       this.config.get('AUTH0_DOMAIN') +
+//       '/api/v2/users/' +
+//       auth0User,
+//     {
+//       headers: { Authorization: `Bearer ${this._managementToken}` },
+//     },
+//   )
+//   .toPromise();
+// // console.log(githubUser);

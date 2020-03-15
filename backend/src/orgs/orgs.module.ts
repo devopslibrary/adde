@@ -4,10 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Org } from './orgs.entity';
 import { Setting } from '../settings/settings.entity';
 import { OrgResolver } from './orgs.resolver';
+import { OrgsController } from './orgs.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Org, Setting])],
   providers: [OrgsService, OrgResolver],
   exports: [OrgsModule],
+  controllers: [OrgsController],
 })
 export class OrgsModule {}

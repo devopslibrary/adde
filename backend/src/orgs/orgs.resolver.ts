@@ -2,14 +2,14 @@ import { OrgsService } from './orgs.service';
 import { Org } from './orgs.entity';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { UseGuards, Request } from '@nestjs/common';
-import { AuthService } from '../auth/auth.service';
+// import { AuthService } from '../auth/auth.service';
 import { UserToken } from '../users/user.decorators';
 
 @Resolver('Org')
 export class OrgResolver {
   constructor(private readonly orgsService: OrgsService) {}
 
-  @UseGuards(AuthService)
+  // @UseGuards(AuthService)
   @Mutation(returns => Org)
   async upsertOrg(@Args('org') org: Org) {
     return this.orgsService.upsertOrg(org);
@@ -18,7 +18,7 @@ export class OrgResolver {
   /**
    * Returns all organizations that a user has access to.
    */
-  @UseGuards(AuthService)
+  // @UseGuards(AuthService)
   @Query(returns => [Org])
   async findAllOrgs(@UserToken() token: any, @Request() req): Promise<Org[]> {
     return this.orgsService.findAllOrgs(token);

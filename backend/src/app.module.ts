@@ -9,6 +9,9 @@ import { RestApiModule } from './restAPI/restAPI.module';
 import { RestApiController } from './restAPI/restAPI.controller';
 import { RestApiService } from './restAPI/restAPI.service';
 import { LoggerMiddleware } from './logger.middleware';
+import { OrgsController } from './orgs/orgs.controller';
+import { AuthModule } from './auth/auth.module';
+// import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
   imports: [
@@ -20,8 +23,13 @@ import { LoggerMiddleware } from './logger.middleware';
     }),
     SwaggerModule,
     RestApiModule,
+    AuthModule,
+    // GraphQLModule.forRoot({
+    //   autoSchemaFile: 'schema.gql',
+    //   context: ({ req }) => ({ req }),
+    // }),
   ],
-  controllers: [WebhookController, RestApiController],
+  controllers: [WebhookController, RestApiController, OrgsController],
   providers: [WebhookService, RestApiService],
 })
 export class AppModule {

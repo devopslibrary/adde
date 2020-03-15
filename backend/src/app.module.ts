@@ -1,4 +1,4 @@
-import { Module, MiddlewareConsumer } from '@nestjs/common';
+import { Module, MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { WebhookController } from './webhook/webhook.controller';
 import { WebhookService } from './webhook/webhook.service';
 import { WebhookModule } from './webhook/webhook.module';
@@ -24,6 +24,7 @@ import { AuthModule } from './auth/auth.module';
     SwaggerModule,
     RestApiModule,
     AuthModule,
+    HttpModule,
     // GraphQLModule.forRoot({
     //   autoSchemaFile: 'schema.gql',
     //   context: ({ req }) => ({ req }),

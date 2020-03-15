@@ -1,4 +1,5 @@
 {
   "domain": "devopslibrary.auth0.com",
-  "clientId": "HypzdOPzhUnOgLD6IPk9PcYuHUvPxocy"
+  "clientId": "HypzdOPzhUnOgLD6IPk9PcYuHUvPxocy",
+  "audience": "https://backend.adde.to"
 }

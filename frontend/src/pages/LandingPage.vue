@@ -4,6 +4,9 @@
       <div v-if="$auth.isAuthenticated">
         <br />
         <h1>Which org would you like to install Adde on?</h1>
+        <p>{{ this.orgs }}</p>
+        <h2>{{ $auth.user.name }}</h2>
+        <p>{{ $auth.user.email }}</p>
       </div>
       <div v-if="!$auth.isAuthenticated">
         <AppHero />
@@ -123,26 +126,6 @@
             </p>
           </v-flex>
         </v-row>
-        <!-- <v-row class="text-center pt-11 pb-12 mt-12" justify="space-between">
-          <v-col cols="12">
-            <div class="display-1 pb-5">
-              Example Generated REST and GraphiQL Endpoints
-            </div>
-          </v-flex>
-        </v-row>
-        <v-row>
-          <v-flex xs6>
-            <div class="white pt-12">
-              <div class="swagger">
-                <iframe
-                  class="resp-iframe"
-                  src="http://devopslibrary.sampledata.adde.to/swagger/"
-                  title="Swagger"
-                ></iframe>
-              </div>
-            </div>
-          </v-flex>
-        </v-row> -->
       </div>
 
       <div class="footer"></div>
@@ -153,12 +136,57 @@
 <script>
 import LayoutDefault from "../components/layout/LayoutDefault.vue";
 import AppHero from "../components/ui/AppHero.vue";
+import axios from "axios";
 
 export default {
   name: "LandingPage",
   components: {
     LayoutDefault,
     AppHero
+  },
+  data() {
+    return {
+      orgs: "",
+      token: false
+    };
+  },
+  methods: {
+    // Log the user in
+    login() {
+      this.$auth.loginWithRedirect();
+    },
+    // Log the user out
+    logout() {
+      this.$auth.logout({
+        returnTo: window.location.origin
+      });
+    },
+    async callApi() {
+      // Get the access token from the auth wrapper
+      const token = await this.$auth.getTokenSilently();
+      console.log(token);
+      // Use Axios to make a call to the API
+      const { data } = await axios.get("http://localhost:3000/orgs", {
+        headers: {
+          Authorization: `Bearer ${token}` // send the access token through the 'Authorization' header
+        }
+      });
+      console.log(data);
+      this.orgs = data;
+    }
+  },
+  watch: {
+    "$auth.isAuthenticated": function() {
+      this.callApi();
+      // if (this.$auth.isAuthenticated) {
+      //   this.$router.push({ path: "/kondo/overview" });
+      // }
+    }
+  },
+  mounted() {
+    if (!this.$auth.loading) {
+      this.callApi();
+    }
   }
 };
 </script>

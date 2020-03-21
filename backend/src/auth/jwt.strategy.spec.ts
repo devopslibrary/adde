@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { HttpModule } from '@nestjs/common';
+import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;
@@ -26,7 +27,16 @@ describe('JwtStrategy', () => {
   describe('validate', () => {
     it('should return the payload for complete authorization scopes', async () => {
       const mockPayload = {
-        scope: 'email openid profile',
+        iss: 'https://devopslibrary.auth0.com/',
+        sub: 'github|5382669',
+        aud: [
+          'https://backend.adde.to',
+          'https://devopslibrary.auth0.com/userinfo',
+        ],
+        iat: 1584823605,
+        exp: 1584910005,
+        azp: 'HypzdOPzhUnOgLD6IPk9PcYuHUvPxocy',
+        scope: 'openid profile email',
       };
 
       expect(await jwtStrategy.validate(mockPayload)).toBe(mockPayload);

@@ -29,8 +29,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   // Management Token is used to retrieve Github User from Auth0
   async onModuleInit() {}
 
-  async validate(payload: JwtPayload, done: VerifiedCallback) {
-    console.log(this.config.get('AUTH0_CLIENT_ID'));
+  async validate(payload: JwtPayload) {
     if (!this._managementToken) {
       this._managementToken = await this._httpService
         .post('https://devopslibrary.auth0.com/oauth/token', {
@@ -42,10 +41,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         .pipe(map(response => response.data.access_token))
         .toPromise();
     }
-    console.log(this._managementToken);
 
     const auth0User = payload.sub;
-    console.log(auth0User);
     const githubUser = await this._httpService
       .get(
         'https://' +
@@ -57,12 +54,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         },
       )
       .toPromise();
-    console.log(githubUser.data.identities[0]);
-    if (!payload) {
-      done(new UnauthorizedException(), false); // 2
-    }
 
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
     payload['githubUser'] = githubUser.data.identities[0];
-    return done(null, payload);
+    return payload;
   }
 }

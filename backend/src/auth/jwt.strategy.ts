@@ -1,5 +1,5 @@
 import { passportJwtSecret } from 'jwks-rsa';
-import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '../config/config.service';
 import { Injectable, UnauthorizedException, HttpService } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';

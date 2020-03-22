@@ -100,7 +100,7 @@ export const useAuth0 = ({
 };
 
 export const Auth0Plugin = {
-  install(Vue, options) {
-    Vue.prototype.$auth = useAuth0(options);
+  install(VueInstance, options) {
+    VueInstance.prototype.$auth = useAuth0(options);
   }
 };

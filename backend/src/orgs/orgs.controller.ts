@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, HttpService } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { GithubUser } from 'src/auth/githubUser.decorator';
+import { GithubUser } from '../auth/githubUser.decorator';
 
 @Controller('orgs')
 export class OrgsController {
@@ -13,18 +13,6 @@ export class OrgsController {
         headers: { Authorization: `Bearer ${githubUser.access_token}` },
       })
       .toPromise();
-    console.log(githubUser);
-    console.log(orgs.data);
     return orgs.data;
-    // return 'This action returns all cats';
   }
 }
-// const options = {
-//   method: 'GET',
-//   url: 'https://api.github.com/user/orgs',
-//   headers: {
-//     'content-type': 'application/json',
-//     'authorization': 'token ' + githubToken,
-//     'User-Agent': 'kondo.io',
-//   },
-// };

@@ -29,7 +29,10 @@ stages:
             displayName: "Start Postgres"
           - script: |
               cd backend && yarn test
-            displayName: "Jest Testing"
+            displayName: "Jest Testing Backend"
+          - script: |
+              cd frontend && yarn test
+            displayName: "Jest Testing Frontend"
           - task: Bash@3
             inputs:
               targetType: "inline"
@@ -48,7 +51,7 @@ stages:
                 sonar.sources=backend/,frontend/
                 sonar.tests=backend/,frontend/
                 sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
-                sonar.typescript.lcov.reportPaths=backend/coverage/lcov.info
+                sonar.typescript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
                 sonar.testExecutionReportPaths=backend/test-report.xml
           - task: SonarCloudPublish@1
             inputs:

@@ -20,8 +20,11 @@ stages:
               mv $(envFile.secureFilePath) backend/test.env
             displayName: Create test.env
           - script: |
-              cd backend && yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master && cd ../../../../
-            displayName: "Yarn Install"
+              cd backend && yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master
+            displayName: "Yarn Install Backend"
+          - script: |
+              cd frontend && yarn install && yarn build
+            displayName: "Yarn Install Frontend"
           - task: Bash@3
             inputs:
               targetType: "inline"

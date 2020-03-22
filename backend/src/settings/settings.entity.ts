@@ -1,11 +1,11 @@
 import { Entity, PrimaryColumn, Column } from 'typeorm';
-import { Field, ObjectType, InputType, Int } from 'type-graphql';
+import { Field, ObjectType, InputType, Int } from '@nestjs/graphql';
 
 @ObjectType()
 @InputType('SettingInput')
 @Entity()
 export class Setting {
-  @Field(type => Int)
+  @Field((type) => Int)
   @PrimaryColumn()
   id: number;
 

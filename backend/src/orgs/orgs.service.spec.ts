@@ -10,9 +10,10 @@ import { OrgsController } from './orgs.controller';
 
 describe('OrgsService', () => {
   let service: OrgsService;
+  let module: TestingModule;
 
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
+  beforeAll(async () => {
+    module = await Test.createTestingModule({
       imports: [
         TypeOrmModule.forFeature([Org, Setting]),
         TypeOrmModule.forRoot(ormconfig),
@@ -23,6 +24,10 @@ describe('OrgsService', () => {
     }).compile();
 
     service = module.get<OrgsService>(OrgsService);
+  });
+
+  afterAll(async () => {
+    module.close();
   });
 
   it('should be defined', async () => {

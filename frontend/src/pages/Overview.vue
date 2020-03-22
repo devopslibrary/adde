@@ -2,7 +2,7 @@
   <LayoutDefault>
     <div v-if="!$auth.loading">
       <div id="contentWrapper">
-        <h1>Snooooo Welcome!</h1>
+        <h1>Welcome!</h1>
         <p>
           Let's begin by selecting which organization you'd like to configure
           Adde for. Here are the ones we found associated with your Github

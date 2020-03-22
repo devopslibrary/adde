@@ -18,7 +18,7 @@ export class RepoSyncService {
       await git()
         .silent(false)
         .clone(cloneURL, clonePath)
-        .catch(err => console.error('failed: ', err));
+        .catch((err) => console.error('failed: ', err));
       this.logger.log('Cloned ' + clonePath + ' successfully.');
     } else {
       await git(clonePath).pull();

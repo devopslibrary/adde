@@ -7,13 +7,13 @@ import {
 } from 'typeorm';
 import { Org } from '../orgs/orgs.entity';
 
-import { Field, ObjectType, InputType, Int } from 'type-graphql';
+import { Field, ObjectType, InputType, Int } from '@nestjs/graphql';
 
 @ObjectType()
 @InputType('RepoInput')
 @Entity()
 export class Repo {
-  @Field(type => Int)
+  @Field((type) => Int)
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -33,9 +33,6 @@ export class Repo {
   @Column()
   defaultBranch: string;
 
-  @ManyToOne(
-    type => Org,
-    org => org.repos,
-  )
+  @ManyToOne((type) => Org, (org) => org.repos)
   org: Org;
 }

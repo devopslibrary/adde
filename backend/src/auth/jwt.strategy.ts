@@ -38,11 +38,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
           grant_type: 'client_credentials',
           audience: 'https://' + this.config.get('AUTH0_DOMAIN') + '/api/v2/',
         })
-        .pipe(map(response => response.data.access_token))
+        .pipe(map((response) => response.data.access_token))
         .toPromise();
     }
 
     const auth0User = payload.sub;
+
     const githubUser = await this._httpService
       .get(
         'https://' +

@@ -1,5 +1,8 @@
-import { createParamDecorator } from '@nestjs/common';
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
 
-export const GithubUser = createParamDecorator((data, req) => {
-  return req.user.githubUser;
-});
+export const GithubUser = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user.githubUser;
+  },
+);

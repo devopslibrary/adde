@@ -4,10 +4,39 @@
       <div id="contentWrapper">
         <h1>Welcome!</h1>
         <p>
-          Let's begin by selecting which organization you'd like to configure
-          Adde for. Here are the ones we found associated with your Github
-          account: {{ this.orgs }}
+          Choose an account to install ADDE on:
         </p>
+        <v-card max-width="444" outlined>
+          <v-simple-table>
+            <template v-slot:default>
+              <tbody>
+                <tr v-for="item in orgs" :key="item.id">
+                  <td style="width: 34px;">
+                    <img
+                      :src="item.avatar_url"
+                      width="34"
+                      height="34"
+                      alt="@kenerwin88"
+                    />
+                  </td>
+                  <td class="font-weight-bold" style="padding-left: 0px;">
+                    {{ item.login }}
+                  </td>
+                  <td>
+                    <v-btn
+                      :href="
+                        `https://github.com/apps/adde-to/installations/new/permissions?target_id=${item.id}`
+                      "
+                      :v-bind="item"
+                      color="secondary"
+                      >Install</v-btn
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+          </v-simple-table>
+        </v-card>
       </div>
     </div>
   </LayoutDefault>
@@ -49,7 +78,7 @@ export default {
   },
   data() {
     return {
-      orgs: "",
+      orgs: [],
       token: false
     };
   }
@@ -70,5 +99,8 @@ export default {
 p {
   font-size: 130%;
   padding-top: 10px;
+}
+.v-btn {
+  text-transform: none !important;
 }
 </style>

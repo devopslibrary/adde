@@ -26,7 +26,7 @@
         @click="login"
       >
         <v-icon dark>mdi-login</v-icon>
-        Log in
+        Log In
       </v-btn>
       <v-btn
         large
@@ -35,7 +35,7 @@
         v-if="$auth.isAuthenticated"
         @click="logout"
       >
-        Log out
+        Log Out
       </v-btn>
       <v-btn
         large

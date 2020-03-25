@@ -25,6 +25,13 @@ const routes = [
     name: "Overview",
     component: () => import("../pages/Overview.vue"),
     beforeEnter: authGuard
+  },
+  {
+    path: "/setup",
+    name: "Setup",
+    component: () => import("../pages/Setup.vue"),
+    props: route => ({ installation_id: route.query.installation_id }),
+    beforeEnter: authGuard
   }
 ];
 

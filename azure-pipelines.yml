@@ -13,11 +13,16 @@ stages:
               versionSpec: "10.x"
             displayName: "Install Node.js"
           - task: DownloadSecureFile@1
+            name: privateKey
+            inputs:
+              secureFile: "private-key.pem"
+          - task: DownloadSecureFile@1
             name: envFile
             inputs:
               secureFile: "test.env"
           - script: |
               mv $(envFile.secureFilePath) backend/test.env
+              mv $(privateKey.secureFilePath) backend/private-key.pem
             displayName: Create test.env
           - script: |
               cd backend && yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master

@@ -32,6 +32,7 @@ export class ConfigService {
       DATABASE_PASSWORD: Joi.string().required(),
       REPO_CACHE_DIRECTORY: Joi.string().required(),
       CLONE_TOKEN: Joi.string().required(),
+      GITHUB_CLIENT_ID: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(

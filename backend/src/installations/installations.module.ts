@@ -1,7 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, HttpModule } from '@nestjs/common';
 import { InstallationsService } from './installations.service';
 
 @Module({
-  providers: [InstallationsService]
+  providers: [InstallationsService],
+  imports: [HttpModule],
 })
 export class InstallationsModule {}

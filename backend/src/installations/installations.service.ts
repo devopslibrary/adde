@@ -1,6 +1,7 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { Repo } from '../repos/repos.entity';
 import { ConfigService } from '../config/config.service';
+import { Installation } from './installation';
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
@@ -12,8 +13,17 @@ export class InstallationsService {
   ) {}
 
   // Return all Github Installations for Adde, should return an array of IDs
-  getInstallations(): Array<Number> {
-    return [];
+  async getInstallations(): Promise<Array<Installation>> {
+    const githubAppToken = this.getGitHubAppToken();
+    const installations = await this._httpService
+      .get('https://api.github.com/app/installations', {
+        headers: {
+          Authorization: `Bearer ${githubAppToken}`,
+          Accept: 'application/vnd.github.machine-man-preview+json',
+        },
+      })
+      .toPromise();
+    return installations.data;
   }
 
   // Returns every repository that Adde has been added to.  Every single one

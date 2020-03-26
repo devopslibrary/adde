@@ -3,6 +3,7 @@ import { InstallationsService } from './installations.service';
 import { Repo } from '../repos/repos.entity';
 import { ConfigModule } from '../config/config.module';
 import { HttpModule, HttpService } from '@nestjs/common';
+import { Installation } from './installation';
 
 describe('InstallationsService', () => {
   let service: InstallationsService;
@@ -35,11 +36,13 @@ describe('InstallationsService', () => {
       expect(testApiCall.status).toBe(200);
     });
   });
-  // describe('getInstallations', () => {
-  //   it('should return an array of all installations in Github as an array of IDs', async () => {
-  //     expect(await service.getInstallations()).toBe([1234, 5678]);
-  //   });
-  // });
+
+  describe('getInstallations', () => {
+    it('should return an array of all installations in Github as an array of IDs', async () => {
+      const installations: Array<Installation> = await service.getInstallations();
+      expect(installations.length).toBeGreaterThan(0);
+    });
+  });
   // describe('getAllInstallationRepos', () => {
   //   it('should return an array of every repo across all org installations', async () => {
   //     const sampleRepo = new Repo();

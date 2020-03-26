@@ -12,6 +12,7 @@ import { LoggerMiddleware } from './logger.middleware';
 import { OrgsController } from './orgs/orgs.controller';
 import { AuthModule } from './auth/auth.module';
 // import { GraphQLModule } from '@nestjs/graphql';
+import { InstallationsModule } from './installations/installations.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { AuthModule } from './auth/auth.module';
     RestApiModule,
     AuthModule,
     HttpModule,
+    InstallationsModule,
     // GraphQLModule.forRoot({
     //   autoSchemaFile: 'schema.gql',
     //   context: ({ req }) => ({ req }),

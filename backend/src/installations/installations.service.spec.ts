@@ -24,7 +24,7 @@ describe('InstallationsService', () => {
   });
   describe('getGitHubAppToken', () => {
     it('should retrieve a machine installation JWT capable of authing to Github', async () => {
-      const githubAppToken = await service.getGitHubAppToken();
+      const githubAppToken = service.getGitHubAppToken();
       const testApiCall = await httpService
         .get('https://api.github.com/app/installations', {
           headers: {
@@ -37,21 +37,31 @@ describe('InstallationsService', () => {
     });
   });
 
+  // Retrieves all installations of Adde from Github
   describe('getInstallations', () => {
     it('should return an array of all installations in Github as an array of IDs', async () => {
       const installations: Array<Installation> = await service.getInstallations();
       expect(installations.length).toBeGreaterThan(0);
     });
   });
-  // describe('getAllInstallationRepos', () => {
-  //   it('should return an array of every repo across all org installations', async () => {
-  //     const sampleRepo = new Repo();
-  //     sampleRepo.defaultBranch = 'master';
-  //     sampleRepo.fullName = 'sampledata';
-  //     sampleRepo.id = 12345;
-  //     sampleRepo.name = 'sampledata';
-  //     const expectedArray = [sampleRepo];
-  //     expect(await service.getAllInstallationRepos).toBe(expectedArray);
-  //   });
-  // });
+
+  // Retrieves an individual installation token
+  describe('getInstallationToken', () => {
+    it('should return an array of every repo across all org installations', async () => {
+      const githubInstallationToken = await service.getGithubInstallationToken(
+        7504858,
+      );
+      // https://api.github.com/app/installations
+      // const testApiCall = await httpService
+      //   .get('https://api.github.com/app/installation/repositories', {
+      //     headers: {
+      //       Authorization: `Bearer ${githubInstallationToken}`,
+      //       Accept: 'application/vnd.github.mercy-preview+json',
+      //     },
+      //   })
+      //   .toPromise();
+      expect(githubInstallationToken).toBe('lla');
+    });
+  });
 });
+// https://api.github.com/installation/repositories

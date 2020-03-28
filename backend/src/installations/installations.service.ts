@@ -2,6 +2,7 @@ import { Injectable, HttpService } from '@nestjs/common';
 import { Repo } from '../repos/repos.entity';
 import { ConfigService } from '../config/config.service';
 import { Installation } from './installation';
+import { InstallationToken } from './installationToken';
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
@@ -45,6 +46,24 @@ export class InstallationsService {
     const token = jwt.sign({}, privateKey, signOptions);
 
     return token;
+  }
+
+  async getGithubInstallationToken(installationId): Promise<InstallationToken> {
+    const githubAppToken = this.getGitHubAppToken();
+    const installationToken = await this._httpService
+      .post(
+        'https://api.github.com/app/installations/installationId/access_tokens',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${githubAppToken}`,
+            Accept: 'application/vnd.github.machine-man-preview+json',
+          },
+        },
+      )
+      .toPromise();
+
+    return installationToken.data;
   }
 }
 

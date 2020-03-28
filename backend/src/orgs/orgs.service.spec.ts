@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormconfig from '../ormconfig';
 import { HttpModule } from '@nestjs/common';
 import { Org } from './orgs.entity';
-import { Setting } from '../settings/settings.entity';
 import { OrgResolver } from './orgs.resolver';
 import { OrgsController } from './orgs.controller';
 
@@ -15,7 +14,7 @@ describe('OrgsService', () => {
   beforeAll(async () => {
     module = await Test.createTestingModule({
       imports: [
-        TypeOrmModule.forFeature([Org, Setting]),
+        TypeOrmModule.forFeature([Org]),
         TypeOrmModule.forRoot(ormconfig),
         HttpModule,
       ],

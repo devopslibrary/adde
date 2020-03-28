@@ -8,7 +8,6 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Repo } from '../repos/repos.entity';
-import { Setting } from '../settings/settings.entity';
 import { User } from '../users/users.entity';
 import { Field, ObjectType, InputType, Int } from '@nestjs/graphql';
 
@@ -40,9 +39,4 @@ export class Org {
 
   @ManyToOne((type) => User, (user) => user.orgs, { lazy: true })
   user: User;
-
-  @Field((type) => Setting, { nullable: true })
-  @OneToOne((type) => Setting, { cascade: ['insert', 'update'] })
-  @JoinColumn()
-  setting: Setting;
 }

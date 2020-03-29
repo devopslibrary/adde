@@ -11,8 +11,8 @@ import { RestApiService } from './restAPI/restAPI.service';
 import { LoggerMiddleware } from './logger.middleware';
 import { OrgsController } from './orgs/orgs.controller';
 import { AuthModule } from './auth/auth.module';
-// import { GraphQLModule } from '@nestjs/graphql';
 import { GithubModule } from './github/github.module';
+import { BootstrapModule } from './bootstrap/bootstrap.module';
 
 @Module({
   imports: [
@@ -27,10 +27,7 @@ import { GithubModule } from './github/github.module';
     AuthModule,
     HttpModule,
     GithubModule,
-    // GraphQLModule.forRoot({
-    //   autoSchemaFile: 'schema.gql',
-    //   context: ({ req }) => ({ req }),
-    // }),
+    BootstrapModule,
   ],
   controllers: [WebhookController, RestApiController, OrgsController],
   providers: [WebhookService, RestApiService],

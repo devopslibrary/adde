@@ -1,9 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RestApiService } from './restAPI.service';
 import { ConfigModule } from '@nestjs/config';
+import { ConfigService } from '../config/config.service';
 
 describe('RestApiService', () => {
   let service: RestApiService;
+  let configService: ConfigService;
+  let cachePath: String = '';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -15,8 +18,9 @@ describe('RestApiService', () => {
         }),
       ],
     }).compile();
-
+    configService = module.get<ConfigService>(ConfigService);
     service = module.get<RestApiService>(RestApiService);
+    cachePath = configService.get('REPO_CACHE_DIRECTORY');
   });
 
   describe('getData', () => {
@@ -79,7 +83,7 @@ describe('RestApiService', () => {
         'datacenters',
       );
       expect(filePath).toEqual(
-        './test/cache/devopslibrary/sampledata/datacenters',
+        cachePath + '/devopslibrary/sampledata/datacenters',
       );
     });
   });
@@ -87,10 +91,10 @@ describe('RestApiService', () => {
   describe('isDirectory', () => {
     it('return true for a valid directory and false when not a directory"', async () => {
       const goodDirectory = await service.isDirectory(
-        './test/cache/devopslibrary/sampledata/datacenters',
+        cachePath + '/devopslibrary/sampledata/datacenters',
       );
       const badDirectory = await service.isDirectory(
-        './test/cache/nonExistentFolder',
+        cachePath + '/nonExistentFolder',
       );
       expect(goodDirectory).toEqual(true);
       expect(badDirectory).toEqual(false);
@@ -100,9 +104,9 @@ describe('RestApiService', () => {
   describe('isFile', () => {
     it('return true for a valid file and false when not a file"', async () => {
       const goodFile = await service.isFile(
-        './test/cache/devopslibrary/sampledata/datacenters/ind01pr.json',
+        cachePath + '/devopslibrary/sampledata/datacenters/ind01pr.json',
       );
-      const badFile = await service.isFile('./test/cache/nonExistentFile.json');
+      const badFile = await service.isFile(cachePath + '/nonExistentFile.json');
       expect(goodFile).toEqual(true);
       expect(badFile).toEqual(false);
     });
@@ -111,7 +115,7 @@ describe('RestApiService', () => {
   describe('listResources', () => {
     it('should return all files listed within a directory', async () => {
       const list = await service.listResources(
-        './test/cache/devopslibrary/sampledata/datacenters/',
+        cachePath + '/devopslibrary/sampledata/datacenters/',
       );
 
       expect(list).toEqual([
@@ -146,7 +150,7 @@ describe('RestApiService', () => {
   describe('getResource', () => {
     it('should return valid JSON data for the appropriate ', async () => {
       const list = await service.getResource(
-        './test/cache/devopslibrary/sampledata/datacenters/ind01pr',
+        cachePath + '/devopslibrary/sampledata/datacenters/ind01pr',
       );
       expect(list).toEqual({
         cidr: '172.16.0.0/19',

@@ -21,7 +21,11 @@ export class RepoSyncService {
         .catch((err) => console.error('failed: ', err));
       this.logger.log('Cloned ' + clonePath + ' successfully.');
     } else {
+      this.logger.log('Pulling latest for ' + clonePath);
+      await git(clonePath).removeRemote('origin');
+      await git(clonePath).addRemote('origin', cloneURL);
       await git(clonePath).pull();
     }
   }
 }
+// .pull()

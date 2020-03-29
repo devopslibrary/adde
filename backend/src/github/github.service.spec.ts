@@ -50,6 +50,7 @@ describe('GithubService', () => {
     it('should return an array of all repos across all installations', async () => {
       const allRepos = await github.getAllRepos();
       expect(allRepos.length).toBeGreaterThan(0);
+      expect(allRepos[0]).toHaveProperty('full_name');
     });
   });
 

@@ -81,11 +81,21 @@ export class GithubService {
   }
 
   // Get all Repos across all Installations
-  public async getAllRepos(): Promise<Array<GithubRepo>> {
+  public async getAllRepos(): Promise<Array<any>> {
     let repos = [];
-    (await this.getAllInstallations()).forEach((installation) =>
-      repos.push(installation),
-    );
+    const installations = await this.getAllInstallations();
+    for (const installation of installations) {
+      const installationReposRequest = await this.getAsInstallation(
+        installation.id,
+        'https://api.github.com/installation/repositories',
+      );
+      const installRepositories: Array<GithubRepo> = await installationReposRequest
+        .data.repositories;
+
+      installRepositories.forEach((repo) => {
+        repos.push(repo);
+      });
+    }
     return repos;
   }
 
@@ -102,7 +112,7 @@ export class GithubService {
   }
 
   // Get Installation Token for specific installation
-  private getGithubInstallationToken(installation): Promise<InstallationToken> {
+  public getGithubInstallationToken(installation): Promise<InstallationToken> {
     const githubAppToken = this.getGitHubAppToken();
     return this.httpService
       .post(

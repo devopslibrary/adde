@@ -2,10 +2,6 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { OrgsService } from './orgs.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as ormconfig from '../ormconfig';
-import { HttpModule } from '@nestjs/common';
-import { Org } from './orgs.entity';
-import { OrgResolver } from './orgs.resolver';
-import { OrgsController } from './orgs.controller';
 import { OrgsModule } from './orgs.module';
 
 describe('OrgsService', () => {

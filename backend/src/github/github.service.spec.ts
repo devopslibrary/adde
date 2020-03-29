@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GithubService } from './github.service';
-
 import { GithubModule } from './github.module';
-import { Installation } from './installation';
+import { GithubInstallation } from './githubInstallation';
 
 describe('GithubService', () => {
   let github: GithubService;
@@ -47,9 +46,16 @@ describe('GithubService', () => {
     });
   });
 
+  describe('getAllRepos', () => {
+    it('should return an array of all repos across all installations', async () => {
+      const allRepos = await github.getAllRepos();
+      expect(allRepos.length).toBeGreaterThan(0);
+    });
+  });
+
   describe('getAllInstallations', () => {
     it('should return an array of all installations in Github as an array of IDs', async () => {
-      const installations: Array<Installation> = await github.getAllInstallations();
+      const installations: Array<GithubInstallation> = await github.getAllInstallations();
       expect(installations.length).toBeGreaterThan(0);
     });
   });

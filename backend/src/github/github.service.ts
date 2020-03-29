@@ -1,10 +1,11 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { ConfigService } from '../config/config.service';
+import { AxiosResponse } from 'axios';
+import { GithubInstallation } from './githubInstallation';
+import { InstallationToken } from './installationToken';
+import { GithubRepo } from './githubRepo';
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-import { AxiosResponse } from 'axios';
-import { Installation } from './installation';
-import { InstallationToken } from './installationToken';
 
 // GithubService is used to perform all the queries against Github, that way
 // testing is easier and the only thing reaching out directly is this class.
@@ -71,7 +72,7 @@ export class GithubService {
   }
 
   // Return all Github Installations
-  public getAllInstallations(): Promise<Array<Installation>> {
+  public getAllInstallations(): Promise<Array<GithubInstallation>> {
     return this.getAsApp('https://api.github.com/app/installations').then(
       (output) => {
         return output.data;
@@ -80,12 +81,16 @@ export class GithubService {
   }
 
   // Get all Repos across all Installations
-  public getAllRepos(): Array<any> {
-    return [];
+  public async getAllRepos(): Promise<Array<GithubRepo>> {
+    let repos = [];
+    (await this.getAllInstallations()).forEach((installation) =>
+      repos.push(installation),
+    );
+    return repos;
   }
 
   // Use private key to generate JWT to authenticate to Github
-  private getGitHubAppToken(): String {
+  private getGitHubAppToken(): string {
     const signOptions = {
       issuer: this.configService.get('GITHUB_CLIENT_ID'),
       expiresIn: '10m',

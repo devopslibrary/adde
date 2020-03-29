@@ -104,7 +104,6 @@ export default {
   },
   methods: {
     installApp(orgId, repoId) {
-      console.log;
       window.location.href =
         `https://github.com/apps/adde-to/installations/new/permissions?suggested_target_id=` +
         orgId +

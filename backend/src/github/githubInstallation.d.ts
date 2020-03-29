@@ -1,4 +1,4 @@
-﻿export interface Installation {
+﻿export interface GithubInstallation {
   id: number;
   account: Account;
   repository_selection: string;
@@ -10,7 +10,7 @@
   target_id: number;
   target_type: string;
   permissions: Permissions;
-  events?: (string)[] | null;
+  events?: string[] | null;
   created_at: string;
   updated_at: string;
   single_file_name?: null;

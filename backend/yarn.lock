@@ -773,10 +773,10 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
-"@octokit/webhooks@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks/-/webhooks-7.1.0.tgz#c25326ce55c93b6d73c1589f424313f7ce6bf261"
-  integrity sha512-kHyYkJkqY/wiP/hp0IT9FhkY5PhnV01co16V2YMRP/Zgnk3Vsy3U5iLAaP6U/0eRIlz5T4LSvkrcfNlfSb3cVQ==
+"@octokit/webhooks@7.1.1":
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks/-/webhooks-7.1.1.tgz#38bd5fd3e85ee9146d49b4bc6d84b102b30a0fed"
+  integrity sha512-CzBtzdQx56t6d/4IrTn8TgsKHy8M4tQZX7RQXzDmkTvln14CKwTYl3Txf99h4uwZWb6RhD1jf3KEQDkJYv/2RQ==
   dependencies:
     debug "^4.0.0"
 

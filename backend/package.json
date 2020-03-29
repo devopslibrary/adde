@@ -33,7 +33,7 @@
     "@nestjs/passport": "7.0.0",
     "@nestjs/platform-express": "7.0.5",
     "@nestjs/typeorm": "7.0.0",
-    "@octokit/webhooks": "7.1.0",
+    "@octokit/webhooks": "7.1.1",
     "@types/hapi__joi": "16.0.12",
     "@types/json-schema": "7.0.4",
     "ejs": "3.0.1",

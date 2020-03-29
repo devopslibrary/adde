@@ -6,6 +6,7 @@ import { HttpModule } from '@nestjs/common';
 import { Org } from './orgs.entity';
 import { OrgResolver } from './orgs.resolver';
 import { OrgsController } from './orgs.controller';
+import { OrgsModule } from './orgs.module';
 
 describe('OrgsService', () => {
   let service: OrgsService;
@@ -13,13 +14,7 @@ describe('OrgsService', () => {
 
   beforeAll(async () => {
     module = await Test.createTestingModule({
-      imports: [
-        TypeOrmModule.forFeature([Org]),
-        TypeOrmModule.forRoot(ormconfig),
-        HttpModule,
-      ],
-      providers: [OrgsService, OrgResolver],
-      controllers: [OrgsController],
+      imports: [OrgsModule, TypeOrmModule.forRoot(ormconfig)],
     }).compile();
 
     service = module.get<OrgsService>(OrgsService);

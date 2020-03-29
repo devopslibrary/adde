@@ -25,7 +25,10 @@ stages:
               mv $(privateKey.secureFilePath) backend/private-key.pem
             displayName: Create test.env
           - script: |
-              cd backend && yarn install && yarn build && git submodule update --init --recursive && cd test/cache/devopslibrary/sampledata && git checkout master
+              mkdir -p cache/devopslibrary && cd cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
+            displayName: Download SampleData repo to cache
+          - script: |
+              cd backend && yarn install && yarn build
             displayName: "Yarn Install Backend"
           - script: |
               cd frontend && yarn install && yarn build

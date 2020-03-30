@@ -33,9 +33,6 @@ export class BootstrapService implements OnApplicationBootstrap {
           'x-access-token:' + cloneToken.token,
         );
       }
-      installRepositories.forEach((repo: GithubRepo) => {
-        repo.clone_url;
-      });
     }
   }
 }

@@ -8,22 +8,21 @@ export class RepoSyncService {
 
   // Clones/Pulls/Updates repository locally
   async sync(cloneURL: string, clonePath: string, token: string) {
-    cloneURL = cloneURL.replace(
-      'https://github.com/',
-      `https://${token}@github.com/`,
-    );
+    cloneURL = cloneURL
+      .toLowerCase()
+      .replace('https://github.com/', `https://${token}@github.com/`);
 
     // Clone, unless already pulled down, then update.
-    if (!fs.existsSync(clonePath)) {
+    if (!fs.existsSync(clonePath.toLowerCase())) {
       await git()
         .silent(false)
-        .clone(cloneURL, clonePath)
+        .clone(cloneURL.toLowerCase(), clonePath.toLowerCase())
         .catch((err) => console.error('failed: ', err));
-      this.logger.log('Cloned ' + clonePath + ' successfully.');
+      this.logger.log('Cloned ' + clonePath.toLowerCase() + ' successfully.');
     } else {
-      this.logger.log('Pulling latest for ' + clonePath);
+      this.logger.log('Pulling latest for ' + clonePath.toLowerCase());
       await git(clonePath).removeRemote('origin');
-      await git(clonePath).addRemote('origin', cloneURL);
+      await git(clonePath).addRemote('origin', cloneURL.toLowerCase());
       await git(clonePath).pull();
     }
   }

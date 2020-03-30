@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   description: 'This is an automatically generated REST API endpoint for the `<%= repoName %>` repository within the `<%= orgName %>` organization.  For more information about ADDE, visit [adde.to/documentation](adde.to/documentation), or for information on Swagger, visit [http://swagger.io](http://swagger.io).'
   version: 1.0.0
-  title: sampledata
+  title: <%= orgName %>.<%= repoName %>
 host: <%= orgName %>.<%= repoName %>.adde.to
 basePath: /rest
 tags: <% endpoints.forEach(function(endpoint) {

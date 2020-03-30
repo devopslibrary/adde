@@ -19,12 +19,19 @@ export class SwaggerService {
       ignoreName: ['.git'],
     });
     const endpoints = [];
-    endpointNamesPath.forEach(name => {
+    endpointNamesPath.forEach((name) => {
       const endpointNameWithoutPath = name.replace(cache + repoPath + '/', '');
-      const endpointSchema: JSONSchema7 = JSON.parse(
-        fs.readFileSync(name + '/.schema.json', 'utf-8'),
-      );
-      endpoints.push({ [endpointNameWithoutPath]: endpointSchema });
+      const schemaPath = name + '/.schema.json';
+      try {
+        if (fs.existsSync(schemaPath)) {
+          const endpointSchema: JSONSchema7 = JSON.parse(
+            fs.readFileSync(name + '/.schema.json', 'utf-8'),
+          );
+          endpoints.push({ [endpointNameWithoutPath]: endpointSchema });
+        }
+      } catch (err) {
+        console.error(err);
+      }
     });
     const swaggerYML = await ejs.render(
       fs.readFileSync(__dirname + '/swagger.yml.ejs', 'utf-8'),
@@ -39,7 +46,7 @@ export class SwaggerService {
     swaggerAsObject.definitions = {};
 
     // Adding the definitions as objects is much easier than through the template.
-    endpoints.forEach(endpoint => {
+    endpoints.forEach((endpoint) => {
       const endpointName = Object.keys(endpoint)[0];
       const singularName = endpoint[endpointName].title;
 

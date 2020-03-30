@@ -11,8 +11,9 @@ const routes = [
     path: "/",
     name: "LandingPage",
     component: LandingPage,
-    beforeEnter: (to, from, next) =>
-      ifLoggedInRedirect(to, from, next, "overview")
+    beforeEnter: (to, from, next) => {
+      ifLoggedInRedirect(to, from, next, "overview");
+    }
   },
   {
     path: "/getting-started",
@@ -31,6 +32,12 @@ const routes = [
     name: "Setup",
     component: () => import("../pages/Setup.vue"),
     props: route => ({ installation_id: route.query.installation_id }),
+    beforeEnter: authGuard
+  },
+  {
+    path: "/swagger/:org/:repo",
+    name: "Swagger",
+    component: () => import("../pages/Swagger.vue"),
     beforeEnter: authGuard
   }
 ];

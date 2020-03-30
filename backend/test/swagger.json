@@ -3,10 +3,10 @@
   "info": {
     "description": "This is an automatically generated REST API endpoint for the `sampledata` repository within the `devopslibrary` organization.  For more information about ADDE, visit [adde.to/documentation](adde.to/documentation), or for information on Swagger, visit [http://swagger.io](http://swagger.io).",
     "version": "1.0.0",
-    "title": "sampledata"
+    "title": "devopslibrary/sampledata"
   },
-  "host": "devopslibrary.sampledata.adde.to",
-  "basePath": "/rest",
+  "host": "localhost:3000",
+  "basePath": "/rest/devopslibrary/sampledata",
   "tags": [
     {
       "name": "datacenters",
@@ -278,16 +278,9 @@
       }
     }
   },
-  "securityDefinitions": {
-    "auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "write:repository": "Write access to repository",
-        "read:repository": "Read access to repository"
-      }
-    }
+  "externalDocs": {
+    "description": "devopslibrary/sampledata Repository",
+    "url": "https://github.com/devopslibrary/sampledata"
   },
   "definitions": {
     "Datacenter": {
@@ -427,9 +420,5 @@
         }
       }
     }
-  },
-  "externalDocs": {
-    "description": "devopslibrary/sampledata Repository",
-    "url": "http://swagger.io"
   }
 }

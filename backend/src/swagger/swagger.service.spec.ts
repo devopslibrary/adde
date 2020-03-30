@@ -28,7 +28,7 @@ describe('SwaggerService', () => {
       expect(swaggerJSON).toBeDefined();
       try {
         let api = await SwaggerParser.validate(JSON.parse(swaggerJSON));
-        expect(api.info.title).toBe('sampledata');
+        expect(api.info.title).toBe('devopslibrary/sampledata');
         expect(api.info.version).toBe('1.0.0');
       } catch (err) {
         console.error(err);

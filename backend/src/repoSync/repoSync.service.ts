@@ -8,9 +8,6 @@ export class RepoSyncService {
 
   // Clones/Pulls/Updates repository locally
   async sync(cloneURL: string, clonePath: string, token: string) {
-    cloneURL = cloneURL.toLowerCase();
-    clonePath = clonePath.toLowerCase();
-
     cloneURL = cloneURL.replace(
       'https://github.com/',
       `https://${token}@github.com/`,
@@ -24,8 +21,8 @@ export class RepoSyncService {
         .catch((err) => console.error('failed: ', err));
       this.logger.log('Cloned ' + clonePath + ' successfully.');
     } else {
-      // await git(clonePath).removeRemote('origin');
-      // await git(clonePath).addRemote('origin', cloneURL);
+      await git(clonePath).removeRemote('origin');
+      await git(clonePath).addRemote('origin', cloneURL);
       await git(clonePath)
         .pull()
         .then(() => {

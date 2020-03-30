@@ -36,7 +36,7 @@
     "@octokit/webhooks": "7.1.1",
     "@types/hapi__joi": "16.0.12",
     "@types/json-schema": "7.0.4",
-    "ejs": "3.0.1",
+    "ejs": "3.0.2",
     "graphql": "14.6.0",
     "graphql-tools": "4.0.7",
     "jsonwebtoken": "8.5.1",

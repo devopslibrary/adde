@@ -24,8 +24,8 @@ export class RepoSyncService {
           );
         });
     } else {
-      await git(clonePath).removeRemote('origin');
-      await git(clonePath).addRemote('origin', cloneURL.toLowerCase());
+      // await git(clonePath).removeRemote('origin');
+      // await git(clonePath).addRemote('origin', cloneURL.toLowerCase());
       await git(clonePath)
         .pull()
         .then(() => {

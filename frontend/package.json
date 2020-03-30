@@ -18,7 +18,7 @@
     "vue-code-highlight": "0.7.4",
     "vue-form-wizard": "0.8.4",
     "vue-router": "3.1.6",
-    "vuetify": "2.2.18"
+    "vuetify": "2.2.19"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.2.3",

@@ -9,10 +9,10 @@ describe('RepoSync Service', () => {
   test('repoSync should clone successfully', async () => {
     await repoSync.sync(
       'https://github.com/devopslibrary/sampledata.git',
-      tmpDirectory.name,
+      tmpDirectory.name + '/sampledata',
       process.env.CLONE_TOKEN,
     );
-    const files = await fs.readdirSync(tmpDirectory.name);
+    const files = await fs.readdirSync(tmpDirectory.name + '/sampledata');
     expect(files).toEqual(['.git', 'datacenters', 'servers']);
   });
 

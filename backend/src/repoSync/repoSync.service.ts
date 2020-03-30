@@ -21,19 +21,16 @@ export class RepoSyncService {
         .catch((err) => console.error('failed: ', err));
       this.logger.log('Cloned ' + clonePath + ' successfully.');
     } else {
-      await git(clonePath).pull();
+      await git(clonePath).removeRemote('origin');
+      await git(clonePath).addRemote('origin', cloneURL.toLowerCase());
+      await git(clonePath)
+        .pull()
+        .then(() => {
+          this.logger.log('Pulled latest for ' + clonePath.toLowerCase());
+        });
     }
   }
 }
-// import { Injectable, Logger } from '@nestjs/common';
-// const fs = require('fs');
-// const git = require('simple-git/promise');
-
-// @Injectable()
-// export class RepoSyncService {
-//   private readonly logger = new Logger(RepoSyncService.name);
-
-//   // Clones/Pulls/Updates repository locally
 //   async sync(cloneURL: string, clonePath: string, token: string) {
 //     cloneURL = cloneURL
 //       .toLowerCase()
@@ -87,15 +84,7 @@ export class RepoSyncService {
 // //             'Cloned ' + clonePath.toLowerCase() + ' successfully.',
 // //           );
 // //         });
-// //     } else {
-// //       await git(clonePath).removeRemote('origin');
-// //       await git(clonePath).addRemote('origin', cloneURL.toLowerCase());
-// //       await git(clonePath)
-// //         .pull()
-// //         .then(() => {
-// //           this.logger.log('Pulled latest for ' + clonePath.toLowerCase());
-// //         });
-// //     }
+
 // //   }
 // // }
 // // // .pull()

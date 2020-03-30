@@ -29,20 +29,25 @@ export default {
     LayoutDefault
   },
   methods: {
-    buildSwagger(args) {
+    async buildSwagger(args) {
       let presets = [
         SwaggerUIBundle.presets.apis,
         SwaggerUIStandalonePreset[2]
       ];
+      const token = await this.$auth.getTokenSilently();
       const ui = SwaggerUIBundle({
-        url: args.url,
+        url: 'http://localhost:3000/swagger.json/devopslibrary/sample-data"',
         spec: args.spec,
         dom_id: "#swagger-ui",
         deepLinking: false,
         filter: true,
         presets: presets,
         plugins: [SwaggerUIBundle.plugins.DownloadUrl],
-        layout: "StandaloneLayout"
+        layout: "StandaloneLayout",
+        requestInterceptor: function(request) {
+          request.headers.Authorization = "Bearer " + token;
+          return request;
+        }
       });
       window.ui = ui;
     },
@@ -67,6 +72,7 @@ export default {
   },
   data() {
     return {
+      token: false,
       swaggerJSON: ""
     };
   }

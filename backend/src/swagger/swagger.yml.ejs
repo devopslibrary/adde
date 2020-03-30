@@ -2,9 +2,9 @@ swagger: '2.0'
 info:
   description: 'This is an automatically generated REST API endpoint for the `<%= repoName %>` repository within the `<%= orgName %>` organization.  For more information about ADDE, visit [adde.to/documentation](adde.to/documentation), or for information on Swagger, visit [http://swagger.io](http://swagger.io).'
   version: 1.0.0
-  title: <%= orgName %>.<%= repoName %>
-host: <%= orgName %>.<%= repoName %>.adde.to
-basePath: /rest
+  title: <%= orgName %>/<%= repoName %>
+host: localhost:3000/rest/<%= orgName %>/<%= repoName %>
+basePath: /
 tags: <% endpoints.forEach(function(endpoint) {
        const pluralName = Object.keys(endpoint)[0];
       %>
@@ -152,15 +152,15 @@ paths: <% endpoints.forEach(function(endpoint) {
         - auth:
             - 'write:repository'
             - 'read:repository'<% }); %>
-securityDefinitions:
-  auth:
-    type: oauth2
-    authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
-    flow: implicit
-    scopes:
-      'write:repository': Write access to repository
-      'read:repository': Read access to repository
 definitions: []
 externalDocs:
-  description: devopslibrary/sampledata Repository
-  url: 'http://swagger.io'
+  description: <%= orgName %>/<%= repoName %> Repository
+  url: 'https://github.com/<%= orgName %>/<%= repoName %>'
+components:
+  securitySchemes:
+    bearerAuth:            # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT    # optional, arbitrary value for documentation purposes
+security:
+  - bearerAuth: []         # use the same name as above

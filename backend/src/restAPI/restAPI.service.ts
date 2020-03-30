@@ -51,8 +51,12 @@ export class RestApiService {
   async listResources(reqPath): Promise<JSON> {
     const filesWithExtensions = await fs.readdirSync(reqPath);
     let resourceList = [];
-    filesWithExtensions.forEach(name => {
-      if (name != '.schema.json' && name != '.git') {
+    filesWithExtensions.forEach((name) => {
+      if (
+        name != '.schema.json' &&
+        name != '.git' &&
+        path.extname(name) == '.json'
+      ) {
         if (this.isDirectory(reqPath + name)) {
           resourceList.push(name);
         } else {

@@ -17,13 +17,20 @@ export class RepoSyncService {
       await git()
         .silent(false)
         .clone(cloneURL.toLowerCase(), clonePath.toLowerCase())
-        .catch((err) => console.error('failed: ', err));
-      this.logger.log('Cloned ' + clonePath.toLowerCase() + ' successfully.');
+        .catch((err) => console.error('failed: ', err))
+        .then(() => {
+          this.logger.log(
+            'Cloned ' + clonePath.toLowerCase() + ' successfully.',
+          );
+        });
     } else {
-      this.logger.log('Pulling latest for ' + clonePath.toLowerCase());
       await git(clonePath).removeRemote('origin');
       await git(clonePath).addRemote('origin', cloneURL.toLowerCase());
-      await git(clonePath).pull();
+      await git(clonePath)
+        .pull()
+        .then(() => {
+          this.logger.log('Pulled latest for ' + clonePath.toLowerCase());
+        });
     }
   }
 }

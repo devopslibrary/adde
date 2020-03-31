@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 const fs = require('fs');
 const git = require('simple-git/promise');
+const mkdirp = require('mkdirp');
 
 @Injectable()
 export class RepoSyncService {
@@ -13,21 +14,27 @@ export class RepoSyncService {
       `https://${token}@github.com/`,
     );
 
-    // Clone, unless already pulled down, then update.
-    if (!fs.existsSync(clonePath)) {
-      await git()
-        .silent(false)
-        .clone(cloneURL, clonePath)
-        .catch((err) => console.error('failed: ', err));
-      this.logger.log('Cloned ' + clonePath + ' successfully.');
-    } else {
-      // await git(clonePath).removeRemote('origin');
-      // await git(clonePath).addRemote('origin', cloneURL);
+    // Make directory if it does not exist
+    await mkdirp(clonePath).then(async () => {
       await git(clonePath)
-        .pull()
-        .then(() => {
-          this.logger.log('Pulled latest for ' + clonePath);
+        .checkIsRepo()
+        .then((isRepo) => !isRepo && cloneRepo(git(clonePath)))
+        .then(async () => {
+          await git(clonePath).removeRemote('origin');
+          await git(clonePath).addRemote('origin', cloneURL);
+          await git(clonePath)
+            .pull()
+            .then(() => {
+              this.logger.log('Pulled latest for ' + clonePath);
+            });
         });
-    }
+
+      function cloneRepo(git) {
+        return git
+          .silent(false)
+          .clone(cloneURL, clonePath)
+          .catch((err) => console.error('failed: ', err));
+      }
+    });
   }
 }

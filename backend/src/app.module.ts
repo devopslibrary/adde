@@ -13,6 +13,7 @@ import { OrgsController } from './orgs/orgs.controller';
 import { AuthModule } from './auth/auth.module';
 import { GithubModule } from './github/github.module';
 import { BootstrapModule } from './bootstrap/bootstrap.module';
+import { OrgsService } from './orgs/orgs.service';
 
 @Module({
   imports: [
@@ -30,7 +31,7 @@ import { BootstrapModule } from './bootstrap/bootstrap.module';
     BootstrapModule,
   ],
   controllers: [WebhookController, RestApiController, OrgsController],
-  providers: [WebhookService, RestApiService],
+  providers: [WebhookService, RestApiService, OrgsService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

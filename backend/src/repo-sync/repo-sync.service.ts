@@ -20,11 +20,10 @@ export class RepoSyncService {
     const git: SimpleGit = gitP(clonePath);
     const isRepo = await git.checkIsRepo().then((result) => {
       return result
-    })
+    });
     if (isRepo) {
       await git.removeRemote('origin');
       await git.addRemote('origin', cloneURL);
-      const moo = await git.getRemotes(true)
       await git
         .pull(cloneURL, 'master')
         .then(() => {

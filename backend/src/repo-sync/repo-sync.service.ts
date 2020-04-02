@@ -27,7 +27,7 @@ export class RepoSyncService {
       console.log("was it the remove?")
       await git.addRemote('origin', cloneURL);
       console.log("or the addition?")
-      const moo = git.getRemotes(true)
+      const moo = await git.getRemotes(true)
       console.log(moo)
       await git
         .pull()

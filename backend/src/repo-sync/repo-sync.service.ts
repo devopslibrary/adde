@@ -22,20 +22,15 @@ export class RepoSyncService {
       return result
     })
     if (isRepo) {
-      console.log("TRYING PATH OF EXISTENCE")
       await git.removeRemote('origin');
-      console.log("was it the remove?")
       await git.addRemote('origin', cloneURL);
-      console.log("or the addition?")
       const moo = await git.getRemotes(true)
-      console.log(moo)
       await git
-        .pull()
+        .pull(cloneURL, 'master')
         .then(() => {
           this.logger.log('Pulled latest for ' + clonePath);
         });
     } else {
-      console.log("DID NOT EXIST PATH OF EXISTENCE")
       await git
         .silent(false)
         .clone(cloneURL, clonePath)

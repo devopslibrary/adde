@@ -33,7 +33,7 @@ export class RepoSyncService {
       await git
         .silent(false)
         .clone(cloneURL, clonePath)
-        .catch((err) => console.error('failed: ', err)).then(() => this.logger.log('Cloned ' + clonePath + ' successfully.'));
+        .catch((err) => this.logger.error('failed: ', err)).then(() => this.logger.log('Cloned ' + clonePath + ' successfully.'));
     }
   }
 }

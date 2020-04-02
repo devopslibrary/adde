@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RepoSyncModule } from '../repoSync/repoSync.module';
+import { RepoSyncModule } from '../repo-sync/repo-sync.module';
 import { WebhookController } from './webhook.controller';
 import { WebhookService } from './webhook.service';
 

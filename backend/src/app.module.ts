@@ -2,7 +2,6 @@ import { Module, MiddlewareConsumer, HttpModule } from '@nestjs/common';
 import { WebhookController } from './webhook/webhook.controller';
 import { WebhookService } from './webhook/webhook.service';
 import { WebhookModule } from './webhook/webhook.module';
-import { RepoSyncModule } from './repoSync/repoSync.module';
 import { ConfigModule } from '@nestjs/config';
 import { SwaggerModule } from './swagger/swagger.module';
 import { RestApiModule } from './restAPI/restAPI.module';
@@ -14,6 +13,7 @@ import { AuthModule } from './auth/auth.module';
 import { GithubModule } from './github/github.module';
 import { BootstrapModule } from './bootstrap/bootstrap.module';
 import { OrgsService } from './orgs/orgs.service';
+import { RepoSyncModule } from './repo-sync/repo-sync.module';
 
 @Module({
   imports: [

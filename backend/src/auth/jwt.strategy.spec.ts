@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { HttpModule } from '@nestjs/common';
-import { ExtractJwt, Strategy, VerifiedCallback } from 'passport-jwt';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;

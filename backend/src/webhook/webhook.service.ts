@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Webhook } from './webhook.dto';
-import { RepoSyncService } from '../repoSync/repoSync.service';
+import { RepoSyncService } from '../repo-sync/repo-sync.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -16,7 +16,7 @@ export class WebhookService {
     const repoNameWithOrg = data.payload.repository.full_name;
     const cloneToken = this.configService.get('CLONE_TOKEN');
 
-    await this.repoSyncService.sync(
+    await this.repoSyncService.syncRepository(
       cloneURL,
       repoCache + '/' + repoNameWithOrg,
       cloneToken,

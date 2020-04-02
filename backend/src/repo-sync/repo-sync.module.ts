@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { RepoSyncService } from './repoSync.service';
+import { RepoSyncService } from './repo-sync.service';
 
 @Module({
   providers: [RepoSyncService],
-  exports: [RepoSyncService],
+  exports: [RepoSyncService]
 })
 export class RepoSyncModule {}

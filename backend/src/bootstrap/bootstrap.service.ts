@@ -1,6 +1,6 @@
 import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
 import { GithubService } from '../github/github.service';
-import { RepoSyncService } from '../repoSync/repoSync.service';
+import { RepoSyncService } from '../repo-sync/repo-sync.service';
 import { GithubRepo } from 'src/github/githubRepo';
 import { ConfigService } from '../config/config.service';
 
@@ -19,7 +19,7 @@ export class BootstrapService implements OnApplicationBootstrap {
         installation.id,
         'https://api.github.com/installation/repositories',
       );
-      const installRepositories: Array<GithubRepo> = await installationReposRequest
+      const installRepositories: GithubRepo[] = await installationReposRequest
         .data.repositories;
 
       for (const repo of installRepositories) {
@@ -27,7 +27,7 @@ export class BootstrapService implements OnApplicationBootstrap {
           installation.id,
         );
         const repoCache = this.configService.get('REPO_CACHE_DIRECTORY');
-        this.repoSyncService.sync(
+        this.repoSyncService.syncRepository(
           repo.clone_url,
           repoCache + '/' + repo.full_name,
           'x-access-token:' + cloneToken.token,

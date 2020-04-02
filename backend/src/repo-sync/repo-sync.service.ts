@@ -24,7 +24,9 @@ export class RepoSyncService {
     if (isRepo) {
       console.log("TRYING PATH OF EXISTENCE")
       await git.removeRemote('origin');
+      console.log("was it the remove?")
       await git.addRemote('origin', cloneURL);
+      console.log("or the addition?")
       await git
         .pull()
         .then(() => {

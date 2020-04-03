@@ -24,6 +24,7 @@ export class RepoSyncService {
     if (isRepo) {
       await git.removeRemote('origin');
       await git.addRemote('origin', cloneURL);
+      await git.stash()
       await git
         .pull(cloneURL, 'master')
         .then(() => {

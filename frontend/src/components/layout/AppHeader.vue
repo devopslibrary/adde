@@ -17,42 +17,15 @@
       {{ item.title }}
     </v-btn>
 
-    <span v-if="!$auth.loading" class="mr-2"
-      ><v-btn
-        large
-        color="secondary"
-        class="ml-2 mr-2"
-        v-if="!$auth.isAuthenticated"
-        @click="login"
-      >
-        <v-icon dark>mdi-login</v-icon>
-        Log In
-      </v-btn>
-      <v-btn
-        large
-        color="secondary"
-        class="ml-2 mr-2"
-        v-if="$auth.isAuthenticated"
-        @click="logout"
-      >
-        Log Out
-      </v-btn>
-      <v-btn
-        large
-        color="secondary"
-        class="ml-2 mr-2"
-        v-if="!$auth.isAuthenticated"
-        @click="signup"
-      >
-        Try Free
-      </v-btn>
-    </span>
+    <span class="mr-2"><Login></Login></span>
   </v-app-bar>
 </template>
 
 <script>
+import Login from "../ui/Login";
 export default {
   name: "AppHeader",
+  components: { Login },
   data() {
     return {
       appTitle: "Awesome App",
@@ -63,24 +36,6 @@ export default {
         { title: "Contact", path: "/contact" }
       ]
     };
-  },
-  methods: {
-    // Log the user in
-    login() {
-      this.$auth.loginWithRedirect();
-    },
-    // Signup
-    signup() {
-      this.$auth.loginWithRedirect({
-        login_hint: ""
-      });
-    },
-    // Log the user out
-    logout() {
-      this.$auth.logout({
-        returnTo: window.location.origin
-      });
-    }
   }
 };
 </script>

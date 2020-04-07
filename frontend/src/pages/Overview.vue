@@ -1,6 +1,6 @@
 <template>
   <LayoutDefault>
-    <div v-if="!$auth.loading">
+    <div v-if="loggedIn">
       <div id="contentWrapper">
         <h1>Getting Started</h1>
         <p>
@@ -18,12 +18,16 @@
 <script>
 import LayoutDefault from "../components/layout/LayoutDefault.vue";
 import AddNewAdde from "../components/ui/AddNewAdde.vue";
+import { authComputed } from "../store/helpers";
 
 export default {
   name: "Overview",
   components: {
     LayoutDefault,
     AddNewAdde
+  },
+  computed: {
+    ...authComputed
   }
 };
 </script>

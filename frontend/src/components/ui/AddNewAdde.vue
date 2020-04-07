@@ -13,6 +13,9 @@
                 style="cursor: pointer"
                 @click="selectOrg(item)"
               >
+                {{
+                  item
+                }}
                 <td style="width: 34px;">
                   <img
                     :src="item.avatar_url"
@@ -94,6 +97,7 @@
 import { FormWizard, TabContent, WizardButton } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
 import axios from "axios";
+import { authComputed } from "../../store/helpers";
 
 export default {
   name: "AddNewAdde",
@@ -122,30 +126,23 @@ export default {
       this.$refs.wizard.nextTab();
       this.selectedRepo = repo;
     },
-    async getToken() {
-      // Get the access token from the auth wrapper
-      this.token = await this.$auth.getTokenSilently();
-    },
     async callApi(endpoint) {
       // Use Axios to make a call to the API
-      const { data } = await axios.get("http://localhost:3000" + endpoint, {
-        headers: {
-          Authorization: `Bearer ${this.token}` // send the access token through the 'Authorization' header
-        }
-      });
+      const { data } = await axios.get("http://localhost:3000" + endpoint);
       return data;
     }
   },
-  watch: {
-    "$auth.isAuthenticated": function() {
-      this.callApi();
-    }
-  },
-  async mounted() {
-    if (!this.$auth.loading) {
-      await this.getToken();
-      this.orgs = await this.callApi("/orgs");
-    }
+  created() {
+    axios
+      .get(`https://api.github.com/user/orgs`)
+      .then(response => {
+        // JSON responses are automatically parsed.
+        console.log(JSON.parse(JSON.stringify(response)));
+        this.orgs = response.data;
+      })
+      .catch(e => {
+        this.errors.push(e);
+      });
   },
   data() {
     return {
@@ -153,9 +150,11 @@ export default {
       reposLoading: false,
       selectedOrg: false,
       selectedRepo: true,
-      token: false,
       repos: []
     };
+  },
+  computed: {
+    ...authComputed
   }
 };
 </script>

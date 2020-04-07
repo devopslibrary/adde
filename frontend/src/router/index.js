@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../pages/LandingPage.vue";
 import { authGuard } from "../auth/authGuard";
-import { ifLoggedInRedirect } from "../auth/ifLoggedInRedirect";
+import Callback from "../pages/Callback";
+// import { ifLoggedInRedirect } from "../auth/ifLoggedInRedirect";
 
 Vue.use(VueRouter);
 
@@ -10,22 +11,24 @@ const routes = [
   {
     path: "/",
     name: "LandingPage",
-    component: LandingPage,
-    beforeEnter: (to, from, next) => {
-      ifLoggedInRedirect(to, from, next, "overview");
-    }
+    component: LandingPage
+    // beforeEnter: (to, from, next) => {
+    //   ifLoggedInRedirect(to, from, next, "overview");
+    // }
   },
   {
-    path: "/getting-started",
-    name: "GettingStarted",
-    component: () => import("../pages/GettingStarted.vue"),
-    beforeEnter: authGuard
+    path: "/callback",
+    name: "Callback",
+    component: Callback
+    // beforeEnter: (to, from, next) => {
+    //   ifLoggedInRedirect(to, from, next, "overview");
+    // }
   },
   {
     path: "/overview",
     name: "Overview",
     component: () => import("../pages/Overview.vue"),
-    beforeEnter: authGuard
+    meta: { requiresAuth: true }
   },
   {
     path: "/setup",
@@ -46,6 +49,21 @@ const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes
+});
+
+router.beforeEach(async (to, from, next) => {
+  const loggedIn = await localStorage.getItem("user");
+  if (to.matched.some(record => record.meta.requiresAuth) && !loggedIn) {
+    const loginUrl =
+      "https://github.com/login/oauth/authorize?client_id=" +
+      process.env.VUE_APP_CLIENT_ID +
+      "&redirect_uri=" +
+      process.env.VUE_APP_REDIRECT_URI +
+      "&state=/overview";
+    window.location = loginUrl;
+  } else {
+    next();
+  }
 });
 
 export default router;

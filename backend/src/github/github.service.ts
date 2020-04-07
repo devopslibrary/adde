@@ -27,7 +27,7 @@ export class GithubService {
         },
       })
       .toPromise()
-      .then((request) => {
+      .then(request => {
         return request;
       });
   }
@@ -47,15 +47,15 @@ export class GithubService {
         },
       )
       .toPromise()
-      .then((request) => {
+      .then(request => {
         return request;
       });
   }
 
-  // Get request as a specifc Github installation
+  // Get request as a specific Github installation
   public getAsInstallation(installation, url): Promise<AxiosResponse> {
     return this.getGithubInstallationToken(installation).then(
-      (installationToken) => {
+      installationToken => {
         return this.httpService
           .get(url, {
             headers: {
@@ -64,7 +64,7 @@ export class GithubService {
             },
           })
           .toPromise()
-          .then((request) => {
+          .then(request => {
             return request;
           });
       },
@@ -74,7 +74,7 @@ export class GithubService {
   // Return all Github Installations
   public getAllInstallations(): Promise<Array<GithubInstallation>> {
     return this.getAsApp('https://api.github.com/app/installations').then(
-      (output) => {
+      output => {
         return output.data;
       },
     );
@@ -89,10 +89,11 @@ export class GithubService {
         installation.id,
         'https://api.github.com/installation/repositories',
       );
-      const installRepositories: Array<GithubRepo> = await installationReposRequest
-        .data.repositories;
+      const installRepositories: Array<
+        GithubRepo
+      > = await installationReposRequest.data.repositories;
 
-      installRepositories.forEach((repo) => {
+      installRepositories.forEach(repo => {
         repos.push(repo);
       });
     }
@@ -102,7 +103,7 @@ export class GithubService {
   // Use private key to generate JWT to authenticate to Github
   private getGitHubAppToken(): string {
     const signOptions = {
-      issuer: this.configService.get('GITHUB_CLIENT_ID'),
+      issuer: this.configService.get('GITHUB_APP_ID'),
       expiresIn: '10m',
       algorithm: 'RS256',
     };
@@ -128,7 +129,7 @@ export class GithubService {
         },
       )
       .toPromise()
-      .then((request) => {
+      .then(request => {
         return request.data;
       });
   }

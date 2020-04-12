@@ -18,14 +18,7 @@ export class OrgsController {
   @Get(':org/repos')
   @UseGuards(AuthGuard('bearer'))
   async getRepos(@Param() params, @GithubUser() githubUser: any) {
-    let org = params.org;
+    const org = params.org;
     return this.orgsService.getUserReposWithinOrg(org, githubUser);
-  }
-
-  // Get User installations
-  @Get('/installations')
-  @UseGuards(AuthGuard('bearer'))
-  getUserInstallations(@GithubUser() githubUser: any) {
-    return this.orgsService.getUserInstallations(githubUser);
   }
 }

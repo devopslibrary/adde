@@ -22,23 +22,22 @@ export default new Vuex.Store({
   },
   actions: {
     async login({ commit }, githubCallback) {
-      await axios
-        .post("//localhost:3000/auth/login", githubCallback)
-        .then(async function(response) {
-          const token = response.data;
-          axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-          axios.get("https://api.github.com/user").then(async function(output) {
-            const user = {
-              token: token,
-              login: output.data.login,
-              id: output.data.id,
-              avatar_url: output.data.avatar_url,
-              name: output.data.name,
-              email: output.data.email
-            };
-            await commit("LOGIN_USER", user);
-          });
-        });
+      const githubTokenResponse = await axios.post(
+        "//localhost:3000/auth/login",
+        githubCallback
+      );
+      const githubToken = githubTokenResponse.data;
+      axios.defaults.headers.common["Authorization"] = `Bearer ${githubToken}`;
+      const userData = await axios.get("https://api.github.com/user");
+      const user = {
+        token: githubToken,
+        login: userData.data.login,
+        id: userData.data.id,
+        avatar_url: userData.data.avatar_url,
+        name: userData.data.name,
+        email: userData.data.email
+      };
+      await commit("LOGIN_USER", user);
     },
     logout({ commit }) {
       commit("CLEAR_USER_DATA");

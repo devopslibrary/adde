@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import LayoutDefault from "../components/layout/LayoutDefault.vue";
-import AddNewAdde from "../components/ui/AddNewAdde.vue";
+import LayoutDefault from "../components/LayoutDefault.vue";
+import AddNewAdde from "../components/AddNewAdde.vue";
 import { authComputed } from "../store/helpers";
 
 export default {

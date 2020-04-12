@@ -10,12 +10,7 @@ describe('Swagger Controller', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [SwaggerController],
       providers: [SwaggerService],
-      imports: [
-        ConfigModule.forRoot({
-          isGlobal: true,
-          envFilePath: process.env.NODE_ENV + '.env',
-        }),
-      ],
+      imports: [ConfigModule],
     }).compile();
 
     controller = module.get<SwaggerController>(SwaggerController);

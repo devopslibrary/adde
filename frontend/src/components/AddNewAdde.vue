@@ -13,9 +13,6 @@
                 style="cursor: pointer"
                 @click="selectOrg(item)"
               >
-                {{
-                  item
-                }}
                 <td style="width: 34px;">
                   <img
                     :src="item.avatar_url"
@@ -97,7 +94,7 @@
 import { FormWizard, TabContent, WizardButton } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
 import axios from "axios";
-import { authComputed } from "../../store/helpers";
+import { authComputed } from "../store/helpers";
 
 export default {
   name: "AddNewAdde",
@@ -134,10 +131,8 @@ export default {
   },
   created() {
     axios
-      .get(`https://api.github.com/user/orgs`)
+      .get(`http://localhost:3000/orgs`)
       .then(response => {
-        // JSON responses are automatically parsed.
-        console.log(JSON.parse(JSON.stringify(response)));
         this.orgs = response.data;
       })
       .catch(e => {

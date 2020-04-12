@@ -15,6 +15,23 @@ export class AuthService {
     private readonly configService: ConfigService,
   ) {}
   private readonly logger = new Logger(AuthService.name);
+
+  public async validateUser(tokenParam) {
+    const response = await this.httpService
+      .get('https://api.github.com/user', {
+        headers: { Authorization: `Bearer ${tokenParam}` },
+      })
+      .toPromise();
+    const user = {
+      token: tokenParam,
+      login: response.data.login,
+      id: response.data.id,
+      avatar_url: response.data.avatar_url,
+      name: response.data.name,
+      email: response.data.email,
+    };
+    return user;
+  }
   public login(githubCallback: GithubCallback): Promise<string> {
     return this.httpService
       .post('https://github.com/login/oauth/access_token', {

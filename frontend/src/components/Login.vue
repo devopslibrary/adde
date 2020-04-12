@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { authComputed } from "../../store/helpers";
+import { authComputed } from "../store/helpers";
 
 export default {
   name: "Login",
@@ -38,6 +38,7 @@ export default {
         process.env.VUE_APP_CLIENT_ID +
         "&redirect_uri=" +
         process.env.VUE_APP_REDIRECT_URI +
+        "&scope=read:org%20repo" +
         "&state=/"
       );
     },

@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import Login from "../ui/Login";
+import Login from "./Login";
 export default {
   name: "AppHeader",
   components: { Login },

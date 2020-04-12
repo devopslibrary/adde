@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import LayoutDefault from "../components/layout/LayoutDefault.vue";
+import LayoutDefault from "../components/LayoutDefault.vue";
 
 export default {
   name: "Overview",

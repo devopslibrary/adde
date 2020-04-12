@@ -24,7 +24,7 @@ describe('OrgsService', () => {
   it('should return all orgs a user is a part of', async () => {
     const token = config.get('CLONE_TOKEN');
     const githubUser = {
-      access_token: token,
+      token,
       provider: 'github',
       user_id: 5382669,
       connection: 'github',
@@ -38,7 +38,7 @@ describe('OrgsService', () => {
   it('should return all repositories user has access to within an org', async () => {
     const token = config.get('CLONE_TOKEN');
     const githubUser = {
-      access_token: token,
+      token,
       provider: 'github',
       user_id: 5382669,
       connection: 'github',

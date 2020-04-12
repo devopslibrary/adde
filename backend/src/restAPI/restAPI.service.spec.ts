@@ -6,7 +6,7 @@ import { ConfigService } from '../config/config.service';
 describe('RestApiService', () => {
   let service: RestApiService;
   let configService: ConfigService;
-  let cachePath: String = '';
+  let cachePath: string = '';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

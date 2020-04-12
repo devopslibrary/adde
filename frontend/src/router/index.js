@@ -2,7 +2,8 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import LandingPage from "../pages/LandingPage.vue";
 import { authGuard } from "../auth/authGuard";
-import { ifLoggedInRedirect } from "../auth/ifLoggedInRedirect";
+import Callback from "../pages/Callback";
+// import { ifLoggedInRedirect } from "../auth/ifLoggedInRedirect";
 
 Vue.use(VueRouter);
 
@@ -10,16 +11,15 @@ const routes = [
   {
     path: "/",
     name: "LandingPage",
-    component: LandingPage,
-    beforeEnter: (to, from, next) => {
-      ifLoggedInRedirect(to, from, next, "overview");
-    }
+    component: LandingPage
+    // beforeEnter: (to, from, next) => {
+    //   ifLoggedInRedirect(to, from, next, "overview");
+    // }
   },
   {
-    path: "/getting-started",
-    name: "GettingStarted",
-    component: () => import("../pages/GettingStarted.vue"),
-    beforeEnter: authGuard
+    path: "/callback",
+    name: "Callback",
+    component: Callback
   },
   {
     path: "/overview",

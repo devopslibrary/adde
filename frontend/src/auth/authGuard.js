@@ -1,26 +1,20 @@
-import { getInstance } from "./index";
+import store from "../store/index.js";
 
-export const authGuard = (to, from, next) => {
-  const authService = getInstance();
-
-  const fn = () => {
-    // If the user is authenticated, continue with the route
-    if (authService.isAuthenticated) {
-      return next();
-    }
-    // Otherwise, log in
-    authService.loginWithRedirect({ appState: { targetUrl: to } });
-  };
-
-  // If loading has already finished, check our auth state using `fn()`
-  if (!authService.loading) {
-    return fn();
+export const authGuard = async (to, from, next) => {
+  const userString = localStorage.getItem("user");
+  if (userString) {
+    const userData = JSON.parse(userString);
+    store.commit("LOGIN_USER", userData);
   }
-
-  // Watch for the loading property to change before we check isAuthenticated
-  authService.$watch("loading", loading => {
-    if (loading === false) {
-      return fn();
-    }
-  });
+  if (!store.getters.loggedIn) {
+    const loginUrl =
+      "https://github.com/login/oauth/authorize?client_id=" +
+      process.env.VUE_APP_CLIENT_ID +
+      "&redirect_uri=" +
+      process.env.VUE_APP_REDIRECT_URI +
+      "&state=/overview";
+    window.location = loginUrl;
+  } else {
+    next();
+  }
 };

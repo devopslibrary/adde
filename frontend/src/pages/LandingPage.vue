@@ -119,8 +119,8 @@
 </template>
 
 <script>
-import LayoutDefault from "../components/layout/LayoutDefault.vue";
-import AppHero from "../components/ui/AppHero.vue";
+import LayoutDefault from "../components/LayoutDefault.vue";
+import AppHero from "../components/AppHero.vue";
 
 export default {
   name: "LandingPage",
@@ -140,4 +140,3 @@ export default {
   }
 };
 </script>
-

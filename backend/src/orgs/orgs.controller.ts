@@ -9,14 +9,14 @@ export class OrgsController {
 
   // Return all orgs that a user is a member of
   @Get()
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('bearer'))
   orgs(@GithubUser() githubUser: any) {
     return this.orgsService.getUserOrgs(githubUser);
   }
 
   // Return all repositories for a given organization that a user has access to
   @Get(':org/repos')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('bearer'))
   async getRepos(@Param() params, @GithubUser() githubUser: any) {
     let org = params.org;
     return this.orgsService.getUserReposWithinOrg(org, githubUser);

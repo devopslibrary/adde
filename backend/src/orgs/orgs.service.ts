@@ -8,10 +8,10 @@ export class OrgsService {
   public getUserOrgs(githubUser) {
     return this.httpService
       .get('https://api.github.com/user/orgs', {
-        headers: { Authorization: `Bearer ${githubUser.access_token}` },
+        headers: { Authorization: `Bearer ${githubUser.token}` },
       })
       .toPromise()
-      .then((orgs) => {
+      .then(orgs => {
         return orgs.data;
       });
   }
@@ -29,7 +29,7 @@ export class OrgsService {
             '/repos?per_page=100&page=' +
             currentPage,
           {
-            headers: { Authorization: `Bearer ${githubUser.access_token}` },
+            headers: { Authorization: `Bearer ${githubUser.token}` },
           },
         )
         .toPromise();

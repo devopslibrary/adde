@@ -2,13 +2,13 @@
   <LayoutDefault>
     <div id="swagger-ui"></div>
   </LayoutDefault>
-</template>                                                                                                                             
-                                                                                                                                        
+</template>
+
 <script>
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from "swagger-ui-dist";
 import "swagger-ui-dist/swagger-ui.css";
 // import "swagger-ui-themes/themes/3.x/theme-material.css";
-import LayoutDefault from "../components/layout/LayoutDefault.vue";
+import LayoutDefault from "../components/LayoutDefault.vue";
 import axios from "axios";
 
 export default {
@@ -77,9 +77,9 @@ export default {
     };
   }
 };
-</script> 
+</script>
 
-<style >
+<style>
 .v-application .info {
   background-color: #fff !important;
 }

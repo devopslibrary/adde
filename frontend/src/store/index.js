@@ -30,7 +30,7 @@ export default new Vuex.Store({
       axios.defaults.headers.common["Authorization"] = `Bearer ${githubToken}`;
       const userData = await axios.get("https://api.github.com/user");
       const installations = await axios.get(
-        "//localhost:3000/orgs/installations"
+        "//localhost:3000/auth/installations"
       );
       const user = {
         token: githubToken,

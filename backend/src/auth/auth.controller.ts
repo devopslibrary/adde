@@ -1,5 +1,5 @@
 import { Controller, Post, Param, Body } from '@nestjs/common';
-import { GithubCallback } from './githubCallback.dto';
+import { GithubCallback } from './interfaces/githubCallback.interface';
 import { AuthService } from './auth.service';
 
 @Controller('auth')

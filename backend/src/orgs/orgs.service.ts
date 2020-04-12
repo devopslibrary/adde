@@ -1,4 +1,5 @@
 import { Injectable, HttpService } from '@nestjs/common';
+import { Installation } from '../auth/interfaces/installation.interface';
 
 @Injectable()
 export class OrgsService {

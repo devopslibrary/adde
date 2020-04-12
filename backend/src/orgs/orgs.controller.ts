@@ -21,4 +21,11 @@ export class OrgsController {
     let org = params.org;
     return this.orgsService.getUserReposWithinOrg(org, githubUser);
   }
+
+  // Get User installations
+  @Get('/installations')
+  @UseGuards(AuthGuard('bearer'))
+  getUserInstallations(@GithubUser() githubUser: any) {
+    return this.orgsService.getUserInstallations(githubUser);
+  }
 }

@@ -39,7 +39,7 @@ export default {
         "&redirect_uri=" +
         process.env.VUE_APP_REDIRECT_URI +
         "&scope=read:org%20repo" +
-        "&state=/"
+        "&state=/overview"
       );
     },
     ...authComputed

@@ -30,7 +30,7 @@ describe('GithubService', () => {
   describe('postAsApp', () => {
     it('should be able to successfully return data from an endpoint requiring auth as an application', async () => {
       const output = await github.postAsApp(
-        'https://api.github.com/app/installations/7504858/access_tokens',
+        'https://api.github.com/app/installations/7958959/access_tokens',
       );
       expect(output.statusText).toBe('Created');
     });
@@ -39,7 +39,7 @@ describe('GithubService', () => {
   describe('getAsInstallation', () => {
     it('should be able to successfully return data from an endpoint requiring auth as an installation', async () => {
       const output = await github.getAsInstallation(
-        7504858,
+        7958959,
         'https://api.github.com/installation/repositories',
       );
       expect(output.statusText).toBe('OK');
@@ -56,7 +56,7 @@ describe('GithubService', () => {
 
   describe('getAllInstallations', () => {
     it('should return an array of all installations in Github as an array of IDs', async () => {
-      const installations: Array<GithubInstallation> = await github.getAllInstallations();
+      const installations: GithubInstallation[] = await github.getAllInstallations();
       expect(installations.length).toBeGreaterThan(0);
     });
   });

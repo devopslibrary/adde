@@ -4,9 +4,10 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { GithubCallback } from './githubCallback.dto';
+import { GithubCallback } from './interfaces/githubCallback.interface';
 import { ConfigService } from '@nestjs/config';
 import queryString from 'querystring';
+import { Installation } from './interfaces/installation.interface';
 
 @Injectable()
 export class AuthService {
@@ -53,6 +54,21 @@ export class AuthService {
           );
           throw new UnauthorizedException();
         }
+      });
+  }
+
+  // Return all installations a user has access to
+  public getUserInstallations(githubUser): Promise<Installation[]> {
+    return this.httpService
+      .get('https://api.github.com/user/installations', {
+        headers: {
+          Authorization: `Bearer ${githubUser.token}`,
+          Accept: 'application/vnd.github.machine-man-preview+json',
+        },
+      })
+      .toPromise()
+      .then(response => {
+        return response.data.installations;
       });
   }
 }

@@ -1,6 +1,8 @@
-import { Controller, Post, Param, Body } from '@nestjs/common';
-import { GithubCallback } from './githubCallback.dto';
+import { Controller, Post, Param, Body, Get, UseGuards } from '@nestjs/common';
+import { GithubCallback } from './interfaces/githubCallback.interface';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
+import { GithubUser } from './githubUser.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -9,5 +11,12 @@ export class AuthController {
   @Post('login')
   login(@Body() githubCallback: GithubCallback) {
     return this.authService.login(githubCallback);
+  }
+
+  // Get User installations
+  @Get('/installations')
+  @UseGuards(AuthGuard('bearer'))
+  getUserInstallations(@GithubUser() githubUser: any) {
+    return this.authService.getUserInstallations(githubUser);
   }
 }

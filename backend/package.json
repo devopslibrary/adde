@@ -38,7 +38,7 @@
     "@types/json-schema": "7.0.4",
     "ejs": "3.0.2",
     "graphql": "15.0.0",
-    "graphql-tools": "4.0.7",
+    "graphql-tools": "5.0.0",
     "jsonwebtoken": "8.5.1",
     "jwks-rsa": "1.8.0",
     "passport": "0.4.1",

@@ -97,4 +97,8 @@ describe('AuthService', () => {
       expect(installations).toEqual([]);
     });
   });
+
+  afterAll(() => {
+    nock.restore();
+  });
 });

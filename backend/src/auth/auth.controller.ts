@@ -14,9 +14,9 @@ export class AuthController {
   }
 
   // Get User installations
-  @Get('/installations')
+  @Get('/repositories')
   @UseGuards(AuthGuard('bearer'))
-  getUserInstallations(@GithubUser() githubUser: any) {
-    return this.authService.getUserInstallations(githubUser);
+  getUserRepoInstallations(@GithubUser() githubUser: any) {
+    return this.authService.getUserRepoInstallations(githubUser);
   }
 }

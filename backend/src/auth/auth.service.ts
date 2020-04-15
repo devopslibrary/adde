@@ -17,6 +17,7 @@ export class AuthService {
   ) {}
   private readonly logger = new Logger(AuthService.name);
 
+  // Validates that user is valid by querying Github API
   public async validateUser(tokenParam) {
     const response = await this.httpService
       .get('https://api.github.com/user', {
@@ -33,6 +34,8 @@ export class AuthService {
     };
     return user;
   }
+
+  // Logs user in using Github
   public login(githubCallback: GithubCallback): Promise<string> {
     return this.httpService
       .post('https://github.com/login/oauth/access_token', {
@@ -55,6 +58,35 @@ export class AuthService {
           throw new UnauthorizedException();
         }
       });
+  }
+
+  // Get all repo installations a user has access to
+  public getUserRepoInstallations(githubUser) {
+    return this.getUserInstallations(githubUser).then(async installations => {
+      const userRepoInstallations = [];
+      await Promise.all(
+        installations.map(async installation => {
+          const response = await this.httpService
+            .get(
+              'https://api.github.com/user/installations/' +
+                installation.id +
+                '/repositories',
+              {
+                headers: {
+                  Authorization: `Bearer ${githubUser.token}`,
+                  Accept: 'application/vnd.github.machine-man-preview+json',
+                },
+              },
+            )
+            .toPromise();
+          userRepoInstallations.push.apply(
+            userRepoInstallations,
+            response.data.repositories,
+          );
+        }),
+      );
+      return userRepoInstallations;
+    });
   }
 
   // Return all installations a user has access to

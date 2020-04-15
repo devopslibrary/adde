@@ -35,7 +35,7 @@ const routes = [
     beforeEnter: authGuard
   },
   {
-    path: "/swagger/:org/:repo",
+    path: "/:org/:repo",
     name: "Swagger",
     component: () => import("../pages/Swagger.vue"),
     beforeEnter: authGuard

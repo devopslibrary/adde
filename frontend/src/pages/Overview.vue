@@ -18,7 +18,9 @@
             v-for="installation in getInstallations"
             v-bind:key="installation.id"
           >
-            {{ installation.full_name }}
+            <router-link v-bind:to="installation.full_name.toLowerCase()">{{
+              installation.full_name.toLowerCase()
+            }}</router-link>
           </li>
         </ul>
       </div>

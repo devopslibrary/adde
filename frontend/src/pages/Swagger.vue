@@ -7,23 +7,19 @@
 <script>
 import { SwaggerUIBundle, SwaggerUIStandalonePreset } from "swagger-ui-dist";
 import "swagger-ui-dist/swagger-ui.css";
-// import "swagger-ui-themes/themes/3.x/theme-material.css";
 import LayoutDefault from "../components/LayoutDefault.vue";
 import axios from "axios";
+import { authComputed } from "../store/helpers";
 
 export default {
   name: "RepoDashboard",
-  props: ["napp"],
   async mounted() {
     let url = "http://localhost:3000/swagger.json/devopslibrary/sample-data";
-    if (!this.$auth.loading) {
-      await this.getToken();
-      this.swaggerJSON = await this.getSwaggerJSON(
-        "/swagger.json/kar-auto/datacenter-inventory"
-      );
-      let spec = this.swaggerJSON;
-      this.buildSwagger({ url: url, spec: spec });
-    }
+    this.swaggerJSON = await this.getSwaggerJSON(
+      "/swagger.json/kar-auto/datacenter-inventory"
+    );
+    let spec = this.swaggerJSON;
+    this.buildSwagger({ url: url, spec: spec });
   },
   components: {
     LayoutDefault
@@ -34,7 +30,7 @@ export default {
         SwaggerUIBundle.presets.apis,
         SwaggerUIStandalonePreset[2]
       ];
-      const token = await this.$auth.getTokenSilently();
+      const token = this.getToken;
       const ui = SwaggerUIBundle({
         url: 'http://localhost:3000/swagger.json/devopslibrary/sample-data"',
         spec: args.spec,
@@ -51,30 +47,18 @@ export default {
       });
       window.ui = ui;
     },
-    async getToken() {
-      // Get the access token from the auth wrapper
-      this.token = await this.$auth.getTokenSilently();
-    },
     async getSwaggerJSON(endpoint) {
-      // Use Axios to make a call to the API
-      const { data } = await axios.get("http://localhost:3000" + endpoint, {
-        headers: {
-          Authorization: `Bearer ${this.token}` // send the access token through the 'Authorization' header
-        }
-      });
+      const { data } = await axios.get("http://localhost:3000" + endpoint);
       return data;
-    }
-  },
-  watch: {
-    "$auth.isAuthenticated": function() {
-      this.getSwaggerJSON();
     }
   },
   data() {
     return {
-      token: false,
       swaggerJSON: ""
     };
+  },
+  computed: {
+    ...authComputed
   }
 };
 </script>

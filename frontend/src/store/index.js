@@ -52,14 +52,13 @@ export default new Vuex.Store({
       return !!state.user;
     },
     hasInstallations(state) {
-      if (state.user.repositories.length > 0) {
-        return true;
-      } else {
-        return false;
-      }
+      return state.user.repositories.length > 0;
     },
     getInstallations(state) {
       return state.user.repositories;
+    },
+    getToken(state) {
+      return state.user.token;
     }
   },
   strict: debug

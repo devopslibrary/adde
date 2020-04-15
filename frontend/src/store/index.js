@@ -57,6 +57,9 @@ export default new Vuex.Store({
       } else {
         return false;
       }
+    },
+    getInstallations(state) {
+      return state.user.installations;
     }
   },
   strict: debug

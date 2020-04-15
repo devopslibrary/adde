@@ -29,8 +29,8 @@ export default new Vuex.Store({
       const githubToken = githubTokenResponse.data;
       axios.defaults.headers.common["Authorization"] = `Bearer ${githubToken}`;
       const userData = await axios.get("https://api.github.com/user");
-      const installations = await axios.get(
-        "//localhost:3000/auth/installations"
+      const repositories = await axios.get(
+        "//localhost:3000/auth/repositories"
       );
       const user = {
         token: githubToken,
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         avatar_url: userData.data.avatar_url,
         name: userData.data.name,
         email: userData.data.email,
-        installations: installations.data
+        repositories: repositories.data
       };
       await commit("LOGIN_USER", user);
     },
@@ -52,14 +52,14 @@ export default new Vuex.Store({
       return !!state.user;
     },
     hasInstallations(state) {
-      if (state.user.installations.length > 0) {
+      if (state.user.repositories.length > 0) {
         return true;
       } else {
         return false;
       }
     },
     getInstallations(state) {
-      return state.user.installations;
+      return state.user.repositories;
     }
   },
   strict: debug

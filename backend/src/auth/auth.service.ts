@@ -66,11 +66,6 @@ export class AuthService {
       const userRepoInstallations = [];
       await Promise.all(
         installations.map(async installation => {
-          console.log(
-            'https://api.github.com/user/installations/' +
-              installation.id +
-              '/repositories',
-          );
           const response = await this.httpService
             .get(
               'https://api.github.com/user/installations/' +

@@ -16,9 +16,9 @@
         <ul>
           <li
             v-for="installation in getInstallations"
-            v-bind:key="installation.idd"
+            v-bind:key="installation.id"
           >
-            {{ installation }}
+            {{ installation.full_name }}
           </li>
         </ul>
       </div>

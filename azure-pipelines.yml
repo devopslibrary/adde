@@ -1,3 +1,6 @@
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
 stages:
   - stage: Build
     jobs:
@@ -8,6 +11,14 @@ stages:
         workspace:
           clean: all
         steps:
+          - task: Cache@2
+            inputs:
+              key: 'yarn | "$(Agent.OS)" | yarn.lock'
+              restoreKeys: |
+                yarn | "$(Agent.OS)"
+                yarn
+              path: $(YARN_CACHE_FOLDER)
+            displayName: Cache Yarn packages
           - task: NodeTool@0
             inputs:
               versionSpec: "10.x"
@@ -28,10 +39,10 @@ stages:
               mkdir -p /tmp/cache/devopslibrary && cd /tmp/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
             displayName: Download SampleData repo to cache
           - script: |
-              cd backend && yarn install && yarn build
+              cd backend && yarn --frozen-lockfile
             displayName: "Yarn Install Backend"
           - script: |
-              cd frontend && yarn install && yarn build
+              cd frontend && yarn --frozen-lockfile
             displayName: "Yarn Install Frontend"
           - script: |
               cd backend && yarn test

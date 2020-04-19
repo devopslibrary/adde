@@ -89,12 +89,11 @@ steps:
       mv $(envFile.secureFilePath) backend/test.env
       mv $(privateKey.secureFilePath) backend/private-key.pem
       mkdir -p backend/cache/devopslibrary/sampledata && git clone https://github.com/devopslibrary/sampledata.git backend/cache/devopslibrary/sampledata
-      chmod -R 755 backend
-      docker run --name backend \
-                 -v `pwd`/backend/private-key.pem:/home/node/private-key.pem \
-                 -v `pwd`/backend/test.env:/home/node/production.env \
-                 -v `pwd`/backend/cache:/tmp/cache adde/backend:$(Build.BuildId) \
-                 yarn test
+      docker create --name backend adde/backend:$(Build.BuildId) yarn test
+      docker cp `pwd`/backend/private-key.pem backend:/home/node/private-key.pem
+      docker cp `pwd`/backend/test.env backend:/home/node/production.env
+      docker cp `pwd`/backend/cache backend:/tmp/cache
+      docker start -a backend
     displayName: "Jest Test Backend"
   - script: |
       docker cp backend:/home/node/test-report.xml `pwd`/backend/test-report.xml; 

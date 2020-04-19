@@ -1,90 +1,128 @@
 pool:
   vmImage: "ubuntu-latest"
 
-stages:
-  - stage: Build
-    jobs:
-      - job: build
-        displayName: Build ADDE
-        workspace:
-          clean: all
-        steps:
-          - task: ECRPullImage@1
-            inputs:
-              awsCredentials: aws-devopslibrary
-              repository: adde/frontend
-              imageTag: latest
-              regionName: us-east-1
-          - task: Docker@2
-            inputs:
-              command: "build"
-              Dockerfile: "frontend/Dockerfile"
-              tags: |
-                $(Build.BuildId)
-              addPipelineData: false
-              arguments: |
-                --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest
-              repository: adde/frontend
-          - task: ECRPushImage@1
-            inputs:
-              awsCredentials: aws-devopslibrary
-              regionName: "us-east-1"
-              imageSource: "imagename"
-              sourceImageName: "adde/frontend"
-              repositoryName: adde/frontend
-              sourceImageTag: "$(Build.BuildId)"
-          - task: ECRPushImage@1
-            inputs:
-              awsCredentials: aws-devopslibrary
-              regionName: "us-east-1"
-              imageSource: "imagename"
-              sourceImageName: "adde/frontend"
-              repositoryName: adde/frontend
-              sourceImageTag: $(Build.BuildId)
-              pushTag: $(Build.BuildId)
-          - task: DownloadSecureFile@1
-            name: envFile
-            inputs:
-              secureFile: "test.env"
-          - script: |
-              mv $(envFile.secureFilePath) backend/test.env
-            displayName: Create test.env
-          - script: |
-              mkdir -p /tmp/cache/devopslibrary && cd /tmp/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
-            displayName: Download SampleData repo to cache
-          - script: |
-              cd backend && yarn --frozen-lockfile
-            displayName: "Yarn Install Backend"
-          - script: |
-              cd frontend && yarn --frozen-lockfile
-            displayName: "Yarn Install Frontend"
-          - script: |
-              cd backend && yarn test
-            displayName: "Jest Testing Backend"
-          - script: |
-              cd frontend && yarn test
-            displayName: "Jest Testing Frontend"
-          - task: Bash@3
-            inputs:
-              targetType: "inline"
-              script: "npm install typescript"
-          - task: SonarCloudPrepare@1
-            inputs:
-              SonarCloud: "SonarCloud DevOpsLibrary"
-              organization: "devopslibrary"
-              scannerMode: "CLI"
-              configMode: "manual"
-              cliProjectKey: "devopslibrary_adde"
-              cliProjectName: "adde"
-              cliProjectVersion:
-              cliSources: "."
-              extraProperties: |
-                sonar.sources=backend/,frontend/src
-                sonar.tests=backend/,frontend/tests,frontend/src
-                sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
-                sonar.typescript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
-                sonar.testExecutionReportPaths=backend/test-report.xml
-          - task: SonarCloudPublish@1
-            inputs:
-              pollingTimeoutSec: "300"
-          - task: SonarCloudAnalyze@1
+steps:
+# ---------- Frontend ------------- # 
+  - task: ECRPullImage@1
+    displayName: Pull Cached Adde/Frontend Container
+    inputs:
+      awsCredentials: aws-devopslibrary
+      repository: adde/frontend
+      imageTag: latest
+      regionName: us-east-1
+  - task: Docker@2
+    displayName: Build Adde/Frontend Container
+    inputs:
+      command: "build"
+      Dockerfile: "frontend/Dockerfile"
+      tags: |
+        $(Build.BuildId)
+      addPipelineData: false
+      arguments: |
+        --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest
+      repository: adde/frontend
+  - task: ECRPushImage@1
+    inputs:
+      awsCredentials: aws-devopslibrary
+      regionName: "us-east-1"
+      imageSource: "imagename"
+      sourceImageName: "adde/frontend"
+      repositoryName: adde/frontend
+      sourceImageTag: "$(Build.BuildId)"
+  - task: ECRPushImage@1
+    inputs:
+      awsCredentials: aws-devopslibrary
+      regionName: "us-east-1"
+      imageSource: "imagename"
+      sourceImageName: "adde/frontend"
+      repositoryName: adde/frontend
+      sourceImageTag: $(Build.BuildId)
+      pushTag: $(Build.BuildId)
+  - script: |
+      docker run -v `pwd`/frontend/coverage:/home/node/coverage adde-frontend yarn test
+    displayName: "Jest Test Frontend"
+# ---------- Backend ------------- #
+  # - task: ECRPullImage@1
+  #   displayName: Pull Cached Adde/Frontend Container
+  #   inputs:
+  #     awsCredentials: aws-devopslibrary
+  #     repository: adde/frontend
+  #     imageTag: latest
+  #     regionName: us-east-1
+  - task: Docker@2
+    displayName: Build Adde/Backend Container
+    inputs:
+      command: "build"
+      Dockerfile: "backend/Dockerfile"
+      tags: |
+        $(Build.BuildId)
+      addPipelineData: false
+      arguments: |
+        --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/backend:latest
+      repository: adde/backend
+  - task: ECRPushImage@1
+    inputs:
+      awsCredentials: aws-devopslibrary
+      regionName: "us-east-1"
+      imageSource: "imagename"
+      sourceImageName: "adde/backend"
+      repositoryName: adde/backend
+      sourceImageTag: "$(Build.BuildId)"
+  - task: ECRPushImage@1
+    inputs:
+      awsCredentials: aws-devopslibrary
+      regionName: "us-east-1"
+      imageSource: "imagename"
+      sourceImageName: "adde/backend"
+      repositoryName: adde/backend
+      sourceImageTag: $(Build.BuildId)
+      pushTag: $(Build.BuildId)
+  - script: |
+      docker run -v `pwd`/backend/coverage:/home/node/coverage adde-backend yarn test
+    displayName: "Jest Test Backend"
+  - task: DownloadSecureFile@1
+    name: envFile
+    inputs:
+      secureFile: "test.env"
+  - script: |
+      mv $(envFile.secureFilePath) backend/test.env
+    displayName: Create test.env
+  - script: |
+      mkdir -p /tmp/cache/devopslibrary && cd /tmp/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
+    displayName: Download SampleData repo to cache
+  - script: |
+      cd backend && yarn --frozen-lockfile
+    displayName: "Yarn Install Backend"
+  - script: |
+      cd frontend && yarn --frozen-lockfile
+    displayName: "Yarn Install Frontend"
+  - script: |
+      cd backend && yarn test
+    displayName: "Jest Testing Backend"
+  - script: |
+      cd frontend && yarn test
+    displayName: "Jest Testing Frontend"
+  - task: Bash@3
+    inputs:
+      targetType: "inline"
+      script: "npm install typescript"
+  - task: SonarCloudPrepare@1
+    inputs:
+      SonarCloud: "SonarCloud DevOpsLibrary"
+      organization: "devopslibrary"
+      scannerMode: "CLI"
+      configMode: "manual"
+      cliProjectKey: "devopslibrary_adde"
+      cliProjectName: "adde"
+      cliProjectVersion:
+      cliSources: "."
+      extraProperties: |
+        sonar.sources=backend/,frontend/src
+        sonar.tests=backend/,frontend/tests,frontend/src
+        sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
+        sonar.typescript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
+        sonar.testExecutionReportPaths=backend/test-report.xml
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: "300"
+  - task: SonarCloudAnalyze@1

@@ -6,7 +6,7 @@ USER root
 WORKDIR /home/node
 
 # Install node_modules first, so cache is faster
-COPY package.json .
+COPY package.json yarn.lock ./
 RUN yarn install
 
 # Now do the actual biuld

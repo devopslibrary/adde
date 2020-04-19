@@ -1,7 +1,6 @@
 pool:
   vmImage: "ubuntu-latest"
-variables:
-  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
 stages:
   - stage: Build
     jobs:
@@ -10,18 +9,27 @@ stages:
         workspace:
           clean: all
         steps:
-          - task: Cache@2
+          - task: Docker@2
             inputs:
-              key: 'yarn | "$(Agent.OS)" | backend/yarn.lock'
-              restoreKeys: |
-                yarn | "$(Agent.OS)"
-                yarn
-              path: $(YARN_CACHE_FOLDER)
-            displayName: Cache Yarn packages
-          - task: NodeTool@0
+              command: "build"
+              Dockerfile: "frontend/Dockerfile"
+              tags: "$(Build.BuildId), latest"
+              repository: adde/frontend
+          - task: ECRPushImage@1
             inputs:
-              versionSpec: "13.13"
-            displayName: "Install Node.js"
+              awsCredentials: "aws-devopslibrary"
+              regionName: "us-east-1"
+              imageSource: "imagename"
+              sourceImageName: "adde/frontend"
+              repositoryName: "adde/frontend"
+              pushTag: (Build.Id)
+          - task: ECRPushImage@1
+            inputs:
+              awsCredentials: "aws-devopslibrary"
+              regionName: "us-east-1"
+              imageSource: "imagename"
+              sourceImageName: "adde/frontend"
+              repositoryName: "adde/frontend"
           - task: DownloadSecureFile@1
             name: privateKey
             inputs:

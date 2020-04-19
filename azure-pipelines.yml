@@ -23,8 +23,8 @@ stages:
               imageSource: "imagename"
               sourceImageName: "adde/frontend"
               repositoryName: "adde/frontend"
-              sourceImageTag: $(Build.BuildId)
-              pushTag: $(Build.Id)
+              sourceImageTag: "$(Build.BuildId)"
+              pushTag: "$(Build.Id)"
           - task: ECRPushImage@1
             inputs:
               awsCredentials: "aws-devopslibrary"
@@ -32,7 +32,7 @@ stages:
               imageSource: "imagename"
               sourceImageName: "adde/frontend"
               repositoryName: "adde/frontend"
-              sourceImageTag: $(Build.BuildId)
+              sourceImageTag: "$(Build.BuildId)"
           - task: DownloadSecureFile@1
             name: privateKey
             inputs:

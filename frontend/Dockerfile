@@ -5,10 +5,13 @@ ENV NODE_ENV build
 USER root
 WORKDIR /home/node
 
-COPY . /home/node
+# Install node_modules first, so cache is faster
+COPY package.json .
+RUN yarn install
 
-RUN yarn install \
-  && yarn build
+# Now do the actual biuld
+COPY . /home/node
+RUN yarn build
 
 # ---
 

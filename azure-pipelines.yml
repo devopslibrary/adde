@@ -39,7 +39,7 @@ steps:
       sourceImageTag: $(Build.BuildId)
       pushTag: $(Build.BuildId)
   - script: |
-      docker run -v `pwd`/frontend/coverage:/home/node/coverage adde-frontend:$(Build.BuildId) yarn test
+      docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
     displayName: "Jest Test Frontend"
 # ---------- Backend ------------- #
   # - task: ECRPullImage@1

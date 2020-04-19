@@ -1,19 +1,18 @@
+pool:
+  vmImage: "ubuntu-latest"
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
-
 stages:
   - stage: Build
     jobs:
       - job: build
         displayName: Build ADDE
-        pool:
-          vmImage: "ubuntu-latest"
         workspace:
           clean: all
         steps:
           - task: Cache@2
             inputs:
-              key: 'yarn | "$(Agent.OS)" | yarn.lock'
+              key: 'yarn | "$(Agent.OS)" | backend/yarn.lock'
               restoreKeys: |
                 yarn | "$(Agent.OS)"
                 yarn
@@ -21,7 +20,7 @@ stages:
             displayName: Cache Yarn packages
           - task: NodeTool@0
             inputs:
-              versionSpec: "10.x"
+              versionSpec: "13.13"
             displayName: "Install Node.js"
           - task: DownloadSecureFile@1
             name: privateKey

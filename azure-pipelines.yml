@@ -95,7 +95,9 @@ steps:
   - script: |
       pwd
       ls -al
-      docker run --user $UID:$GID -v `pwd`/backend/private-key.pem:/home/node/private-key.pem -v `pwd`/backend/test.env:/home/node/production.env -v `pwd`/cache:/tmp/cache -v `pwd`/backend/test-report.xml:/home/node/test-report.xml -v `pwd`/backend/coverage:/home/node/coverage adde/backend:$(Build.BuildId) yarn test
+      docker run --name backend --user $UID:$GID -v `pwd`/backend/private-key.pem:/home/node/private-key.pem -v `pwd`/backend/test.env:/home/node/production.env -v `pwd`/cache:/tmp/cache adde/backend:$(Build.BuildId) yarn test
+      docker cp backend:/home/node/test-report.xml `pwd`/backend/test-report.xml; 
+      docker cp backend:/home/node/coverage `pwd`/backend/coverage; 
     displayName: "Jest Test Backend"
   - task: Bash@3
     inputs:

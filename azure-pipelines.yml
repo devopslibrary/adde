@@ -3,44 +3,44 @@ pool:
 
 steps:
   # ---------- Frontend ------------- #
-  - task: ECRPullImage@1
-    displayName: Pull Cached Adde/Frontend Container
-    inputs:
-      awsCredentials: aws-devopslibrary
-      repository: adde/frontend
-      imageTag: latest
-      regionName: us-east-1
-  - task: Docker@2
-    displayName: Build Adde/Frontend Container
-    inputs:
-      command: "build"
-      Dockerfile: "frontend/Dockerfile"
-      tags: |
-        $(Build.BuildId)
-      addPipelineData: false
-      arguments: |
-        --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest
-      repository: adde/frontend
-  - task: ECRPushImage@1
-    inputs:
-      awsCredentials: aws-devopslibrary
-      regionName: "us-east-1"
-      imageSource: "imagename"
-      sourceImageName: "adde/frontend"
-      repositoryName: adde/frontend
-      sourceImageTag: "$(Build.BuildId)"
-  - task: ECRPushImage@1
-    inputs:
-      awsCredentials: aws-devopslibrary
-      regionName: "us-east-1"
-      imageSource: "imagename"
-      sourceImageName: "adde/frontend"
-      repositoryName: adde/frontend
-      sourceImageTag: $(Build.BuildId)
-      pushTag: $(Build.BuildId)
-  - script: |
-      docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
-    displayName: "Jest Test Frontend"
+  # - task: ECRPullImage@1
+  #   displayName: Pull Cached Adde/Frontend Container
+  #   inputs:
+  #     awsCredentials: aws-devopslibrary
+  #     repository: adde/frontend
+  #     imageTag: latest
+  #     regionName: us-east-1
+  # - task: Docker@2
+  #   displayName: Build Adde/Frontend Container
+  #   inputs:
+  #     command: "build"
+  #     Dockerfile: "frontend/Dockerfile"
+  #     tags: |
+  #       $(Build.BuildId)
+  #     addPipelineData: false
+  #     arguments: |
+  #       --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest
+  #     repository: adde/frontend
+  # - task: ECRPushImage@1
+  #   inputs:
+  #     awsCredentials: aws-devopslibrary
+  #     regionName: "us-east-1"
+  #     imageSource: "imagename"
+  #     sourceImageName: "adde/frontend"
+  #     repositoryName: adde/frontend
+  #     sourceImageTag: "$(Build.BuildId)"
+  # - task: ECRPushImage@1
+  #   inputs:
+  #     awsCredentials: aws-devopslibrary
+  #     regionName: "us-east-1"
+  #     imageSource: "imagename"
+  #     sourceImageName: "adde/frontend"
+  #     repositoryName: adde/frontend
+  #     sourceImageTag: $(Build.BuildId)
+  #     pushTag: $(Build.BuildId)
+  # - script: |
+  #     docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
+  #   displayName: "Jest Test Frontend"
   # ---------- Backend ------------- #
   - task: ECRPullImage@1
     displayName: Pull Cached Adde/Backend Container
@@ -81,14 +81,19 @@ steps:
     name: envFile
     inputs:
       secureFile: "test.env"
+  - task: DownloadSecureFile@1
+    name: privateKey
+    inputs:
+      secureFile: "private-key.pem"
   - script: |
       mv $(envFile.secureFilePath) backend/test.env
+      mv $(privateKey.secureFilePath) backend/private-key.pem
     displayName: Create test.env
   - script: |
-      mkdir -p /tmp/cache/devopslibrary && cd /tmp/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
+      mkdir -p cache/devopslibrary && cd cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
     displayName: Download SampleData repo to cache
   - script: |
-      docker run -v `pwd`/backend/test.env:/home/node/production.env -v /tmp:/tmp -v `pwd`/backend/coverage:/home/node/coverage adde/backend:$(Build.BuildId) yarn test
+      docker run -v `pwd`/backend/private-key.pem:/home/node/private-key.pem -v `pwd`/backend/test.env:/home/node/production.env -v `pwd`/cache:/tmp/cache -v `pwd`/backend/coverage:/home/node/coverage adde/backend:$(Build.BuildId) yarn test
     displayName: "Jest Test Backend"
   - task: Bash@3
     inputs:

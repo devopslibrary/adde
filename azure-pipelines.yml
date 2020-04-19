@@ -88,12 +88,12 @@ steps:
   - script: |
       mv $(envFile.secureFilePath) backend/test.env
       mv $(privateKey.secureFilePath) backend/private-key.pem
-      mkdir -p cache/devopslibrary && cd cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
+      mkdir -p backend/cache/devopslibrary && cd backend/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
+      chmod -R 755 backend
       docker run --name backend \
-                 --user root:root \
                  -v `pwd`/backend/private-key.pem:/home/node/private-key.pem \
                  -v `pwd`/backend/test.env:/home/node/production.env \
-                 -v `pwd`/cache:/tmp/cache adde/backend:$(Build.BuildId) \
+                 -v `pwd`/backend/cache:/tmp/cache adde/backend:$(Build.BuildId) \
                  yarn test
       docker cp backend:/home/node/test-report.xml `pwd`/backend/test-report.xml; 
       docker cp backend:/home/node/coverage `pwd`/backend/coverage; 

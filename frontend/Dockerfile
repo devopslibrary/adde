@@ -1,7 +1,5 @@
 FROM node:13-alpine
-
 ENV NODE_ENV build
-
 USER node
 WORKDIR /home/node
 

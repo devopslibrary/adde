@@ -88,14 +88,13 @@ steps:
   - script: |
       mv $(envFile.secureFilePath) backend/test.env
       mv $(privateKey.secureFilePath) backend/private-key.pem
-    displayName: Create test.env
-  - script: |
       mkdir -p cache/devopslibrary && cd cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
-    displayName: Download SampleData repo to cache
-  - script: |
-      pwd
-      ls -al
-      docker run --name backend --user $UID:$GID -v `pwd`/backend/private-key.pem:/home/node/private-key.pem -v `pwd`/backend/test.env:/home/node/production.env -v `pwd`/cache:/tmp/cache adde/backend:$(Build.BuildId) yarn test
+      docker run --name backend \
+                 --user root:root \
+                 -v `pwd`/backend/private-key.pem:/home/node/private-key.pem \
+                 -v `pwd`/backend/test.env:/home/node/production.env \
+                 -v `pwd`/cache:/tmp/cache adde/backend:$(Build.BuildId) \
+                 yarn test
       docker cp backend:/home/node/test-report.xml `pwd`/backend/test-report.xml; 
       docker cp backend:/home/node/coverage `pwd`/backend/coverage; 
     displayName: "Jest Test Backend"

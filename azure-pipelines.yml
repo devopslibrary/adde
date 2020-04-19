@@ -88,7 +88,7 @@ steps:
       mkdir -p /tmp/cache/devopslibrary && cd /tmp/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
     displayName: Download SampleData repo to cache
   - script: |
-      docker run -v `pwd`/backend/test.env:/home/node/test.env -v /tmp:/tmp -v `pwd`/backend/coverage:/home/node/coverage adde/backend:$(Build.BuildId) yarn test
+      docker run -v `pwd`/backend/test.env:/home/node/production.env -v /tmp:/tmp -v `pwd`/backend/coverage:/home/node/coverage adde/backend:$(Build.BuildId) yarn test
     displayName: "Jest Test Backend"
   - task: Bash@3
     inputs:

@@ -14,6 +14,7 @@ RUN yarn install
 
 # Now do the actual build
 COPY . /home/node
+RUN chmod 755 /home/node
 RUN yarn build
 
 ENV NODE_ENV production

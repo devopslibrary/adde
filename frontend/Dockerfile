@@ -1,27 +1,16 @@
-FROM node:13-alpine as builder
+FROM node:13-alpine
 
 ENV NODE_ENV build
-
-USER root
-WORKDIR /home/node
-
-# Install node_modules first, so cache is faster
-COPY package.json yarn.lock ./
-RUN yarn install
-
-# Now do the actual biuld
-COPY . /home/node
-RUN yarn build
-
-# ---
-
-FROM node:13-alpine as development
-
-ENV NODE_ENV development
 
 USER node
 WORKDIR /home/node
 
-COPY --from=builder /home/node /home/node
+# Install node_modules first, so layer cache is faster unless they change
+COPY package.json yarn.lock ./
+RUN yarn install
+
+# Now do the actual build
+COPY . /home/node
+RUN yarn build
 
 CMD ["yarn", "serve"]

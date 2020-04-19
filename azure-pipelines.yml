@@ -89,7 +89,7 @@ steps:
       mv $(envFile.secureFilePath) backend/test.env
       mv $(privateKey.secureFilePath) backend/private-key.pem
       mkdir -p backend/cache/devopslibrary/sampledata && git clone https://github.com/devopslibrary/sampledata.git backend/cache/devopslibrary/sampledata
-      docker create --name backend adde/backend:$(Build.BuildId) yarn test
+      docker create --user $UID:$GID --name backend adde/backend:$(Build.BuildId) yarn test
       docker cp `pwd`/backend/private-key.pem backend:/home/node/private-key.pem
       docker cp `pwd`/backend/test.env backend:/home/node/production.env
       docker cp `pwd`/backend/cache backend:/tmp/cache

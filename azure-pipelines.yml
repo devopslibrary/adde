@@ -88,7 +88,7 @@ steps:
   - script: |
       mv $(envFile.secureFilePath) backend/test.env
       mv $(privateKey.secureFilePath) backend/private-key.pem
-      mkdir -p backend/cache/devopslibrary && cd backend/cache/devopslibrary && git clone https://github.com/devopslibrary/sampledata.git
+      mkdir -p backend/cache/devopslibrary && git clone -c backend/cache/devopslibrary https://github.com/devopslibrary/sampledata.git
       chmod -R 755 backend
       docker run --name backend \
                  -v `pwd`/backend/private-key.pem:/home/node/private-key.pem \

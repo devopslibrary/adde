@@ -10,17 +10,9 @@ steps:
       repository: adde/frontend
       imageTag: latest
       regionName: us-east-1
-  - task: Docker@2
-    displayName: Build Adde/Frontend Container
-    inputs:
-      command: "build"
-      Dockerfile: "frontend/Dockerfile"
-      tags: |
-        $(Build.BuildId)
-      addPipelineData: false
-      arguments: |
-        --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest
-      repository: adde/frontend
+  - script: |
+      DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest -f frontend/Dockerfile -t adde/frontend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 frontend
+    displayName: "Docker Build Frontend"
   - task: ECRPushImage@1
     inputs:
       awsCredentials: aws-devopslibrary

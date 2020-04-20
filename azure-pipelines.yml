@@ -41,17 +41,9 @@ steps:
       repository: adde/backend
       imageTag: latest
       regionName: us-east-1
-  - task: Docker@2
-    displayName: Build Adde/Backend Container
-    inputs:
-      command: "build"
-      Dockerfile: "backend/Dockerfile"
-      tags: |
-        $(Build.BuildId)
-      addPipelineData: false
-      arguments: |
-        --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/backend:latest
-      repository: adde/backend
+  - script: |
+      DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/backend:latest -f backend/Dockerfile -t adde/backend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 backend
+    displayName: "Docker Build Backend"
   - task: ECRPushImage@1
     inputs:
       awsCredentials: aws-devopslibrary

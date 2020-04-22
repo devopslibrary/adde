@@ -1,4 +1,4 @@
-FROM nginx:1.16.0-alpine
+FROM nginx:1.17.10-alpine
 WORKDIR /home/node
 RUN apk add --update nodejs nodejs-npm yarn bash
 

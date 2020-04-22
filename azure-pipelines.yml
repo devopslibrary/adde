@@ -42,7 +42,7 @@ steps:
       imageTag: latest
       regionName: us-east-1
   - script: |
-      DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/backend:latest -f backend/Dockerfile -t adde/backend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 backend
+      DOCKER_BUILDKIT=1 docker build -f backend/Dockerfile -t adde/backend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 backend
     displayName: "Docker Build Backend"
   - task: ECRPushImage@1
     inputs:

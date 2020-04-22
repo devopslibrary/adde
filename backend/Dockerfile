@@ -5,7 +5,6 @@ RUN apk --update add git less openssh && \
   rm -rf /var/lib/apt/lists/* && \
   rm /var/cache/apk/*
 
-USER node
 WORKDIR /home/node
 
 # Install node_modules first, so layer cache is faster unless they change

@@ -8,7 +8,7 @@ steps:
     inputs:
       awsCredentials: aws-devopslibrary
       repository: adde/frontend
-      imageTag: latest
+      imageTag: build
       regionName: us-east-1
   - script: |
       DOCKER_BUILDKIT=1 docker build --target build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:build -f frontend/Dockerfile -t frontend-build --build-arg BUILDKIT_INLINE_CACHE=1 frontend    

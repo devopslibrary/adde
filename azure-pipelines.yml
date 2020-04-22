@@ -8,11 +8,10 @@ steps:
     inputs:
       awsCredentials: aws-devopslibrary
       repository: adde/frontend
-      imageTag: build
+      imageTag: latest
       regionName: us-east-1
   - script: |
-      DOCKER_BUILDKIT=1 docker build --target build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:build -f frontend/Dockerfile -t frontend-build --build-arg BUILDKIT_INLINE_CACHE=1 frontend    
-      DOCKER_BUILDKIT=1 docker build -f frontend/Dockerfile -t adde/frontend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 frontend
+      DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest -f frontend/Dockerfile -t adde/frontend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 frontend
     displayName: "Docker Build Frontend"
   - task: ECRPushImage@1
     inputs:
@@ -22,7 +21,6 @@ steps:
       sourceImageName: "adde/frontend"
       repositoryName: adde/frontend
       sourceImageTag: "$(Build.BuildId)"
-      pushTag: build
   - task: ECRPushImage@1
     inputs:
       awsCredentials: aws-devopslibrary
@@ -33,7 +31,7 @@ steps:
       sourceImageTag: $(Build.BuildId)
       pushTag: $(Build.BuildId)
   - script: |
-      docker run -v `pwd`/frontend/coverage:/home/node/coverage frontend-build yarn test
+      docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
     displayName: "Jest Test Frontend"
   # ---------- Backend ------------- #
   - task: ECRPullImage@1

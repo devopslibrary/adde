@@ -11,7 +11,7 @@ steps:
       imageTag: latest
       regionName: us-east-1
   - script: |
-      DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest -f frontend/Dockerfile -t adde/frontend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 frontend
+      DOCKER_BUILDKIT=1 docker build -f frontend/Dockerfile -t adde/frontend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 frontend
     displayName: "Docker Build Frontend"
   - task: ECRPushImage@1
     inputs:

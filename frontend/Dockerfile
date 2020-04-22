@@ -1,5 +1,6 @@
-FROM node:13-alpine AS build
+FROM nginx:1.16.0-alpine
 WORKDIR /home/node
+RUN apk add --update nodejs nodejs-npm yarn bash
 
 # Install node_modules first, so layer cache is faster unless they change
 COPY package.json yarn.lock ./
@@ -11,7 +12,7 @@ ENV NODE_ENV production
 RUN yarn build
 
 # production environment
-FROM nginx:1.16.0-alpine
-COPY --from=build /home/node/dist /usr/share/nginx/html
+RUN ls /home/node/dist
+RUN cp -Rf /home/node/dist/* /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

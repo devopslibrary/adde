@@ -5,7 +5,7 @@ WORKDIR /home/node
 # Install node_modules first, so layer cache is faster unless they change
 COPY package.json yarn.lock ./
 RUN yarn install
-RUN npm install @vue/cli@latest
+RUN npm install -g @vue/cli
 
 # Now do the actual build
 COPY . /home/node

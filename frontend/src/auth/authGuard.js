@@ -1,4 +1,5 @@
 import store from "../store/index.js";
+import Configuration from "../config/configProvider";
 
 export const authGuard = async (to, from, next) => {
   const userString = localStorage.getItem("user");
@@ -9,9 +10,9 @@ export const authGuard = async (to, from, next) => {
   if (!store.getters.loggedIn) {
     const loginUrl =
       "https://github.com/login/oauth/authorize?client_id=" +
-      process.env.VUE_APP_CLIENT_ID +
+      Configuration.value("client_id") +
       "&redirect_uri=" +
-      process.env.VUE_APP_REDIRECT_URI +
+      Configuration.value("redirect_uri") +
       "&state=/overview";
     window.location = loginUrl;
   } else {

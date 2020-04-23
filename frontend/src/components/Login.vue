@@ -27,6 +27,7 @@
 
 <script>
 import { authComputed } from "../store/helpers";
+import Configuration from "../config/configProvider";
 
 export default {
   name: "Login",
@@ -35,9 +36,9 @@ export default {
     loginURL: function() {
       return (
         "https://github.com/login/oauth/authorize?client_id=" +
-        process.env.VUE_APP_CLIENT_ID +
+        Configuration.value("client_id") +
         "&redirect_uri=" +
-        process.env.VUE_APP_REDIRECT_URI +
+        Configuration.value("redirect_uri") +
         "&scope=read:org%20repo" +
         "&state=/overview"
       );

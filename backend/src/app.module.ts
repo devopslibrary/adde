@@ -14,6 +14,8 @@ import { GithubModule } from './github/github.module';
 import { BootstrapModule } from './bootstrap/bootstrap.module';
 import { OrgsService } from './orgs/orgs.service';
 import { RepoSyncModule } from './repo-sync/repo-sync.module';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
@@ -29,8 +31,9 @@ import { RepoSyncModule } from './repo-sync/repo-sync.module';
     HttpModule,
     GithubModule,
     BootstrapModule,
+    TerminusModule,
   ],
-  controllers: [WebhookController, RestApiController, OrgsController],
+  controllers: [WebhookController, RestApiController, OrgsController, HealthController],
   providers: [WebhookService, RestApiService, OrgsService],
 })
 export class AppModule {

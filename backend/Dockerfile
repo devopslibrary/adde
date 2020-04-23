@@ -1,11 +1,10 @@
-FROM node:13-alpine
+FROM alpine:latest
 ENV NODE_ENV build
 
-RUN apk --update add git less openssh && \
+RUN apk --update add git less openssh nodejs nodejs-npm bash yarn && \
   rm -rf /var/lib/apt/lists/* && \
   rm /var/cache/apk/*
 
-USER node
 WORKDIR /home/node
 
 # Install node_modules first, so layer cache is faster unless they change
@@ -18,4 +17,4 @@ RUN yarn build
 
 ENV NODE_ENV production
 
-CMD ["node", "dist/src/main"]
+CMD ["node", "dist/main"]

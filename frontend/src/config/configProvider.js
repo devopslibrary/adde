@@ -6,7 +6,7 @@ export default class Configuration {
     return {
       client_id: "$VUE_APP_CLIENT_ID",
       redirect_uri: "$VUE_APP_REDIRECT_URI",
-      backend_host: "$VUE_BACKEND_HOST",
+      backend_host: "$VUE_APP_BACKEND_HOST",
     };
   }
 

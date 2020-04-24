@@ -24,13 +24,14 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, githubCallback) {
       const githubTokenResponse = await axios.post(
-        Configuration.get("backend_host") + "/auth/login",
+        Configuration.value("backend_host") + "/auth/login",
         githubCallback
       );
       const githubToken = githubTokenResponse.data;
       axios.defaults.headers.common["Authorization"] = `Bearer ${githubToken}`;
       const userData = await axios.get("https://api.github.com/user");
-      const repoUrl = Configuration.get("backend_host") + "/auth/repositories";
+      const repoUrl =
+        Configuration.value("backend_host") + "/auth/repositories";
       const repositories = await axios.get(repoUrl);
       const user = {
         token: githubToken,

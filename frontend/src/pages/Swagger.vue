@@ -16,7 +16,7 @@ export default {
   name: "RepoDashboard",
   async mounted() {
     let url =
-      Configuration.get("backend_host") +
+      Configuration.value("backend_host") +
       "/swagger.json/devopslibrary/sample-data";
     this.swaggerJSON = await this.getSwaggerJSON(
       "/swagger.json/kar-auto/datacenter-inventory"
@@ -36,7 +36,7 @@ export default {
       const token = this.getToken;
       const ui = SwaggerUIBundle({
         url:
-          Configuration.get("backend_host") +
+          Configuration.value("backend_host") +
           '/swagger.json/devopslibrary/sample-data"',
         spec: args.spec,
         dom_id: "#swagger-ui",
@@ -54,7 +54,7 @@ export default {
     },
     async getSwaggerJSON(endpoint) {
       const { data } = await axios.get(
-        Configuration.get("backend_host") + endpoint
+        Configuration.value("backend_host") + endpoint
       );
       return data;
     }

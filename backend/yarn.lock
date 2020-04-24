@@ -809,7 +809,7 @@
     "@angular-devkit/schematics" "9.0.6"
     fs-extra "8.1.0"
 
-"@nestjs/terminus@^7.0.1":
+"@nestjs/terminus@7.0.1":
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/@nestjs/terminus/-/terminus-7.0.1.tgz#7d748f8c18973d60023a8ab16760d0adab145b8b"
   integrity sha512-OKg1QQDb+whHJM3Xt+3RRUPiyZSyD0qLacfldK0TXcFpKyexA0yyY3GKeaBNApf01FEzJgkK3ARCUoELnAfXDA==

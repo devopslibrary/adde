@@ -95,6 +95,7 @@ import { FormWizard, TabContent, WizardButton } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
 import axios from "axios";
 import { authComputed } from "../store/helpers";
+import Configuration from "../config/configProvider";
 
 export default {
   name: "AddNewAdde",
@@ -125,13 +126,15 @@ export default {
     },
     async callApi(endpoint) {
       // Use Axios to make a call to the API
-      const { data } = await axios.get("http://localhost:3000" + endpoint);
+      const { data } = await axios.get(
+        Configuration.get("backend_host") + endpoint
+      );
       return data;
     }
   },
   created() {
     axios
-      .get(`http://localhost:3000/orgs`)
+      .get(Configuration.get("backend_host") + `/orgs`)
       .then(response => {
         this.orgs = response.data;
       })

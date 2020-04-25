@@ -10,11 +10,14 @@ import "swagger-ui-dist/swagger-ui.css";
 import LayoutDefault from "../components/LayoutDefault.vue";
 import axios from "axios";
 import { authComputed } from "../store/helpers";
+import Configuration from "../config/configProvider";
 
 export default {
   name: "RepoDashboard",
   async mounted() {
-    let url = "http://localhost:3000/swagger.json/devopslibrary/sample-data";
+    let url =
+      Configuration.value("backend_host") +
+      "/swagger.json/devopslibrary/sample-data";
     this.swaggerJSON = await this.getSwaggerJSON(
       "/swagger.json/kar-auto/datacenter-inventory"
     );
@@ -32,7 +35,9 @@ export default {
       ];
       const token = this.getToken;
       const ui = SwaggerUIBundle({
-        url: 'http://localhost:3000/swagger.json/devopslibrary/sample-data"',
+        url:
+          Configuration.value("backend_host") +
+          '/swagger.json/devopslibrary/sample-data"',
         spec: args.spec,
         dom_id: "#swagger-ui",
         deepLinking: false,
@@ -48,7 +53,9 @@ export default {
       window.ui = ui;
     },
     async getSwaggerJSON(endpoint) {
-      const { data } = await axios.get("http://localhost:3000" + endpoint);
+      const { data } = await axios.get(
+        Configuration.value("backend_host") + endpoint
+      );
       return data;
     }
   },

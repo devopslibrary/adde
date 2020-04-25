@@ -13,12 +13,12 @@
     "axios": "0.19.2",
     "core-js": "3.6.5",
     "dotenv": "8.2.0",
-    "swagger-ui-dist": "3.25.0",
+    "swagger-ui-dist": "3.25.1",
     "vue": "2.6.11",
     "vue-code-highlight": "0.7.4",
     "vue-form-wizard": "0.8.4",
     "vue-router": "3.1.6",
-    "vuetify": "2.2.23",
+    "vuetify": "2.2.25",
     "vuex": "3.2.0"
   },
   "devDependencies": {
@@ -32,7 +32,7 @@
     "eslint": "6.8.0",
     "eslint-plugin-vue": "6.2.2",
     "node-sass": "4.14.0",
-    "sass": "1.26.3",
+    "sass": "1.26.5",
     "sass-loader": "8.0.2",
     "vue-cli-plugin-vuetify": "2.0.5",
     "vue-template-compiler": "2.6.11",

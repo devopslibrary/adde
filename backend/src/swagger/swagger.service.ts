@@ -34,7 +34,7 @@ export class SwaggerService {
       }
     });
     const swaggerYML = await ejs.render(
-      fs.readFileSync(__dirname + '/swagger/swagger.yml.ejs', 'utf-8'),
+      fs.readFileSync(__dirname + '/swagger.yml.ejs', 'utf-8'),
       {
         endpoints: endpoints,
         orgName: orgName,

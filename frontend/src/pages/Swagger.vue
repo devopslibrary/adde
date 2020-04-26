@@ -17,9 +17,10 @@ export default {
   async mounted() {
     let url =
       Configuration.value("backend_host") +
-      "/swagger.json/devopslibrary/sample-data";
+      "/swagger.json" +
+      window.location.pathname;
     this.swaggerJSON = await this.getSwaggerJSON(
-      "/swagger.json/kar-auto/datacenter-inventory"
+      "/swagger.json" + window.location.pathname
     );
     let spec = this.swaggerJSON;
     this.buildSwagger({ url: url, spec: spec });
@@ -37,7 +38,8 @@ export default {
       const ui = SwaggerUIBundle({
         url:
           Configuration.value("backend_host") +
-          '/swagger.json/devopslibrary/sample-data"',
+          "/swagger.json" +
+          window.location.pathname,
         spec: args.spec,
         dom_id: "#swagger-ui",
         deepLinking: false,

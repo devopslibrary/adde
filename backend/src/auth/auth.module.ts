@@ -8,6 +8,6 @@ import { AuthController } from './auth.controller';
   imports: [HttpModule, PassportModule],
   providers: [HttpStrategy, AuthService],
   controllers: [AuthController],
-  exports: [HttpStrategy],
+  exports: [HttpStrategy, HttpModule],
 })
 export class AuthModule {}

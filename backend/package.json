@@ -8,7 +8,6 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "postbuild": "cpy '**/*' '!coverage' '!**/*.ts' ../dist/src --cwd=src/ --no-overwrite --parents",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "NODE_ENV='' nest start",
     "start:dev": "NODE_ENV='' nest start --watch",
@@ -65,8 +64,6 @@
     "@types/node": "13.13.3",
     "@types/passport-local": "1.0.33",
     "@types/supertest": "2.0.8",
-    "cpy-cli": "3.1.0",
-    "del-cli": "3.0.0",
     "jest": "25.4.0",
     "jest-sonar-reporter": "2.0.0",
     "nock": "12.0.3",

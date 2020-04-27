@@ -8,6 +8,8 @@ import { GithubCallback } from './interfaces/githubCallback.interface';
 import { ConfigService } from '@nestjs/config';
 import queryString from 'querystring';
 import { Installation } from './interfaces/installation.interface';
+import { Role } from './interfaces/role.enum';
+import { User } from './interfaces/user.interface';
 
 @Injectable()
 export class AuthService {
@@ -17,15 +19,61 @@ export class AuthService {
   ) {}
   private readonly logger = new Logger(AuthService.name);
 
+  // Validates user has the proper access to a repository
+  public async userHasAccess(
+    githubUser: User,
+    role: Role,
+    account,
+    repo,
+  ): Promise<boolean> {
+    const usersPermissionsOnRepo = await this.httpService
+      .get(
+        'https://api.github.com/repos/' +
+          account +
+          '/' +
+          repo +
+          '/collaborators/' +
+          githubUser.login +
+          '/permission',
+        {
+          headers: {
+            Authorization: `Bearer ${githubUser.token}`,
+            Accept: 'application/vnd.github.machine-man-preview+json',
+          },
+        },
+      )
+      .toPromise()
+      .then((response) => {
+        return response.data.permission;
+      });
+    switch (role) {
+      case Role.admin: {
+        return usersPermissionsOnRepo == 'admin';
+      }
+      case Role.write: {
+        return (
+          usersPermissionsOnRepo == 'admin' || usersPermissionsOnRepo == 'write'
+        );
+      }
+      case Role.read: {
+        return (
+          usersPermissionsOnRepo == 'admin' ||
+          usersPermissionsOnRepo == 'write' ||
+          usersPermissionsOnRepo == 'read'
+        );
+      }
+    }
+  }
+
   // Validates that user is valid by querying Github API
-  public async validateUser(tokenParam) {
+  public async validateUser(tokenParam): Promise<User> {
     try {
       const response = await this.httpService
         .get('https://api.github.com/user', {
           headers: { Authorization: `Bearer ${tokenParam}` },
         })
         .toPromise();
-      const user = {
+      const user: User = {
         token: tokenParam,
         login: response.data.login,
         id: response.data.id,
@@ -68,7 +116,7 @@ export class AuthService {
   }
 
   // Get all repo installations a user has access to
-  public getUserRepoInstallations(githubUser) {
+  public getUserRepoInstallations(githubUser: User) {
     return this.getUserInstallations(githubUser).then(async (installations) => {
       const userRepoInstallations = [];
       await Promise.all(
@@ -97,7 +145,7 @@ export class AuthService {
   }
 
   // Return all installations a user has access to
-  public getUserInstallations(githubUser): Promise<Installation[]> {
+  public getUserInstallations(githubUser: User): Promise<Installation[]> {
     return this.httpService
       .get('https://api.github.com/user/installations', {
         headers: {

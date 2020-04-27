@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { RestApiService } from './restAPI.service';
-import { Auth } from 'src/auth/roles.decorator';
-import { Role } from 'src/auth/interfaces/role.enum';
+import { Auth } from '../auth/auth.decorator';
+import { Role } from '../auth/interfaces/role.enum';
 
 // devopslibrary.sampledata.adde.to/rest/datacenters
 @Controller('/rest')

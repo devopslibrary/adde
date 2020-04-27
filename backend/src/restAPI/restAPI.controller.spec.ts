@@ -2,15 +2,15 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RestApiController } from './restAPI.controller';
 import { RestApiService } from './restAPI.service';
 import { ConfigModule } from '@nestjs/config';
+import { RestApiModule } from './restAPI.module';
 
 describe('RestApi Controller', () => {
   let controller: RestApiController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [RestApiController],
-      providers: [RestApiService],
       imports: [
+        RestApiModule,
         ConfigModule.forRoot({
           isGlobal: true,
           envFilePath: process.env.NODE_ENV + '.env',

@@ -854,10 +854,10 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
-"@octokit/webhooks@7.2.0":
-  version "7.2.0"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks/-/webhooks-7.2.0.tgz#8faf0ba5198a87692f87a7826d789c5331adae75"
-  integrity sha512-HDE3AY8VhAsxCK1096BH4FiLybN3M4zkqPG/dFuk+43x7I6zsAZ3Z/XM4jQ/GjCVQFzymrlcjDsnCC2fv2fF7Q==
+"@octokit/webhooks@7.3.0":
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks/-/webhooks-7.3.0.tgz#54caf83b08114eac1ce34878b108433354f89a25"
+  integrity sha512-EWzeeTI7XNGjuCN3SHjFJQ2DY+g5/Bf4f/fY5I3C6bov9CaFC7ejXj6Pn7Rg/lXTeZiL3tKUhsoNNb2cfSLklQ==
   dependencies:
     debug "^4.0.0"
 

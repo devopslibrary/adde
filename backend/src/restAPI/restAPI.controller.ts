@@ -1,5 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { RestApiService } from './restAPI.service';
+import { Auth } from '../auth/auth.decorator';
+import { Role } from '../auth/interfaces/role.enum';
 
 // devopslibrary.sampledata.adde.to/rest/datacenters
 @Controller('/rest')
@@ -7,6 +9,7 @@ export class RestApiController {
   constructor(private readonly restApiService: RestApiService) {}
 
   // Wildcard, /rest/*
+  @Auth(Role.read)
   @Get(':account/:repo*')
   rest(
     @Param('account') account: string,

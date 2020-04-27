@@ -33,7 +33,12 @@ import { HealthController } from './health/health.controller';
     BootstrapModule,
     TerminusModule,
   ],
-  controllers: [WebhookController, RestApiController, OrgsController, HealthController],
+  controllers: [
+    WebhookController,
+    RestApiController,
+    OrgsController,
+    HealthController,
+  ],
   providers: [WebhookService, RestApiService, OrgsService],
 })
 export class AppModule {

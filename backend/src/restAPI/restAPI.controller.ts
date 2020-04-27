@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { RestApiService } from './restAPI.service';
 import { Auth } from '../auth/auth.decorator';
 import { Role } from '../auth/interfaces/role.enum';

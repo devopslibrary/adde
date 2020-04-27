@@ -854,13 +854,6 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
-"@octokit/webhooks@7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks/-/webhooks-7.3.0.tgz#54caf83b08114eac1ce34878b108433354f89a25"
-  integrity sha512-EWzeeTI7XNGjuCN3SHjFJQ2DY+g5/Bf4f/fY5I3C6bov9CaFC7ejXj6Pn7Rg/lXTeZiL3tKUhsoNNb2cfSLklQ==
-  dependencies:
-    debug "^4.0.0"
-
 "@protobufjs/aspromise@^1.1.1", "@protobufjs/aspromise@^1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz#9b8b0cc663d669a7d8f6f5d0893a14d348f30fbf"
@@ -2905,7 +2898,7 @@ debug@2.6.9, debug@^2.2.0, debug@^2.3.3:
   dependencies:
     ms "2.0.0"
 
-debug@4, debug@^4.0.0, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
+debug@4, debug@^4.0.1, debug@^4.1.0, debug@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.1.1.tgz#3b72260255109c6b589cee050f1d516139664791"
   integrity sha512-pYAIzeRo8J6KPEaJ0VWOh5Pzkbw/RetuzehGM7QRRX5he4fPHx2rdKMB256ehJCkX+XRQm16eZLqLNS8RSZXZw==

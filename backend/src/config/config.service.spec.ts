@@ -13,6 +13,6 @@ describe('ConfigService', () => {
   });
 
   it('should be defined', () => {
-    expect(service.get('DATABASE_NAME')).toBe('adde');
+    expect(service.get('DOMAIN')).toBe('localhost');
   });
 });

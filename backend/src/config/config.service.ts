@@ -22,16 +22,13 @@ export class ConfigService {
         .valid('development', 'production', 'test', 'provision')
         .default('development'),
       PORT: Joi.number().default(3000),
-      DATABASE_HOST: Joi.string().required(),
-      DATABASE_NAME: Joi.string().required(),
-      DATABASE_USER: Joi.string().required(),
-      DATABASE_PASSWORD: Joi.string().required(),
       REPO_CACHE_DIRECTORY: Joi.string().required(),
       CLONE_TOKEN: Joi.string().required(),
       GITHUB_CLIENT_ID: Joi.string().required(),
       GITHUB_APP_ID: Joi.string().required(),
       GITHUB_CLIENT_SECRET: Joi.string().required(),
       CALLBACK_URL: Joi.string().required(),
+      DOMAIN: Joi.string().required(),
     });
 
     const { error, value: validatedEnvConfig } = envVarsSchema.validate(

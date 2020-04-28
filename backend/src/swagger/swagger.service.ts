@@ -39,6 +39,7 @@ export class SwaggerService {
         endpoints: endpoints,
         orgName: orgName,
         repoName: repoName,
+        domain: this.configService.get('DOMAIN'),
       },
     );
 

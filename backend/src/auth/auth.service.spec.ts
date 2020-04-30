@@ -6,6 +6,7 @@ import nock from 'nock';
 import nockGithubUserInstallations from '../../test/fixtures/github_user_installations.json';
 import nockGithubUserInstallationsEmpty from '../../test/fixtures/github_user_installations_empty.json';
 import nockGithubUserInstallationRepositories from '../../test/fixtures/github_user_installation_repositories.json';
+import nockGithubUserInstallationRepositoriesBlockedBySSO from '../../test/fixtures/github_check_user_installation_repositories_blocked_by_sso.json';
 import nockGithubUser from '../../test/fixtures/github_user.json';
 import nockGithubAdminUser from '../../test/fixtures/github_check_permissions_admin_user.json';
 import nockGithubReadUser from '../../test/fixtures/github_check_permissions_read_user.json';
@@ -188,6 +189,9 @@ describe('AuthService', () => {
     nock('https://api.github.com')
       .get('/user/installations/7958959/repositories')
       .reply(200, nockGithubUserInstallationRepositories);
+    nock('https://api.github.com')
+      .get('/user/installations/1234567/repositories')
+      .reply(403, nockGithubUserInstallationRepositoriesBlockedBySSO);
     it('should return all user repo installs if they have any', async () => {
       const repos = await service.getUserRepoInstallations(githubUser);
       expect(repos[0]).toHaveProperty('id');
@@ -208,7 +212,7 @@ describe('AuthService', () => {
       const installations = await service.getUserInstallations(githubUser);
       expect(installations[0]).toHaveProperty('account');
       expect(installations[0]).toHaveProperty('id');
-      expect(installations.length).toBe(1);
+      expect(installations.length).toBe(2);
     });
     it('should return an empty array for the user if they do not', async () => {
       nock('https://api.github.com')

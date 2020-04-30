@@ -121,23 +121,29 @@ export class AuthService {
       const userRepoInstallations = [];
       await Promise.all(
         installations.map(async (installation) => {
-          const response = await this.httpService
-            .get(
-              'https://api.github.com/user/installations/' +
-                installation.id +
-                '/repositories',
-              {
-                headers: {
-                  Authorization: `Bearer ${githubUser.token}`,
-                  Accept: 'application/vnd.github.machine-man-preview+json',
+          try {
+            const response = await this.httpService
+              .get(
+                'https://api.github.com/user/installations/' +
+                  installation.id +
+                  '/repositories',
+                {
+                  headers: {
+                    Authorization: `Bearer ${githubUser.token}`,
+                    Accept: 'application/vnd.github.machine-man-preview+json',
+                  },
                 },
-              },
-            )
-            .toPromise();
-          userRepoInstallations.push.apply(
-            userRepoInstallations,
-            response.data.repositories,
-          );
+              )
+              .toPromise();
+            userRepoInstallations.push.apply(
+              userRepoInstallations,
+              response.data.repositories,
+            );
+          } catch {
+            this.logger.log(
+              'Unable to retrieve some repo installations because user did not authorize SSO.',
+            );
+          }
         }),
       );
       return userRepoInstallations;

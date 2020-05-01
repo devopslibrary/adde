@@ -29,7 +29,7 @@ export class BootstrapService implements OnApplicationBootstrap {
         const repoCache = this.configService.get('REPO_CACHE_DIRECTORY');
         this.repoSyncService.syncRepository(
           repo.clone_url,
-          repoCache + '/' + repo.full_name,
+          repoCache + '/' + repo.full_name.toLowerCase(),
           'x-access-token:' + cloneToken.token,
         );
       }

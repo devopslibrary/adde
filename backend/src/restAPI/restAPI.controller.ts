@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { RestApiService } from './restAPI.service';
 import { Auth } from '../auth/auth.decorator';
 import { Role } from '../auth/interfaces/role.enum';
@@ -14,14 +14,15 @@ export class RestApiController {
   rest(
     @Param('account') account: string,
     @Param('repo') repo: string,
-    @Param() params,
+    @Param() reqPath,
+    @Query() queryParams,
   ) {
-    return this.restApiService.getData(account, repo, params[0]);
+    return this.restApiService.getData(account, repo, reqPath[0], queryParams);
   }
 
   // Root URL, /rest
   @Get()
   restRoot(@Param('account') account: string, @Param('repo') repo: string) {
-    return this.restApiService.getData(account, repo, '');
+    return this.restApiService.getData(account, repo, '', false);
   }
 }

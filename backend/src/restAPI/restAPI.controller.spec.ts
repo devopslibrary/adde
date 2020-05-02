@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RestApiController } from './restAPI.controller';
-import { RestApiService } from './restAPI.service';
+
 import { ConfigModule } from '@nestjs/config';
 import { RestApiModule } from './restAPI.module';
 
@@ -27,6 +27,7 @@ describe('RestApi Controller', () => {
         'devopslibrary',
         'sampledata',
         { '0': '/datacenters', path: 'rest' },
+        false,
       );
 
       expect(webhookOutput).toMatchObject([
@@ -56,11 +57,31 @@ describe('RestApi Controller', () => {
         },
       ]);
     });
+    it('should return directory JSON filtered with query params properly"', async () => {
+      const webhookOutput = await controller.rest(
+        'devopslibrary',
+        'sampledata',
+        { '0': '/datacenters', path: 'rest' },
+        { shortname: 'ind01pr' },
+      );
+
+      expect(webhookOutput).toMatchObject([
+        {
+          name: 'Indianapolis Production Datacenter 01',
+          lastUpdated: '2020-12-30T19:31:99Z',
+          shortname: 'ind01pr',
+          dns: { primary: '8.8.8.8', secondary: '4.2.2.9' },
+          cidr: '172.16.0.0/19',
+          vlans: [1, 2, 3, 4, 5],
+        },
+      ]);
+    });
     it('should return resource JSON listing properly"', async () => {
       const webhookOutput = await controller.rest(
         'devopslibrary',
         'sampledata',
         { '0': '/datacenters/ind01pr', path: 'rest' },
+        false,
       );
       expect(webhookOutput).toMatchObject({
         cidr: '172.16.0.0/19',

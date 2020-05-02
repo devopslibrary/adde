@@ -29,6 +29,7 @@ describe('RestApiService', () => {
         'devopslibrary',
         'sampledata',
         'datacenters',
+        false,
       );
 
       expect(data).toEqual([
@@ -63,6 +64,7 @@ describe('RestApiService', () => {
         'devopslibrary',
         'sampledata',
         'datacenters/ind01pr',
+        false,
       );
       expect(data).toEqual({
         cidr: '172.16.0.0/19',
@@ -109,6 +111,90 @@ describe('RestApiService', () => {
       const badFile = await service.isFile(cachePath + '/nonExistentFile.json');
       expect(goodFile).toEqual(true);
       expect(badFile).toEqual(false);
+    });
+  });
+
+  describe('filterByQueryParams', () => {
+    const sampleResources = [
+      {
+        name: 'A large blue round ball that smells faintly sweet',
+        color: 'blue',
+        size: 'large',
+        smell: 'sweet',
+        shape: 'round',
+      },
+      {
+        name: 'A small green square withs hints of oak',
+        color: 'green',
+        size: 'small',
+        smell: 'oaklike',
+        shape: 'square',
+      },
+      {
+        name: 'A small blue square that smells faintly sweet',
+        color: 'blue',
+        size: 'small',
+        smell: 'sweet',
+        shape: 'square',
+      },
+      {
+        name: 'A small green square made of pinesol',
+        color: 'green',
+        size: 'small',
+        smell: 'lemon',
+        shape: 'square',
+      },
+      {
+        name: 'A medium green square made of pinesol',
+        color: 'green',
+        size: 'medium',
+        smell: 'lemon',
+        shape: 'square',
+      },
+    ];
+    it('should filter successfully when given a single filter', () => {
+      expect(
+        service.filterByQueryParams(sampleResources, { color: 'blue' }),
+      ).toEqual([
+        {
+          name: 'A large blue round ball that smells faintly sweet',
+          color: 'blue',
+          size: 'large',
+          smell: 'sweet',
+          shape: 'round',
+        },
+        {
+          name: 'A small blue square that smells faintly sweet',
+          color: 'blue',
+          size: 'small',
+          smell: 'sweet',
+          shape: 'square',
+        },
+      ]);
+    });
+    it('should filter successfully when given multiple filters', () => {
+      expect(
+        service.filterByQueryParams(sampleResources, {
+          color: 'green',
+          size: 'small',
+          shape: 'square',
+        }),
+      ).toEqual([
+        {
+          name: 'A small green square withs hints of oak',
+          color: 'green',
+          size: 'small',
+          smell: 'oaklike',
+          shape: 'square',
+        },
+        {
+          name: 'A small green square made of pinesol',
+          color: 'green',
+          size: 'small',
+          smell: 'lemon',
+          shape: 'square',
+        },
+      ]);
     });
   });
 

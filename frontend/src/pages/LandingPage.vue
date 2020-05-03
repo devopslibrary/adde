@@ -121,12 +121,21 @@
 <script>
 import LayoutDefault from "../components/LayoutDefault.vue";
 import AppHero from "../components/AppHero.vue";
+import { authComputed } from "../store/helpers";
 
 export default {
   name: "LandingPage",
   components: {
     LayoutDefault,
     AppHero
+  },
+  computed: {
+    ...authComputed
+  },
+  mounted() {
+    if (this.loggedIn) {
+      this.$router.push("overview");
+    }
   }
 };
 </script>

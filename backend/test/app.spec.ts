@@ -28,7 +28,7 @@ describe('AppController (e2e)', () => {
     expect(parsedResponse).toEqual(expectedJson);
   }, 10000);
 
-  afterAll(async () => {
-    await app.close();
+  afterAll(() => {
+    app.close();
   });
 });

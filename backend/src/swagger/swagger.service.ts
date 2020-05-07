@@ -4,6 +4,7 @@ const ejs = require('ejs');
 const fs = require('fs');
 const recursiveReadSync = require('readdirsync2');
 import { JSONSchema7 } from 'json-schema';
+import { generateSchema } from './generate.schema';
 const yaml = require('yamljs');
 
 @Injectable()
@@ -28,6 +29,11 @@ export class SwaggerService {
             fs.readFileSync(name + '/.schema.json', 'utf-8'),
           );
           endpoints.push({ [endpointNameWithoutPath]: endpointSchema });
+        } else {
+          const endpointSchema: JSONSchema7 = generateSchema(name);
+          if (endpointSchema) {
+            endpoints.push({ [endpointNameWithoutPath]: endpointSchema });
+          }
         }
       } catch (err) {
         console.error(err);

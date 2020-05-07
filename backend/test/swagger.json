@@ -9,12 +9,145 @@
   "basePath": "/rest/devopslibrary/sampledata",
   "tags": [
     {
+      "name": "applications",
+      "description": "Everything about your applications"
+    },
+    {
       "name": "datacenters",
       "description": "Everything about your datacenters"
     },
     { "name": "servers", "description": "Everything about your servers" }
   ],
   "paths": {
+    "/applications": {
+      "post": {
+        "tags": ["applications"],
+        "summary": "Add a new applications to the repository",
+        "description": "By POSTing data to this endpoint, ADDE will first validate that the token making the call has write access to the target repository.  If it does, it will then validate the data being passed in is able to be validated successfully with the JSON Schema provided here http://devopslibrary.sampledata.adde.to/applications/.schema.json.  If so, it will add a new applications to the repository in a new commit on the master branch.  If one with the same name already exists, the call will fail.",
+        "operationId": "addapplications",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "applications object that needs to be added to the repository",
+            "required": true,
+            "schema": { "$ref": "#/definitions/applications" }
+          }
+        ],
+        "responses": { "405": { "description": "Invalid input" } },
+        "security": [{ "auth": ["write:repository", "read:repository"] }]
+      },
+      "get": {
+        "tags": ["applications"],
+        "summary": "Retrieves applications (Optionally filtered by field values)",
+        "description": "By default, this endpoint will return an array of all applications.  You can optionally pass in field values for filtering the list down, provided via query string.",
+        "operationId": "findapplicationsByTags",
+        "produces": ["application/json"],
+        "parameters": [
+          { "in": "query", "name": "name", "type": "string" },
+          { "in": "query", "name": "serverType", "type": "string" },
+          { "in": "query", "name": "teamOwner", "type": "string" },
+          { "in": "query", "name": "count", "type": "string" }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/applications" }
+            }
+          },
+          "400": { "description": "Invalid tag value" }
+        },
+        "security": [{ "auth": ["read:repository"] }]
+      }
+    },
+    "/applications/{id}": {
+      "get": {
+        "tags": ["applications"],
+        "summary": "Find applications by ID",
+        "description": "Returns a single applications",
+        "operationId": "getapplicationsById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of applications to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": { "$ref": "#/definitions/applications" }
+          },
+          "400": { "description": "Invalid ID supplied" },
+          "404": { "description": "applications not found" }
+        },
+        "security": [{ "auth": ["read:repository"] }]
+      },
+      "post": {
+        "tags": ["applications"],
+        "summary": "Updates an existing applications in the repository",
+        "description": "",
+        "operationId": "updateapplications",
+        "consumes": ["application/x-www-form-urlencoded"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of applications that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "Updated name of the applications",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "formData",
+            "description": "Updated status of the applications",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": { "405": { "description": "Invalid input" } },
+        "security": [{ "auth": ["write:repository", "read:repository"] }]
+      },
+      "delete": {
+        "tags": ["applications"],
+        "summary": "Deletes a applications",
+        "description": "",
+        "operationId": "deleteapplications",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "applications id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "400": { "description": "Invalid ID supplied" },
+          "404": { "description": "applications not found" }
+        },
+        "security": [{ "auth": ["write:repository", "read:repository"] }]
+      }
+    },
     "/datacenters": {
       "post": {
         "tags": ["datacenters"],
@@ -283,6 +416,37 @@
     "url": "https://github.com/devopslibrary/sampledata"
   },
   "definitions": {
+    "applications": {
+      "type": "object",
+      "title": "applications",
+      "required": ["name", "serverType", "teamOwner", "count"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "title": "The name Schema",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "serverType": {
+          "type": "string",
+          "title": "The serverType Schema",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "teamOwner": {
+          "type": "string",
+          "title": "The teamOwner Schema",
+          "default": "",
+          "pattern": "^(.*)$"
+        },
+        "count": {
+          "type": "string",
+          "title": "The count Schema",
+          "default": "",
+          "pattern": "^(.*)$"
+        }
+      }
+    },
     "Datacenter": {
       "type": "object",
       "title": "Datacenter",

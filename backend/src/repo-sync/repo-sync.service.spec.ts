@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RepoSyncService } from './repo-sync.service';
 import { ConfigService } from '../config/config.service';
 import { ConfigModule } from '../config/config.module';
-import {promises as fs} from 'fs';
+import { promises as fs } from 'fs';
 import tmp from 'tmp';
 
 describe('RepoSyncService', () => {
@@ -23,14 +23,19 @@ describe('RepoSyncService', () => {
   });
 
   describe('syncRepository', () => {
-    it('should clone a repository successfully if it doesn\'t exist', async () => {
+    it("should clone a repository successfully if it doesn't exist", async () => {
       await repoSyncService.syncRepository(
         'https://github.com/devopslibrary/sampledata.git',
         clonePath,
         cloneToken,
       );
       const directoryListing = await fs.readdir(clonePath);
-      expect(directoryListing).toEqual(['.git', 'datacenters', 'servers']);
+      expect(directoryListing).toEqual([
+        '.git',
+        'applications',
+        'datacenters',
+        'servers',
+      ]);
     });
     it('should pull updates for a repository successfully if it already exists', async () => {
       await repoSyncService.syncRepository(
@@ -44,7 +49,12 @@ describe('RepoSyncService', () => {
         cloneToken,
       );
       const directoryListing = await fs.readdir(clonePath);
-      expect(directoryListing).toEqual(['.git', 'datacenters', 'servers']);
+      expect(directoryListing).toEqual([
+        '.git',
+        'applications',
+        'datacenters',
+        'servers',
+      ]);
     });
   });
 });

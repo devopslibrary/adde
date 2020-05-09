@@ -70,6 +70,7 @@ steps:
     inputs:
       secureFile: "private-key.pem"
   - script: |
+      git config --global user.email "testing@adde.to"
       mv $(envFile.secureFilePath) backend/test.env
       mv $(privateKey.secureFilePath) backend/private-key.pem
       mkdir -p backend/cache/devopslibrary/sampledata && git clone https://github.com/devopslibrary/sampledata.git backend/cache/devopslibrary/sampledata

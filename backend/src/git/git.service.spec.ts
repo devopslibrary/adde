@@ -61,15 +61,6 @@ describe('GitService', () => {
   });
   describe('commitAndPushChanges', () => {
     it('should commit and push changes back to a repository', async () => {
-      axios.defaults.validateStatus = () => true;
-      await axios.delete(
-        'https://api.github.com/repos/devopslibrary/sampledata/git/refs/heads/testBranch',
-        {
-          headers: {
-            Authorization: `Bearer ${cloneToken}`,
-          },
-        },
-      );
       clonePath = (await tmp.dirSync()).name; // Create fresh temp directory
       await gitService.syncRepository(
         'https://github.com/devopslibrary/sampledata.git',
@@ -90,6 +81,15 @@ describe('GitService', () => {
         'https://raw.githubusercontent.com/devopslibrary/sampledata/testBranch/testfile.txt',
       );
       expect(didItPush.data).toEqual('Testing creation of branch');
+      axios.defaults.validateStatus = () => true;
+      await axios.delete(
+        'https://api.github.com/repos/devopslibrary/sampledata/git/refs/heads/testBranch',
+        {
+          headers: {
+            Authorization: `Bearer ${cloneToken}`,
+          },
+        },
+      );
     });
   });
   describe('createBranch', () => {

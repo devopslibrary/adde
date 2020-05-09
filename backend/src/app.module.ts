@@ -13,14 +13,14 @@ import { AuthModule } from './auth/auth.module';
 import { GithubModule } from './github/github.module';
 import { BootstrapModule } from './bootstrap/bootstrap.module';
 import { OrgsService } from './orgs/orgs.service';
-import { RepoSyncModule } from './repo-sync/repo-sync.module';
+import { GitModule } from './git/git.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health/health.controller';
 
 @Module({
   imports: [
     WebhookModule,
-    RepoSyncModule,
+    GitModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: process.env.NODE_ENV + '.env',

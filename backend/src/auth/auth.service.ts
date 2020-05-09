@@ -43,7 +43,7 @@ export class AuthService {
         },
       )
       .toPromise()
-      .then((response) => {
+      .then(response => {
         return response.data.permission;
       });
     switch (role) {
@@ -101,7 +101,7 @@ export class AuthService {
         state: githubCallback.state,
       })
       .toPromise()
-      .then((output) => {
+      .then(output => {
         const accessToken = queryString.parse(output.data).access_token;
         if (accessToken) {
           this.logger.log('User logged in and received AuthToken.');
@@ -117,10 +117,10 @@ export class AuthService {
 
   // Get all repo installations a user has access to
   public getUserRepoInstallations(githubUser: User) {
-    return this.getUserInstallations(githubUser).then(async (installations) => {
+    return this.getUserInstallations(githubUser).then(async installations => {
       const userRepoInstallations = [];
       await Promise.all(
-        installations.map(async (installation) => {
+        installations.map(async installation => {
           try {
             const response = await this.httpService
               .get(
@@ -160,7 +160,7 @@ export class AuthService {
         },
       })
       .toPromise()
-      .then((response) => {
+      .then(response => {
         return response.data.installations;
       });
   }

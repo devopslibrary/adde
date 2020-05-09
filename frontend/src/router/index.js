@@ -11,7 +11,7 @@ const routes = [
   {
     path: "/",
     name: "LandingPage",
-    component: LandingPage,
+    component: LandingPage
     // beforeEnter: (to, from, next) => {
     //   ifLoggedInRedirect(to, from, next, "overview");
     // }
@@ -19,33 +19,33 @@ const routes = [
   {
     path: "/callback",
     name: "Callback",
-    component: Callback,
+    component: Callback
   },
   {
     path: "/overview",
     name: "Overview",
     component: () => import("../pages/Overview.vue"),
-    beforeEnter: authGuard,
+    beforeEnter: authGuard
   },
   {
     path: "/setup",
     name: "Setup",
     component: () => import("../pages/Setup.vue"),
-    props: (route) => ({ installation_id: route.query.installation_id }),
-    beforeEnter: authGuard,
+    props: route => ({ installation_id: route.query.installation_id }),
+    beforeEnter: authGuard
   },
   {
     path: "/:org/:repo",
     name: "Swagger",
     component: () => import("../pages/Swagger.vue"),
-    beforeEnter: authGuard,
-  },
+    beforeEnter: authGuard
+  }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: "/",
-  routes,
+  routes
 });
 
 export default router;

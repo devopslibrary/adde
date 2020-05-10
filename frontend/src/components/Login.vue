@@ -27,7 +27,7 @@
 
 <script>
 import { authComputed } from "../store/helpers";
-import Configuration from "../config/configProvider";
+import Configuration from "../config/configuration";
 
 export default {
   name: "Login",

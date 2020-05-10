@@ -1,5 +1,5 @@
 import store from "../store/index.js";
-import Configuration from "../config/configProvider";
+import Configuration from "../config/configuration";
 
 export const authGuard = async (to, from, next) => {
   const userString = localStorage.getItem("user");

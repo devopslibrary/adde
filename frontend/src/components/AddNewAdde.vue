@@ -95,7 +95,7 @@ import { FormWizard, TabContent, WizardButton } from "vue-form-wizard";
 import "vue-form-wizard/dist/vue-form-wizard.min.css";
 import axios from "axios";
 import { authComputed } from "../store/helpers";
-import Configuration from "../config/configProvider";
+import Configuration from "../config/configuration";
 
 export default {
   name: "AddNewAdde",

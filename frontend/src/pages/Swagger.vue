@@ -10,7 +10,7 @@ import "swagger-ui-dist/swagger-ui.css";
 import LayoutDefault from "../components/LayoutDefault.vue";
 import axios from "axios";
 import { authComputed } from "../store/helpers";
-import Configuration from "../config/configProvider";
+import Configuration from "../config/configuration";
 
 export default {
   name: "RepoDashboard",

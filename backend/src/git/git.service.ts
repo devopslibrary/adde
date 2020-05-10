@@ -47,6 +47,6 @@ export class GitService {
 
   async createBranch(clonePath: string, branchName: string) {
     const git: SimpleGit = gitP(clonePath);
-    const branches = await git.checkoutBranch(branchName, 'master');
+    await git.checkoutBranch(branchName, 'master');
   }
 }

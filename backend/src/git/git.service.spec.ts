@@ -5,7 +5,7 @@ import { ConfigModule } from '../config/config.module';
 import { promises as fs } from 'fs';
 import tmp from 'tmp';
 import gitP, { SimpleGit } from 'simple-git/promise';
-const axios = require('axios');
+import axios from 'axios';
 
 describe('GitService', () => {
   let gitService: GitService;
@@ -61,9 +61,6 @@ describe('GitService', () => {
   });
   describe('commitAndPushChanges', () => {
     it('should commit and push changes back to a repository', async () => {
-      const git: SimpleGit = gitP(clonePath);
-      await git.addConfig('user.name', 'Test CI');
-      await git.addConfig('user.email', 'test@adde.to');
       clonePath = (await tmp.dirSync()).name; // Create fresh temp directory
       await gitService.syncRepository(
         'https://github.com/devopslibrary/sampledata.git',

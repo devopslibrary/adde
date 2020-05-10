@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { RepoSyncModule } from '../repo-sync/repo-sync.module';
+import { GitModule } from '../git/git.module';
 import { WebhookController } from './webhook.controller';
 import { WebhookService } from './webhook.service';
 
 @Module({
-  imports: [RepoSyncModule],
+  imports: [GitModule],
   providers: [WebhookService],
   controllers: [WebhookController],
 })

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import axios from "axios";
-import Configuration from "../config/configProvider";
+import Configuration from "../config/configuration";
 Vue.use(Vuex);
 
 const debug = process.env.NODE_ENV !== "production";

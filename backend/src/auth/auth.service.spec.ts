@@ -166,7 +166,9 @@ describe('AuthService', () => {
 
   // validateUser
   describe('validateUser', () => {
-    nock('https://api.github.com').get('/user').reply(200, nockGithubUser);
+    nock('https://api.github.com')
+      .get('/user')
+      .reply(200, nockGithubUser);
     it('should return user information if user exists', async () => {
       const token = 'testbearertoken';
       const user = await service.validateUser(token);

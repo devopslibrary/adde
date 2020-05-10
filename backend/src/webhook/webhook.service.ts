@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Webhook } from './webhook.dto';
-import { RepoSyncService } from '../repo-sync/repo-sync.service';
+import { GitService } from '../git/git.service';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class WebhookService {
   constructor(
-    private readonly repoSyncService: RepoSyncService,
+    private readonly gitService: GitService,
     private readonly configService: ConfigService,
   ) {}
 
@@ -16,7 +16,7 @@ export class WebhookService {
     const repoNameWithOrg = data.payload.repository.full_name;
     const cloneToken = this.configService.get('CLONE_TOKEN');
 
-    await this.repoSyncService.syncRepository(
+    await this.gitService.syncRepository(
       cloneURL,
       repoCache + '/' + repoNameWithOrg,
       cloneToken,

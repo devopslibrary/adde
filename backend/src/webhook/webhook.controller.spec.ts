@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { WebhookController } from './webhook.controller';
 import { WebhookService } from './webhook.service';
 import { Webhook } from './webhook.dto';
-import { RepoSyncModule } from '../repo-sync/repo-sync.module';
+import { GitModule } from '../git/git.module';
 import { ConfigModule } from '@nestjs/config';
 
 describe('AppController', () => {
@@ -13,7 +13,7 @@ describe('AppController', () => {
       controllers: [WebhookController],
       providers: [WebhookService],
       imports: [
-        RepoSyncModule,
+        GitModule,
         ConfigModule.forRoot({
           isGlobal: true,
           envFilePath: process.env.NODE_ENV + '.env',

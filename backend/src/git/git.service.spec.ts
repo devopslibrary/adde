@@ -61,6 +61,9 @@ describe('GitService', () => {
   });
   describe('commitAndPushChanges', () => {
     it('should commit and push changes back to a repository', async () => {
+      const git: SimpleGit = gitP(clonePath);
+      await git.addConfig('user.name', 'Test CI');
+      await git.addConfig('user.email', 'test@adde.to');
       clonePath = (await tmp.dirSync()).name; // Create fresh temp directory
       await gitService.syncRepository(
         'https://github.com/devopslibrary/sampledata.git',
@@ -90,7 +93,7 @@ describe('GitService', () => {
           },
         },
       );
-    });
+    }, 20000);
   });
   describe('createBranch', () => {
     it('should create a new local branch and check it out', async () => {

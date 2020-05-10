@@ -3,7 +3,8 @@ pool:
 
 steps:
   - script: |
-      git config user.email "testing@adde.to"
+      git config --global user.name "Automated ADDE Test"
+      git config --global user.email "noreply@gmail.com"
     displayName: Set Git Config
   # ---------- Frontend ------------- #
   - task: ECRPullImage@1

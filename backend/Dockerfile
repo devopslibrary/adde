@@ -12,8 +12,8 @@ COPY package.json yarn.lock ./
 RUN yarn install
 
 # Set Git Config
-RUN git config --global user.email "bot@adde.to"
-RUN git config --global user.name "ADDE"
+RUN git config --system user.email "bot@adde.to"
+RUN git config --system user.name "ADDE"
 
 # Now do the actual build
 COPY . /home/node

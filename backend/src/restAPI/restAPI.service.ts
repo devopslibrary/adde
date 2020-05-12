@@ -1,11 +1,39 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { SchemaService } from '../schema/schema.service';
 
 @Injectable()
 export class RestApiService {
-  constructor(private readonly configService: ConfigService) {}
+  constructor(
+    private readonly configService: ConfigService,
+    private readonly schemaService: SchemaService,
+  ) {}
+
+  // POST an update to the API
+  async postData(owner, repo, reqPath, data) {
+    const cache = this.configService.get('REPO_CACHE_DIRECTORY') + '/';
+    const folderPath = cache + reqPath;
+    if (this.schemaService.isDataValid(folderPath, data)) {
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.BAD_REQUEST,
+          error:
+            'Invalid data, does not match existing schema of ' +
+            reqPath +
+            'folder within repository.',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   // Get Data from API (Main Function)
   async getData(owner, repo, reqPath, queryParams): Promise<any> {
@@ -52,12 +80,12 @@ export class RestApiService {
   }
 
   // Filter resources by keys (used for query params being passed in)
-  filterByQueryParams(resources, params: Object): JSON[] {
-    let filteredResources = [];
-    resources.forEach((resource) => {
+  filterByQueryParams(resources, params: Record<string, any>): JSON[] {
+    const filteredResources = [];
+    resources.forEach(resource => {
       let filteredOut = false;
       for (const key in params) {
-        let targetValue = params[key];
+        const targetValue = params[key];
         if (resource[key] != targetValue) {
           filteredOut = true;
         }
@@ -72,8 +100,8 @@ export class RestApiService {
   // Return list of resources in folder as JSON array
   async listResources(reqPath): Promise<JSON> {
     const filesWithExtensions = await fs.readdirSync(reqPath);
-    let resourceList = [];
-    filesWithExtensions.forEach((name) => {
+    const resourceList = [];
+    filesWithExtensions.forEach(name => {
       if (
         name != '.schema.json' &&
         name != '.git' &&

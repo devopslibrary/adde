@@ -49,7 +49,7 @@
           { "in": "query", "name": "name", "type": "string" },
           { "in": "query", "name": "serverType", "type": "string" },
           { "in": "query", "name": "teamOwner", "type": "string" },
-          { "in": "query", "name": "count", "type": "string" }
+          { "in": "query", "name": "count", "type": "number" }
         ],
         "responses": {
           "200": {
@@ -440,10 +440,9 @@
           "pattern": "^(.*)$"
         },
         "count": {
-          "type": "string",
+          "type": "number",
           "title": "The count Schema",
-          "default": "",
-          "pattern": "^(.*)$"
+          "default": 0
         }
       }
     },

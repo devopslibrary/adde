@@ -11,7 +11,7 @@ export class SwaggerController {
     @Param('account') account: string,
     @Param('repo') repo: string,
   ): Promise<string> {
-    const schemaJSON = this.swaggerService.getSchema(account + '/' + repo);
+    const schemaJSON = this.swaggerService.getSwagger(account + '/' + repo);
 
     return schemaJSON;
   }

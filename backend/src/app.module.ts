@@ -16,6 +16,7 @@ import { OrgsService } from './orgs/orgs.service';
 import { GitModule } from './git/git.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health/health.controller';
+import { SchemaModule } from './schema/schema.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { HealthController } from './health/health.controller';
     GithubModule,
     BootstrapModule,
     TerminusModule,
+    SchemaModule,
   ],
   controllers: [
     WebhookController,

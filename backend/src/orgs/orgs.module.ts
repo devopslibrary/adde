@@ -4,7 +4,6 @@ import { OrgsService } from './orgs.service';
 
 @Module({
   imports: [HttpModule],
-  exports: [OrgsModule],
   controllers: [OrgsController],
   providers: [OrgsService],
 })

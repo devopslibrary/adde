@@ -1,16 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { SwaggerController } from './swagger.controller';
-import { SwaggerService } from './swagger.service';
 import { ConfigModule } from '@nestjs/config';
+import { SwaggerModule } from './swagger.module';
 
 describe('Swagger Controller', () => {
   let controller: SwaggerController;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [SwaggerController],
-      providers: [SwaggerService],
-      imports: [ConfigModule],
+      imports: [
+        SwaggerModule,
+        ConfigModule.forRoot({
+          isGlobal: true,
+          envFilePath: process.env.NODE_ENV + '.env',
+        }),
+      ],
     }).compile();
 
     controller = module.get<SwaggerController>(SwaggerController);

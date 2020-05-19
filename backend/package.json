@@ -46,7 +46,7 @@
     "rxjs": "6.5.5",
     "simple-git": "2.5.0",
     "tmp": "0.2.1",
-    "typeorm": "0.2.24",
+    "typeorm": "0.2.25",
     "yamljs": "0.3.0"
   },
   "devDependencies": {

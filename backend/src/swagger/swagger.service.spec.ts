@@ -21,7 +21,7 @@ describe('SwaggerService', () => {
     swaggerService = module.get<SwaggerService>(SwaggerService);
   });
 
-  describe('swaggerJSON', () => {
+  describe('getSwagger', () => {
     it('should be generated successfully', async () => {
       const swaggerJSON = await swaggerService.getSwagger(
         'devopslibrary/sampledata',

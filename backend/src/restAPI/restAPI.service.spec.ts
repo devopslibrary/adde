@@ -2,16 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { RestApiService } from './restAPI.service';
 import { ConfigModule } from '@nestjs/config';
 import { ConfigService } from '../config/config.service';
-
+import { RestApiModule } from './restAPI.module';
 describe('RestApiService', () => {
   let service: RestApiService;
   let configService: ConfigService;
-  let cachePath: string = '';
+  let cachePath = '';
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [RestApiService],
       imports: [
+        RestApiModule,
         ConfigModule.forRoot({
           isGlobal: true,
           envFilePath: process.env.NODE_ENV + '.env',
@@ -22,7 +22,21 @@ describe('RestApiService', () => {
     service = module.get<RestApiService>(RestApiService);
     cachePath = configService.get('REPO_CACHE_DIRECTORY');
   });
-
+  // describe('postData', () => {
+  //   it('should update a repository if the data posted is valid', async () => {
+  //     await service.postData(
+  //       'devopslibrary',
+  //       'sampledata',
+  //       'applications/monolith',
+  //       {
+  //         name: 'Monolith App',
+  //         serverType: 'java',
+  //         teamOwner: 'devteam',
+  //         count: 20,
+  //       },
+  //     );
+  //   });
+  // });
   describe('getData', () => {
     it('should return proper JSON for a folder"', async () => {
       const data = await service.getData(

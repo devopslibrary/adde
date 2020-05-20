@@ -50,7 +50,7 @@ paths: <% endpoints.forEach(function(endpoint) {
         - application/json
       parameters:<% propertyKeyNames.forEach(function(propertyName) {
         let type = endpoint[pluralName].properties[propertyName].type;
-        if (type == "string") {%>
+        if (type == "string" || type == "number") {%>
         - in: query
           name: <%= propertyName %>
           type: <%= endpoint[pluralName].properties[propertyName].type %><% }}); %>

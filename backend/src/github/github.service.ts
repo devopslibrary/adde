@@ -82,7 +82,7 @@ export class GithubService {
 
   // Get all Repos across all Installations
   public async getAllRepos(): Promise<Array<any>> {
-    let repos = [];
+    const repos = [];
     const installations = await this.getAllInstallations();
     for (const installation of installations) {
       const installationReposRequest = await this.getAsInstallation(

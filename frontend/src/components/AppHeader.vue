@@ -1,7 +1,7 @@
 <template>
-  <v-app-bar app color="primary" dark>
+  <v-app-bar clipped-left app color="primary" dark>
     <div class="d-flex align-center">
-      <img class="logo" src="@/assets/logo.svg" alt="logo" />
+      <a href="/"><img class="logo" src="@/assets/logo.svg" alt="logo"/></a>
     </div>
 
     <v-spacer></v-spacer>

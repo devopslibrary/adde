@@ -9596,10 +9596,10 @@ svgo@^1.0.0:
     unquote "~1.1.1"
     util.promisify "~1.0.0"
 
-swagger-ui-dist@3.26.0:
-  version "3.26.0"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.26.0.tgz#6dccd492bf9c97fe508d8438c754991277a6164f"
-  integrity sha512-z58RlRUk//dTg6jwgFBVv0JNyfDpoRNUgEyoA9cRheNvUuklMTKMY3hgDfXSZpmnGgZEG8iA/SAZGE56hvRuug==
+swagger-ui-dist@3.26.1:
+  version "3.26.1"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.26.1.tgz#4acc5606c7fa2e2c1d29a5d53e99d0c8fe8bbdfa"
+  integrity sha512-QXk1eKHgTSCgQE1Xlo8lcQKB/ouwDiJKBGHI9jHPCMy5TCQtQdUJOr29rTYD5XUDmew7Y9YPM1TI6PLcwJKWmA==
 
 symbol-tree@^3.2.2:
   version "3.2.4"

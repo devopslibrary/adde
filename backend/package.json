@@ -43,7 +43,7 @@
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "6.6.0",
-    "simple-git": "2.11.0",
+    "simple-git": "2.12.0",
     "tmp": "0.2.1",
     "typeorm": "0.2.25",
     "yamljs": "0.3.0"

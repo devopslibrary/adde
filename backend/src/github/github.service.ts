@@ -2,8 +2,9 @@ import { Injectable, HttpService } from '@nestjs/common';
 import { ConfigService } from '../config/config.service';
 import { AxiosResponse } from 'axios';
 import { GithubInstallation } from './githubInstallation';
-import { InstallationToken } from './installationToken';
 import { GithubRepo } from './githubRepo';
+import { createAppAuth } from "@octokit/auth-app";
+
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 
@@ -15,10 +16,11 @@ export class GithubService {
     private readonly configService: ConfigService,
     private readonly httpService: HttpService,
   ) {}
-
+  
   // Get request as a Github App
-  public getAsApp(url): Promise<AxiosResponse> {
-    const appToken = this.getGitHubAppToken();
+  public async getAsApp(url): Promise<AxiosResponse> {
+    const appToken = await this.getGitHubAppToken();
+
     return this.httpService
       .get(url, {
         headers: {
@@ -59,7 +61,7 @@ export class GithubService {
         return this.httpService
           .get(url, {
             headers: {
-              Authorization: `token ${installationToken.token}`,
+              Authorization: `token ${installationToken}`,
               Accept: 'application/vnd.github.machine-man-preview+json',
             },
           })
@@ -101,36 +103,23 @@ export class GithubService {
   }
 
   // Use private key to generate JWT to authenticate to Github
-  private getGitHubAppToken(): string {
-    const signOptions = {
-      issuer: this.configService.get('GITHUB_APP_ID'),
-      expiresIn: '10m',
-      algorithm: 'RS256',
-    };
-    const privateKey = fs.readFileSync('private-key.pem', 'utf8');
-    const token = jwt.sign({}, privateKey, signOptions);
-    return token;
+  private async getGitHubAppToken(): Promise<string> {
+    const auth = createAppAuth({
+      appId: this.configService.get('GITHUB_APP_ID'),
+      privateKey: fs.readFileSync('private-key.pem', 'utf8')
+    });
+    const appAuthentication  = await auth({ type: "app" });
+    return appAuthentication.token;
   }
 
   // Get Installation Token for specific installation
-  public getGithubInstallationToken(installation): Promise<InstallationToken> {
-    const githubAppToken = this.getGitHubAppToken();
-    return this.httpService
-      .post(
-        'https://api.github.com/app/installations/' +
-          installation +
-          '/access_tokens',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${githubAppToken}`,
-            Accept: 'application/vnd.github.machine-man-preview+json',
-          },
-        },
-      )
-      .toPromise()
-      .then(request => {
-        return request.data;
-      });
+  public async getGithubInstallationToken(installation): Promise<string> {
+    const auth = createAppAuth({
+      appId: this.configService.get('GITHUB_APP_ID'),
+      privateKey: fs.readFileSync('private-key.pem', 'utf8'),
+      installationId: installation,
+    });
+    const installationAuthentication = await auth({ type: "installation" });
+    return installationAuthentication.token
   }
 }

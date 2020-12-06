@@ -103,7 +103,6 @@ export class AuthService {
       .toPromise()
       .then(output => {
         const accessToken = queryString.parse(output.data).access_token;
-        console.log(output)
         if (accessToken) {
           this.logger.log('User logged in and received AuthToken.');
           return accessToken.toString();

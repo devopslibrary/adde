@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@mdi/js": "5.3.45",
-    "axios": "0.19.2",
+    "axios": "0.21.0",
     "core-js": "3.6.5",
     "dotenv": "8.2.0",
     "swagger-ui-dist": "3.28.0",

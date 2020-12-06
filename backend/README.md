@@ -6,7 +6,7 @@
 
 ## Description
 
-[ADDE](https://adde.to) Automated Declarative Data Engine
+[ADDE](https://adde.to) Automated Declarative Data Engine.
 
 ## Installation
 

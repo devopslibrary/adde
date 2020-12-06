@@ -35,8 +35,8 @@ export class GithubService {
   }
 
   // Post request as a Github App
-  public postAsApp(url): Promise<AxiosResponse> {
-    const appToken = this.getGitHubAppToken();
+  public async postAsApp(url): Promise<AxiosResponse> {
+    const appToken = await this.getGitHubAppToken();
     return this.httpService
       .post(
         url,
@@ -87,17 +87,19 @@ export class GithubService {
     const repos = [];
     const installations = await this.getAllInstallations();
     for (const installation of installations) {
-      const installationReposRequest = await this.getAsInstallation(
-        installation.id,
-        'https://api.github.com/installation/repositories',
-      );
-      const installRepositories: Array<
-        GithubRepo
-      > = await installationReposRequest.data.repositories;
+      if (installation['suspended_at'] == null) {
+        const installationReposRequest = await this.getAsInstallation(
+          installation.id,
+          'https://api.github.com/installation/repositories',
+        );
+        const installRepositories: Array<
+          GithubRepo
+        > = await installationReposRequest.data.repositories;
 
-      installRepositories.forEach(repo => {
-        repos.push(repo);
-      });
+        installRepositories.forEach(repo => {
+          repos.push(repo);
+        });
+      }
     }
     return repos;
   }

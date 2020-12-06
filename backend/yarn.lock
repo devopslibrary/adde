@@ -725,7 +725,7 @@
     consola "^2.3.0"
     node-fetch "^2.3.0"
 
-"@octokit/auth-app@^2.10.4":
+"@octokit/auth-app@2.10.4":
   version "2.10.4"
   resolved "https://registry.yarnpkg.com/@octokit/auth-app/-/auth-app-2.10.4.tgz#f070357184920971e0fab9f0a78a0781f391c015"
   integrity sha512-J3fdCVvuBuCa+pNbtDzU3Nc+appg/r6Ii1ekQtHnpPkpP0PVUjn+4FAXHmIhSiiWW+El/9ymlWVum6zbWIln5A==

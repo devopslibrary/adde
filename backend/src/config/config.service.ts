@@ -1,4 +1,4 @@
-import Joi = require('@hapi/joi');
+import Joi = require('joi');
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 

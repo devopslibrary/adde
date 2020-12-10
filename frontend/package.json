@@ -14,7 +14,7 @@
     "axios": "0.21.0",
     "core-js": "3.8.1",
     "dotenv": "8.2.0",
-    "swagger-ui-dist": "3.28.0",
+    "swagger-ui-dist": "3.38.0",
     "vue": "2.6.12",
     "vue-code-highlight": "0.7.6",
     "vue-form-wizard": "0.8.4",

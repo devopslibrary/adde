@@ -1,4 +1,4 @@
-name: ${{ github.event.inputs.version }}
+name: "test{{ github.event.inputs.version }}"
 
 on:
   push:

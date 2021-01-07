@@ -1,0 +1,31 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to Deploy
+        required: true
+        default: ""
+
+jobs:
+  manual_deploy:
+    name: "Manual"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.version == 'yes'
+    steps:
+      - run: |
+          echo " Running manual deployment"
+          echo "There is nothing to deploy here"
+          echo "Input value: ${{ github.event.inputs.version }}"
+  schedule_deploy:
+    name: "Scheduled"
+    if: github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Running scheduled deployment"
+          echo "There is nothing to deploy here"

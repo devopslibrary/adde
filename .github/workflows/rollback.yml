@@ -1,4 +1,4 @@
-name: Deployment
+name: ${{ github.event.inputs.version }}
 
 on:
   push:

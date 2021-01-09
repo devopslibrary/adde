@@ -19,3 +19,111 @@ jobs:
           with:
             context: frontend
             file: ./Dockerfile
+
+
+# pool:
+#   vmImage: "ubuntu-latest"
+
+# steps:
+#   # ---------- Frontend ------------- #
+#   - task: ECRPullImage@1
+#     displayName: Pull Cached Adde/Frontend Container
+#     inputs:
+#       awsCredentials: aws-devopslibrary
+#       repository: adde/frontend
+#       imageTag: latest
+#       regionName: us-east-1
+#   - script: |
+#       DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/frontend:latest -f frontend/Dockerfile -t adde/frontend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 frontend
+#     displayName: "Docker Build Frontend"
+#   - task: ECRPushImage@1
+#     inputs:
+#       awsCredentials: aws-devopslibrary
+#       regionName: "us-east-1"
+#       imageSource: "imagename"
+#       sourceImageName: "adde/frontend"
+#       repositoryName: adde/frontend
+#       sourceImageTag: "$(Build.BuildId)"
+#   - task: ECRPushImage@1
+#     inputs:
+#       awsCredentials: aws-devopslibrary
+#       regionName: "us-east-1"
+#       imageSource: "imagename"
+#       sourceImageName: "adde/frontend"
+#       repositoryName: adde/frontend
+#       sourceImageTag: $(Build.BuildId)
+#       pushTag: $(Build.BuildId)
+#   - script: |
+#       docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
+#     displayName: "Jest Test Frontend"
+#   # ---------- Backend ------------- #
+#   - task: ECRPullImage@1
+#     displayName: Pull Cached Adde/Backend Container
+#     inputs:
+#       awsCredentials: aws-devopslibrary
+#       repository: adde/backend
+#       imageTag: latest
+#       regionName: us-east-1
+#   - script: |
+#       DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/backend:latest -f backend/Dockerfile -t adde/backend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 backend
+#     displayName: "Docker Build Backend"
+#   - task: ECRPushImage@1
+#     inputs:
+#       awsCredentials: aws-devopslibrary
+#       regionName: "us-east-1"
+#       imageSource: "imagename"
+#       sourceImageName: "adde/backend"
+#       repositoryName: adde/backend
+#       sourceImageTag: "$(Build.BuildId)"
+#   - task: ECRPushImage@1
+#     inputs:
+#       awsCredentials: aws-devopslibrary
+#       regionName: "us-east-1"
+#       imageSource: "imagename"
+#       sourceImageName: "adde/backend"
+#       repositoryName: adde/backend
+#       sourceImageTag: $(Build.BuildId)
+#       pushTag: $(Build.BuildId)
+#   - task: DownloadSecureFile@1
+#     name: envFile
+#     inputs:
+#       secureFile: "test.env"
+#   - task: DownloadSecureFile@1
+#     name: privateKey
+#     inputs:
+#       secureFile: "private-key.pem"
+#   - script: |
+#       mv $(envFile.secureFilePath) backend/test.env
+#       mv $(privateKey.secureFilePath) backend/private-key.pem
+#       mkdir -p backend/cache/devopslibrary/sampledata && git clone https://github.com/devopslibrary/sampledata.git backend/cache/devopslibrary/sampledata
+#       touch backend/test-report.xml && mkdir backend/coverage
+#       docker create -v `pwd`/backend/coverage:/home/node/coverage -v `pwd`/backend/test-report.xml:/home/node/test-report.xml --user $UID:$GID --name backend adde/backend:$(Build.BuildId) yarn test
+#       docker cp `pwd`/backend/private-key.pem backend:/home/node/private-key.pem
+#       docker cp `pwd`/backend/test.env backend:/home/node/production.env
+#       docker cp `pwd`/backend/cache backend:/tmp/cache
+#       docker start -a backend
+#     displayName: "Jest Test Backend"
+#   - task: Bash@3
+#     inputs:
+#       targetType: "inline"
+#       script: "npm install typescript"
+#   - task: SonarCloudPrepare@1
+#     inputs:
+#       SonarCloud: "SonarCloud DevOpsLibrary"
+#       organization: "devopslibrary"
+#       scannerMode: "CLI"
+#       configMode: "manual"
+#       cliProjectKey: "devopslibrary_adde"
+#       cliProjectName: "adde"
+#       cliProjectVersion:
+#       cliSources: "."
+#       extraProperties: |
+#         sonar.sources=backend/,frontend/src
+#         sonar.tests=backend/,frontend/tests,frontend/src
+#         sonar.test.inclusions=**/*.spec.ts,**/*.test.ts
+#         sonar.typescript.lcov.reportPaths=backend/coverage/lcov.info,frontend/coverage/lcov.info
+#         sonar.testExecutionReportPaths=backend/test-report.xml
+#   - task: SonarCloudPublish@1
+#     inputs:
+#       pollingTimeoutSec: "300"
+#   - task: SonarCloudAnalyze@1

@@ -1,4 +1,4 @@
-name: "test{{ github.event.inputs.version }}"
+name: "Rollback"
 
 on:
   push:

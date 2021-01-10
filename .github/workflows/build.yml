@@ -25,7 +25,6 @@ jobs:
         with:
           context: ./frontend
           file: ./frontend/Dockerfile
-          load: true
           push: true
           tags: ${{ steps.docker_meta.outputs.tags }}
           labels: ${{ steps.docker_meta.outputs.labels }}

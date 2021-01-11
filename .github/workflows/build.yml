@@ -22,9 +22,8 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           tags: |
-            ghcr.io/${{ github.repository }}:abc
-            ghcr.io/${{ github.repository }}:latest
-
+            ghcr.io/${{ github.repository }}/frontend:latest
+ß
       # - uses: actions/checkout@v2
       # - uses: docker/setup-buildx-action@v1
       # - name: Docker meta

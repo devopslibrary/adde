@@ -58,7 +58,7 @@ jobs:
 #     displayName: "Jest Test Backend"
 #   - task: Bash@3
 #     inputs:
-#       targetType: "inline"
+#       targetType: "inline
 #       script: "npm install typescript"
 #   - task: SonarCloudPrepare@1
 #     inputs:

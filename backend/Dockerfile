@@ -1,4 +1,5 @@
 FROM alpine:latest
+LABEL org.opencontainers.image.source https://github.com/devopslibrary/adde
 ENV NODE_ENV build
 
 RUN apk --update add git less openssh nodejs nodejs-npm bash yarn && \

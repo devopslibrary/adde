@@ -6,67 +6,35 @@ jobs:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v1
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.CR_PAT }}
-      - uses: docker/setup-buildx-action@v1
-      - name: Build the Docker Image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
-          load: true
-          tags: |
-            ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
-      - name: Yarn Test
-        run: docker run -v `pwd`/frontend/coverage:/home/node/coverage ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} yarn test
-      - name: Push the tagged Docker Image
-        run: docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
-#   - task: ECRPushImage@1
-#     inputs:
-#       awsCredentials: aws-devopslibrary
-#       regionName: "us-east-1"
-#       imageSource: "imagename"
-#       sourceImageName: "adde/frontend"
-#       repositoryName: adde/frontend
-#       sourceImageTag: $(Build.BuildId)
-#       pushTag: $(Build.BuildId)
-#   - script: |
-#       docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
-#     displayName: "Jest Test Frontend"
-#   # ---------- Backend ------------- #
-#   - task: ECRPullImage@1
-#     displayName: Pull Cached Adde/Backend Container
-#     inputs:
-#       awsCredentials: aws-devopslibrary
-#       repository: adde/backend
-#       imageTag: latest
-#       regionName: us-east-1
-#   - script: |
-#       DOCKER_BUILDKIT=1 docker build --cache-from=389059433654.dkr.ecr.us-east-1.amazonaws.com/adde/backend:latest -f backend/Dockerfile -t adde/backend:$(Build.BuildId) --build-arg BUILDKIT_INLINE_CACHE=1 backend
-#     displayName: "Docker Build Backend"
-#   - task: ECRPushImage@1
-#     inputs:
-#       awsCredentials: aws-devopslibrary
-#       regionName: "us-east-1"
-#       imageSource: "imagename"
-#       sourceImageName: "adde/backend"
-#       repositoryName: adde/backend
-#       sourceImageTag: "$(Build.BuildId)"
-#   - task: ECRPushImage@1
-#     inputs:
-#       awsCredentials: aws-devopslibrary
-#       regionName: "us-east-1"
-#       imageSource: "imagename"
-#       sourceImageName: "adde/backend"
-#       repositoryName: adde/backend
-#       sourceImageTag: $(Build.BuildId)
-#       pushTag: $(Build.BuildId)
+      # - name: Checkout Code
+      #   uses: actions/checkout@v1
+      # - name: Login to GitHub Container Registry
+      #   uses: docker/login-action@v1
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.repository_owner }}
+      #     password: ${{ secrets.CR_PAT }}
+      # # ---------- Frontend Build ------------- #
+      # - uses: docker/setup-buildx-action@v1
+      # - name: Build the Docker Image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     context: ./frontend
+      #     file: ./frontend/Dockerfile
+      #     load: true
+      #     tags: |
+      #       ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
+      # - name: Yarn Test
+      #   run: docker run -v `pwd`/frontend/coverage:/home/node/coverage ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} yarn test
+      # ---------- Backend Build ------------- #
+      - name: Download Test secrets
+        run: echo $TESTENVIRONMENT > backend/test.env
+      - name: Test
+        run: cat backend/test.env
+      # ---------- Push Containers ------------- #
+      # - name: Push the tagged Docker Image
+      #   run: docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
+
 #   - task: DownloadSecureFile@1
 #     name: envFile
 #     inputs:

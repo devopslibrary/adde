@@ -31,11 +31,19 @@ jobs:
         run: echo $TESTENVIRONMENT > backend/test.env
       - name: Download Test key
         run: echo $PRIVATEKEY > backend/private-key.pem
+      - name: Build the Docker Image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile
+          load: true
+          tags: |
+            ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
       - name: Prepare
         run: |
           mkdir -p backend/cache/devopslibrary/sampledata && git clone https://github.com/devopslibrary/sampledata.git backend/cache/devopslibrary/sampledata
           touch backend/test-report.xml && mkdir backend/coverage
-          docker create -v `pwd`/backend/coverage:/home/node/coverage -v `pwd`/backend/test-report.xml:/home/node/test-report.xml --user $UID:$GID --name backend adde/backend:${{ github.sha }} yarn test
+          docker create -v `pwd`/backend/coverage:/home/node/coverage -v `pwd`/backend/test-report.xml:/home/node/test-report.xml --user $UID:$GID --name backend ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} yarn test
           docker cp `pwd`/backend/private-key.pem backend:/home/node/private-key.pem
           docker cp `pwd`/backend/test.env backend:/home/node/production.env
           docker cp `pwd`/backend/cache backend:/tmp/cache

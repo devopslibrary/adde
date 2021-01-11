@@ -28,9 +28,9 @@ jobs:
       #   run: docker run -v `pwd`/frontend/coverage:/home/node/coverage ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} yarn test
       # ---------- Backend Build ------------- #
       - name: Download Test secrets
-        run: echo ${{TESTENVIRONMENT}} > backend/test.env
+        run: echo '${{ secrets.TESTENVIRONMENT }}' > backend/test.env
       - name: Download Test key
-        run: echo ${{PRIVATEKEY}} > backend/private-key.pem
+        run: echo '${{ secrets.PRIVATEKEY}}' > backend/private-key.pem
       - name: Build the Docker Image
         uses: docker/build-push-action@v2
         with:

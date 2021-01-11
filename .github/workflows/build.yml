@@ -22,7 +22,7 @@ jobs:
           context: ./frontend
           file: ./frontend/Dockerfile
           tags: |
-            ghcr.io/${{ github.repository }}/frontend:latest
+            ghcr.io/${{ github.repository }}/frontend:${{ GITHUB_SHA }}
 
 # pool:
 #   vmImage: "ubuntu-latest"

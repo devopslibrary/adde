@@ -24,7 +24,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
       - name: Yarn Test
-        run: docker run -v `pwd`/frontend/coverage:/home/node/coverage adde/frontend:$(Build.BuildId) yarn test
+        run: docker run -v `pwd`/frontend/coverage:/home/node/coverage ghcr.io/${{ github.repository }}/frontend:${{ github.sha }} yarn test
       - name: Push the tagged Docker Image
         run: docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
 #   - task: ECRPushImage@1

@@ -1,4 +1,5 @@
 FROM alpine:latest
+LABEL org.opencontainers.image.source https://github.com/devopslibrary/adde
 
 # Add nginx and nodejs
 RUN apk add --update nginx nodejs nodejs-npm yarn bash gettext

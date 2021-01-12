@@ -15,15 +15,21 @@ jobs:
     name: Deploy to Staging
     runs-on: ubuntu-20.04
     steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${{ github.ref }}/refs\/tags\//}
       - name: I ran on staging
-        run: echo "${{ github.ref }}"
+        run: echo "Hi ${{ steps.get_version.outputs.VERSION }}"
   release:
     if: "!github.event.release.prerelease"
     name: Deploy to Production
     runs-on: ubuntu-20.04
     steps:
-      - name: I ran on staging
-        run: echo "${{ github.ref }}"
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::${{ github.ref }}/refs\/tags\//}
+      - name: I ran on Prod
+        run: echo "Hi ${{ steps.get_version.outputs.VERSION }}"
     
   # build_and_push:
   #   name: Push Docker image to GitHub Packages

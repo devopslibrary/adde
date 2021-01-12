@@ -5,7 +5,6 @@ on:
       - master
   release:
     types:
-      - deleted
       - prereleased
       - released
       - edited

@@ -16,14 +16,14 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: I ran on staging
-        run: echo "${{github.event_name}}"
+        run: echo "${{ GITHUB_REF }}"
   release:
     if: "!github.event.release.prerelease"
     name: Deploy to Production
     runs-on: ubuntu-20.04
     steps:
       - name: I ran on staging
-        run: echo "${{github.event_name}}"
+        run: echo "${{ GITHUB_REF }}"
     
   # build_and_push:
   #   name: Push Docker image to GitHub Packages

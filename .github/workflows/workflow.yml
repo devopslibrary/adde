@@ -17,9 +17,9 @@ jobs:
     steps:
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${{ github.ref }}/refs\/tags\//}
-      - name: I ran on staging
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: I ran on staging
+        run: echo "Test ${{ steps.get_version.outputs.VERSION }}"
   release:
     if: "!github.event.release.prerelease"
     name: Deploy to Production
@@ -27,9 +27,9 @@ jobs:
     steps:
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=VERSION::${{ github.ref }}/refs\/tags\//}
-      - name: I ran on Prod
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: I ran on Prod
+        run: echo "Test ${{ steps.get_version.outputs.VERSION }}"
     
   # build_and_push:
   #   name: Push Docker image to GitHub Packages

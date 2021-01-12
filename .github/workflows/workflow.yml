@@ -58,19 +58,12 @@ jobs:
           docker cp `pwd`/backend/test.env backend:/home/node/production.env
           docker cp `pwd`/backend/cache backend:/tmp/cache
           docker start -a backend
-  pre_release:
-    needs: build
-    if: "github.event.release.prerelease"
-    name: Deploy to Staging
-    runs-on: ubuntu-20.04
-    steps:
+      # ---------- Push Containers on Pre-Release for Staging ------------- #
       - name: Get the version
         id: get_version
         run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
-      - name: I ran on staging
-        run: echo "Test ${{ steps.get_version.outputs.VERSION }}"
-      # ---------- Push Containers ------------- #
       - name: Push the tagged Docker Images
+        if: "github.event.release.prerelease"
         run: |
           docker tag ghcr.io/${{ github.repository }}/frontend:latest ghcr.io/${{ github.repository }}/frontend:${{ steps.get_version.outputs.VERSION }}
           docker push ghcr.io/${{ github.repository }}/frontend:${{ steps.get_version.outputs.VERSION }}
@@ -80,8 +73,8 @@ jobs:
           docker push ghcr.io/${{ github.repository }}/backend:${{ steps.get_version.outputs.VERSION }}
           docker push ghcr.io/${{ github.repository }}/backend:latest
   release:
-    if: "!github.event.release.prerelease"
-    name: Deploy to Production
+    if: github.event_name == 'release' && !github.event.release.prerelease
+    name: Deploy
     runs-on: ubuntu-20.04
     steps:
       - name: Get the version

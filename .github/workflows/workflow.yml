@@ -1,8 +1,16 @@
 name: Build
-on: [push, pull_request]
+on:
+  pull_request:
+    branches:
+      - master
+  release:
+    types:
+      - prereleased
+      - released
+      - edited
 
 jobs:
-  build_and_push:
+  build:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
@@ -50,10 +58,27 @@ jobs:
           docker cp `pwd`/backend/test.env backend:/home/node/production.env
           docker cp `pwd`/backend/cache backend:/tmp/cache
           docker start -a backend
-      # ---------- Push Containers ------------- #
+      # ---------- Push Containers on Pre-Release for Staging ------------- #
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
       - name: Push the tagged Docker Images
+        if: "github.event.release.prerelease"
         run: |
-          docker push ghcr.io/${{ github.repository }}/frontend:${{ github.sha }}
+          docker tag ghcr.io/${{ github.repository }}/frontend:latest ghcr.io/${{ github.repository }}/frontend:${{ steps.get_version.outputs.VERSION }}
+          docker push ghcr.io/${{ github.repository }}/frontend:${{ steps.get_version.outputs.VERSION }}
           docker push ghcr.io/${{ github.repository }}/frontend:latest
-          docker push ghcr.io/${{ github.repository }}/backend:${{ github.sha }}
+
+          docker tag ghcr.io/${{ github.repository }}/backend:latest ghcr.io/${{ github.repository }}/backend:${{ steps.get_version.outputs.VERSION }}
+          docker push ghcr.io/${{ github.repository }}/backend:${{ steps.get_version.outputs.VERSION }}
           docker push ghcr.io/${{ github.repository }}/backend:latest
+  release:
+    if: github.event_name == 'release' && !github.event.release.prerelease
+    name: Deploy
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=VERSION::$(echo $GITHUB_REF | cut -d / -f 3)
+      - name: I ran on Prod
+        run: echo "Test ${{ steps.get_version.outputs.VERSION }}"

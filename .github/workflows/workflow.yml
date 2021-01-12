@@ -10,7 +10,7 @@ on:
       - edited
 
 jobs:
-  build_and_push:
+  build:
     name: Push Docker image to GitHub Packages
     runs-on: ubuntu-latest
     steps:
@@ -59,6 +59,7 @@ jobs:
           docker cp `pwd`/backend/cache backend:/tmp/cache
           docker start -a backend
   pre_release:
+    needs: build
     if: "github.event.release.prerelease"
     name: Deploy to Staging
     runs-on: ubuntu-20.04

@@ -12,7 +12,7 @@
   "dependencies": {
     "@mdi/js": "5.9.55",
     "axios": "0.21.1",
-    "core-js": "3.8.2",
+    "core-js": "3.8.3",
     "dotenv": "8.2.0",
     "swagger-ui-dist": "3.40.0",
     "vue": "2.6.12",

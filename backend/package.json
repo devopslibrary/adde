@@ -31,7 +31,7 @@
     "@nestjs/passport": "7.1.5",
     "@nestjs/platform-express": "7.6.5",
     "@nestjs/terminus": "7.0.1",
-    "@octokit/auth-app": "2.10.5",
+    "@octokit/auth-app": "2.10.6",
     "@types/json-schema": "7.0.7",
     "dotenv": "8.2.0",
     "ejs": "3.1.5",

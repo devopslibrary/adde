@@ -35,7 +35,7 @@
     "@types/json-schema": "7.0.7",
     "dotenv": "8.2.0",
     "ejs": "3.1.6",
-    "joi": "17.3.0",
+    "joi": "17.4.0",
     "json-schema": "0.3.0",
     "jsonwebtoken": "8.5.1",
     "passport": "0.4.1",

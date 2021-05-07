@@ -35,7 +35,7 @@ services:
     volumes:
       - ./backend/test.env:/home/node/undefined.env
   db:
-    image: "postgres:12"
+    image: "postgres:13"
     container_name: "postgres"
     environment:
       POSTGRES_PASSWORD: password

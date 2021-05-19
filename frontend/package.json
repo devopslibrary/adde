@@ -16,7 +16,7 @@
     "dotenv": "8.2.0",
     "swagger-ui-dist": "3.47.1",
     "vue": "2.6.12",
-    "vue-code-highlight": "0.7.6",
+    "vue-code-highlight": "0.7.8",
     "vue-form-wizard": "0.8.4",
     "vue-router": "3.5.1",
     "vuetify": "2.4.10",

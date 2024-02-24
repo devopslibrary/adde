@@ -19,7 +19,7 @@
     "vue-code-highlight": "0.7.6",
     "vue-form-wizard": "0.8.4",
     "vue-router": "3.5.1",
-    "vuetify": "2.4.10",
+    "vuetify": "2.6.10",
     "vuex": "3.6.2"
   },
   "devDependencies": {

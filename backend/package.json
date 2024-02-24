@@ -37,7 +37,7 @@
     "ejs": "3.1.6",
     "joi": "17.4.0",
     "json-schema": "0.3.0",
-    "jsonwebtoken": "8.5.1",
+    "jsonwebtoken": "9.0.0",
     "passport": "0.4.1",
     "passport-http-bearer": "1.0.1",
     "readdirsync2": "1.0.2",
